@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- common color -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="red">#FF0000</color>
+    <color name="blue">#33b5e5</color>
+    <color name="green">#105775</color>
+    <color name="black_light">#8f8f8f</color>
+    <color name="tooltip_bg">#BF000000</color>
+    <!--intro -->
+
+    <color name="intro_round_circle">#969696</color>
+    <color name="intro_round_circle_select">#2fa2cd</color>
+
+    <color name="myusage_compare_blue">#3ca2f6</color>
+    <color name="nv_primary_color">#2196F3</color>
+    <color name="nv_primary_dark_color">#1976D2</color>
+
+    <drawable name="white">@color/white</drawable>
+    <drawable name="light_color">@color/light_color</drawable>
+
+    <!--fast scroll alphabet list -->
+    <color name="primary_color">#3F51B5</color>
+    <color name="primary_color_dark">#303F9F</color>
+    <color name="accent_color">#FF4081</color>
+
+    <color name="dark_color">#9E9E9E</color>
+    <color name="light_color">#F5F5F5</color>
+
+</resources>

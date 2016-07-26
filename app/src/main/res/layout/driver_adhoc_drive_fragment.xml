@@ -1,0 +1,140 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg"
+    >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/relativeLayout1"
+        >
+
+        <LinearLayout android:padding="5dp" android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <include layout="@layout/logo"
+            />
+        </LinearLayout>
+
+
+        <LinearLayout android:layout_marginTop="70dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:background="@color/white"
+            android:layout_below="@+id/linearLayout1"
+            android:orientation="vertical" android:id="@+id/linearLayout2"
+            android:padding="5dp">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/imaPin"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ico_pin_from" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/txtFrom"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp" android:singleLine="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp" android:textSize="16sp"
+                    android:layout_marginRight="5dp"
+                    android:gravity="left|center_vertical"
+                    android:layout_toRightOf="@+id/imaPin" android:maxLines="1" android:ellipsize="start"
+                    android:background="@drawable/box_shape"
+                    android:hint="From here"
+                    android:padding="5dp" android:textColor="@color/black"
+                    android:textCursorDrawable="@null"
+                    android:text="From here" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/imaPinTo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ico_pin_to" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/txtTo"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp" android:singleLine="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp" android:textSize="16sp"
+                    android:layout_marginRight="5dp"
+                    android:layout_toRightOf="@+id/imaPinTo" android:maxLines="1" android:ellipsize="start"
+                    android:background="@drawable/box_shape"
+                    android:hint="To: Street, house no, city" android:textColor="@color/black"
+                    android:textCursorDrawable="@null"
+                    android:imeOptions="actionNext"
+                    android:padding="5dp" />
+
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent" android:layout_marginTop="5dp"
+                android:layout_height="wrap_content" android:layout_marginRight="10dp"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/ediFreeSeat"
+                    style="@style/register_edittext" android:layout_height="35dp"
+                    android:layout_width="wrap_content" android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp" android:inputType="number"
+                    android:hint="Free seat" android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black_light" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp" android:layout_gravity="center_vertical"
+                    android:background="@drawable/box_shape"
+                    android:gravity="center" android:layout_marginLeft="10dp"
+                    android:lines="1" android:id="@+id/btnTimePicker"
+                    android:padding="5dp"
+                    android:text="Start time"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/txtDatePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/box_shape"
+                    android:gravity="center"
+                    android:lines="2"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black_light" />
+
+            </LinearLayout>
+            <TextView android:background="@drawable/box_radious_shape"
+                android:text="send me passengers" android:padding="10dp" android:layout_gravity="center_horizontal"
+                android:layout_width="200dp" android:textColor="@color/black"
+                android:gravity="center" android:layout_marginTop="10dp" android:layout_marginBottom="5dp"
+                android:layout_height="wrap_content" android:id="@+id/btnSendPassenger"/>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment" android:layout_below="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+    <include layout="@layout/ok"/>
+</RelativeLayout>
+

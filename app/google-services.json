@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "87811957931",
+    "project_id": "collecdoo"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:867946166157:android:0c263472812d4e50",
+        "android_client_info": {
+          "package_name": "com.collecdoo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwRYVxhnE8LGKvve6Mq75ke0dkaVp39hQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg"
+    android:padding="5dp">
+
+    <include layout="@layout/logo" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content" android:padding="5dp"
+        android:layout_height="wrap_content" android:background="@drawable/box_shape"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Collecdoo - schedule"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout android:layout_above="@+id/btnOk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical" android:id="@+id/linearLayout2"
+        android:padding="10dp">
+        <TextView android:background="@drawable/box_shape" android:padding="10dp"
+            android:layout_width="wrap_content" android:text="You want to go from A to B in your city. You wish that a „Taxi“ comes to your door and take you to your destination for less money.  Then click „Require a ride“"
+            android:layout_height="wrap_content" android:textColor="@color/black"/>
+        <Button android:textAllCaps="false" android:layout_gravity="center_horizontal" android:layout_marginTop="20dp"
+            android:padding="5dp" android:id="@+id/btnRequireRide"
+            android:layout_width="wrap_content" android:textColor="@color/red" android:background="@drawable/box_shape"
+            android:layout_height="35dp" android:text="Require a ride"/>
+        <TextView android:background="@drawable/box_shape" android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content" android:text="You have to go from A to B with your car and you have some free seats in your car. You want to share your car with other and you can make money of sharing. Then click „Share my trip“"
+            android:layout_height="wrap_content" android:textColor="@color/black"/>
+        <Button android:textAllCaps="false" android:layout_gravity="center_horizontal" android:layout_marginTop="20dp"
+            android:padding="5dp" android:id="@+id/btnShareTrip"
+            android:layout_width="wrap_content" android:textColor="@color/red" android:background="@drawable/box_shape"
+            android:layout_height="35dp" android:text="Share my trip"/>
+        <TextView android:background="@drawable/box_shape" android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content" android:text="Any way our mother earth is happy!"
+            android:layout_height="wrap_content" android:textColor="@color/black"/>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp" android:background="@drawable/app_bg"
+    tools:context=".fragment.main.MainFragment">
+
+    <include layout="@layout/logo"/>
+    <TextView android:layout_marginLeft="10dp" android:textStyle="bold"
+        android:text="Collecdoo enables easly\n ad hoc door2door transfer in your city"
+        android:layout_marginRight="10dp" android:layout_marginTop="50dp" android:textSize="20sp"  android:gravity="center"
+        android:layout_width="wrap_content" android:id="@+id/txtTitle" android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content" android:textColor="@color/black"/>
+    <TextView
+        android:textSize="18sp" android:text="Collecdoo reduces pollution and traffic jams in your city by sharing a ride.Sometime you can take someone with you on your ride or some time you can just ride as a passenger."
+        android:layout_width="wrap_content" android:layout_below="@+id/txtTitle" android:layout_margin="10dp"
+        android:layout_height="wrap_content" android:id="@+id/txtDesc" android:textColor="@color/black"/>
+    <TextView
+        android:textSize="18sp" android:text="Do you like to use Collecdoo app"
+        android:layout_width="wrap_content" android:layout_below="@+id/txtDesc" android:layout_margin="10dp"
+        android:layout_height="wrap_content" android:id="@+id/txtChoice"  android:textColor="@color/black"/>
+    <!--<RadioGroup android:layout_below="@+id/txtChoice" android:layout_margin="5dp"-->
+        <!--android:layout_width="wrap_content" android:orientation="vertical" android:id="@+id/radioGroup"-->
+        <!--android:layout_height="wrap_content">-->
+        <!--<RadioButton android:textColor="@color/black"-->
+            <!--android:layout_width="wrap_content" android:id="@+id/rdoPassenger"-->
+            <!--android:layout_height="wrap_content" android:text="as passenger ?"/>-->
+        <!--<RadioButton android:textColor="@color/black"-->
+            <!--android:layout_width="wrap_content" android:id="@+id/rdoDriver"-->
+            <!--android:layout_height="wrap_content" android:text="as driver ?"/>-->
+        <!--<RadioButton android:textColor="@color/black"-->
+            <!--android:layout_width="wrap_content" android:id="@+id/rdoProDriver"-->
+            <!--android:layout_height="wrap_content" android:text="as professional driver ?"/>-->
+    <!--</RadioGroup>-->
+    <ListView
+        android:id="@+id/listView"
+        android:layout_below="@+id/txtChoice" android:layout_margin="5dp"
+    android:layout_width="wrap_content" android:orientation="vertical"
+    android:layout_height="wrap_content"/>
+
+<include layout="@layout/ok"/>
+</RelativeLayout>

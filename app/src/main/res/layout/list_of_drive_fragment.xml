@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="5dp">
+
+    <include layout="@layout/logo" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/box_shape"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text=" select time frame:"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnOk"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent" android:weightSum="2"
+            android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp" android:layout_weight="1" android:textColor="@color/black"
+                android:layout_height="wrap_content" android:text="From:"/>
+            <TextView
+                android:layout_width="0dp" android:layout_weight="1" android:textColor="@color/black"
+                android:layout_height="wrap_content" android:text="To:"/>
+        </LinearLayout>
+        <LinearLayout android:layout_marginTop="10dp"
+            android:layout_width="match_parent" android:weightSum="2"
+            android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:paddingTop="5dp" android:paddingBottom="5dp" android:id="@+id/txtDatePickerFrom"
+                android:layout_width="0dp" android:layout_weight="1" android:textColor="@color/black"
+                android:layout_height="wrap_content" android:text="2016 Mar 15"/>
+            <TextView android:paddingTop="5dp" android:paddingBottom="5dp" android:id="@+id/txtDatePickerTo"
+                android:layout_width="0dp" android:layout_weight="1" android:textColor="@color/black"
+                android:layout_height="wrap_content" android:text="2016 Mar 15"/>
+        </LinearLayout>
+        <Button
+            android:layout_width="match_parent" android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp" android:layout_gravity="center_horizontal"
+            android:layout_height="35dp" android:layout_marginTop="10dp"
+            android:background="@drawable/box_shape"
+            android:gravity="center"
+            android:text="Search"
+            android:textAllCaps="false" android:id="@+id/btnSearch"
+            android:textColor="@color/black" />
+        <android.support.v7.widget.RecyclerView android:layout_marginTop="10dp"
+            android:layout_width="match_parent" android:id="@+id/recyclerView"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+</RelativeLayout>

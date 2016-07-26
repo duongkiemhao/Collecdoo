@@ -1,0 +1,137 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:padding="5dp">
+
+            <include layout="@layout/logo" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout1"
+            android:layout_marginTop="70dp"
+
+            android:orientation="vertical"
+            android:padding="5dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imaPinFrom"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ico_pin_from" />
+
+                <TextView
+                    android:id="@+id/btnDateTimePickerFrom"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/box_shape"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:padding="5dp"
+                    android:text="From"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/txtDatePickerFrom"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/box_shape"
+                    android:gravity="center"
+                    android:lines="2"
+                    android:padding="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black_light" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imaPinTo"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ico_pin_to" />
+
+                    <TextView
+                        android:id="@+id/btnDateTimePickerTo"
+                        android:layout_width="70dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/box_shape"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:padding="5dp"
+                        android:text="To"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/txtDatePickerTo"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/box_shape"
+                        android:gravity="center"
+                        android:lines="2"
+                        android:padding="10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black_light" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <EditText
+                android:id="@+id/ediFreeSeat"
+                style="@style/register_edittext" android:layout_height="35dp"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="40dp" android:inputType="number"
+                android:hint="Free seat"
+                android:textColor="@color/black" android:layout_marginTop="10dp"
+                android:textColorHint="@color/black_light" />
+        </LinearLayout>
+        <include layout="@layout/ok"/>
+    </RelativeLayout>
+
+</LinearLayout>
+

@@ -1,0 +1,154 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/imaPin"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ico_pin_from" />
+
+            <AutoCompleteTextView
+                android:id="@+id/txtFrom"
+                android:layout_width="match_parent"
+                android:layout_height="35dp" android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp" android:textSize="16sp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/imaSearch" android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:layout_toRightOf="@+id/imaPin" android:maxLines="1" android:ellipsize="start"
+                android:background="@drawable/box_shape"
+                android:hint="From: Street, house no, city"
+                android:imeOptions="actionNext"
+                android:padding="5dp" />
+
+            <ImageView
+                android:id="@+id/imaSearch"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/imaQuestion"
+                android:src="@drawable/ico_search" />
+
+            <ImageView
+                android:id="@+id/imaQuestion"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ico_question" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/imaPinTo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ico_pin_to" />
+
+            <AutoCompleteTextView
+                android:id="@+id/txtTo"
+                android:layout_width="match_parent" android:singleLine="true"
+                android:layout_height="35dp"
+                android:layout_centerVertical="true" android:maxLines="1"
+                android:layout_marginLeft="10dp"  android:ellipsize="start"
+                android:layout_marginRight="10dp" android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:padding="5dp" android:textSize="16sp"
+                android:layout_toLeftOf="@+id/imaSearchTo"
+                android:layout_toRightOf="@+id/imaPinTo"
+                android:background="@drawable/box_shape"
+                android:hint="To: Street, house no, city"
+                android:imeOptions="actionDone" />
+
+            <ImageView
+                android:id="@+id/imaSearchTo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/imaQuestionTo"
+                android:src="@drawable/ico_search" />
+
+            <ImageView
+                android:id="@+id/imaQuestionTo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ico_question" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/ediNoOfPerson"
+            style="@style/register_edittext" android:layout_height="35dp"
+            android:layout_width="wrap_content" android:textCursorDrawable="@null"
+            android:layout_marginLeft="45dp" android:inputType="number"
+            android:hint="number of person" android:gravity="center"
+            android:textColor="@color/black" android:layout_marginTop="5dp"
+            android:textColorHint="@color/black_light" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="110dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/box_shape"
+                android:gravity="center"
+                android:lines="2" android:id="@+id/btnDatePicker"
+                android:padding="5dp"
+                android:text="select pickup date &amp; time"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/txtDatePicker"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/box_shape"
+                android:gravity="center"
+                android:lines="2"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black_light" />
+        </LinearLayout>
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/fragment" android:layout_below="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+    <!-- -->
+
+
+        <include layout="@layout/ok"/>
+
+</RelativeLayout>

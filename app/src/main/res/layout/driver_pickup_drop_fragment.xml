@@ -1,0 +1,151 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp" android:paddingRight="5dp">
+
+            <include layout="@layout/logo" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:paddingTop="5dp"
+                android:paddingLeft="5dp" android:paddingRight="5dp">
+
+                <ImageView
+                    android:id="@+id/imaPin"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+
+                    android:src="@drawable/ico_pin_from" />
+
+                <TextView
+                    android:id="@+id/txtTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/imaProfile"
+                    android:layout_toRightOf="@+id/imaPin"
+                    android:background="@drawable/box_shape"
+                    android:gravity="left|center_vertical"
+                    android:padding="5dp"
+                    android:text=" you are going to pickup"
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtTitle"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toLeftOf="@+id/imaProfile"
+                    android:background="@drawable/box_shape"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/txtMobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:text="mobil: 017 175 220 12"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/txtName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="left|center_vertical"
+                        android:text="Mr. John &amp;1 person"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imaProfile"
+                    android:layout_width="85dp"
+                    android:layout_height="85dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:src="@drawable/user" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout1"
+             android:id="@+id/linearLayout2" android:padding="5dp"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/txtAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/box_shape"
+                android:gravity="left|center_vertical"
+                android:padding="5dp"
+                android:text="at Bachstr. 13, Bonn ca. 2,3km"
+                android:textColor="@color/black" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/txtPickupTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/box_shape"
+                    android:gravity="left|center_vertical"
+                    android:padding="10dp"
+                    android:text="Send pickup info"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:id="@+id/btnRing"
+                    android:layout_width="70dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/txtPickupTitle"
+                    android:src="@drawable/ico_ring" />
+
+                <TextView
+                    android:id="@+id/btnSos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/box_shape"
+                    android:gravity="left|center_vertical"
+                    android:paddingTop="10dp" android:paddingBottom="10dp"
+                    android:paddingLeft="20dp" android:paddingRight="20dp"
+                    android:text="SOS"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <FrameLayout android:layout_marginTop="5dp"
+            android:layout_width="match_parent" android:layout_below="@+id/linearLayout2"
+            android:layout_height="match_parent" android:id="@+id/fragment"/>
+    </RelativeLayout>
+
+</LinearLayout>
+

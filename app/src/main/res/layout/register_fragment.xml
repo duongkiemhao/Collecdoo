@@ -1,0 +1,174 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg"
+    android:padding="5dp">
+
+    <include layout="@layout/logo" />
+
+    <LinearLayout android:id="@+id/linearLayout1"
+
+        android:layout_width="wrap_content" android:padding="5dp"
+        android:layout_height="wrap_content" android:background="@drawable/box_shape"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Collecdoo registry"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout android:layout_above="@+id/btnOk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical" android:id="@+id/linearLayout2"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/register_label_width"
+                android:layout_height="wrap_content"
+                android:text="First name"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/ediFirstName"
+                style="@style/register_edittext"
+                android:layout_width="match_parent"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/register_label_width"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/ediName"
+                style="@style/register_edittext"
+                android:layout_width="match_parent"
+                android:textColor="@color/black" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/register_label_width"
+                android:layout_height="wrap_content"
+                android:text="Phone number"
+                android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/ediPhone"
+                style="@style/register_edittext"
+                android:layout_width="match_parent"
+                android:textColor="@color/black" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/register_label_width"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/ediEmail"
+                style="@style/register_edittext"
+                android:layout_width="match_parent"
+                android:textColor="@color/black" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/register_label_width"
+                android:layout_height="wrap_content"
+                android:text="Password"
+                android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/ediPassword"
+                style="@style/register_edittext"
+                android:layout_width="match_parent"
+                android:textColor="@color/black" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/register_label_width"
+                android:layout_height="wrap_content"
+                android:text="Confirm password"
+                android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/ediConfirmPass"
+                style="@style/register_edittext"
+                android:layout_width="match_parent" android:imeOptions="actionDone"
+                android:textColor="@color/black" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/register_label_width"
+                android:layout_height="wrap_content"
+                android:text="Year of birth"
+                android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/txtYearOfBirth"
+                style="@style/register_edittext"
+                android:layout_width="match_parent"
+                android:textColor="@color/black" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/register_label_width"
+                android:layout_height="wrap_content"
+                android:text="Gent" android:layout_gravity="center_vertical"
+                android:textColor="@color/black" />
+            <RadioGroup android:orientation="horizontal"
+                android:layout_width="wrap_content" android:id="@+id/rdgGender"
+                android:layout_height="wrap_content">
+                <RadioButton android:button="@null"
+                    android:layout_width="25dp" android:id="@+id/rdbMan"
+                    android:layout_height="35dp" android:background="@drawable/register_checkbox_man_selector"/>
+                <RadioButton android:button="@null" android:layout_marginLeft="20dp"
+                    android:layout_width="25dp" android:id="@+id/rdbLady"
+                    android:layout_height="35dp" android:background="@drawable/register_checkbox_lady_selector"/>
+            </RadioGroup>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <include layout="@layout/ok"/>
+</RelativeLayout>

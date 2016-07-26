@@ -1,0 +1,25 @@
+<resources>
+    <!-- common -->
+    <string name="app_name">Collecdoo</string>
+    <string name="prompt_select">Please select</string>
+    <string name="loading_text">Please wait...</string>
+    <string name="exit">Are you sure to exit ?</string>
+    <string name="logout">Are you sure you want to log out ?</string>
+    <string name="msg_error_connect_box">Could not connect to box, please try reconnect </string>
+    <string name="msg_exit">Please press back again to exit</string>
+    <string name="offline_connect_msg">Sorry, network is off</string>
+
+    <!-- map -->
+    <string name="field_empty">Please fill in the field</string>
+    <string name="email_invalid">Invalid email address</string>
+    <string name="mobile_invalid">Invalid mobile number</string>
+
+    <string name="facebook_app_id">482203371984439</string>
+    
+    <drawable name="list_of_drives">#00b159</drawable>
+    <drawable name="account">#f21d2b</drawable>
+    <drawable name="drive_rating">#ff7d3b</drawable>
+
+    <!--<string name="gcm_defaultSenderId">867946166157</string>-->
+
+</resources>

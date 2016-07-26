@@ -1,0 +1,125 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg"
+    android:padding="5dp">
+
+    <include layout="@layout/logo" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="wrap_content" android:padding="5dp"
+        android:layout_height="wrap_content" android:background="@drawable/box_shape"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Collecdoo registry for driver"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout android:layout_above="@+id/btnOk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical" android:id="@+id/linearLayout2"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content" android:textColor="@color/black"
+            android:layout_height="wrap_content" android:text="Pleased input your address:"/>
+        <LinearLayout
+            android:layout_width="match_parent" android:layout_marginTop="10dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="@dimen/register_label_width"
+                android:layout_height="wrap_content"
+                android:text="Street"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/ediStreet"
+                style="@style/register_edittext"
+                android:layout_width="match_parent"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/register_label_width"
+                android:layout_height="wrap_content"
+                android:text="House number"
+                android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/ediHouseNo"
+                style="@style/register_edittext"
+                android:layout_width="match_parent"
+                android:textColor="@color/black" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/register_label_width"
+                android:layout_height="wrap_content"
+                android:text="City"
+                android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/ediCity"
+                style="@style/register_edittext"
+                android:layout_width="match_parent"
+                android:textColor="@color/black" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/register_label_width"
+                android:layout_height="wrap_content"
+                android:text="Post code"
+                android:textColor="@color/black" />
+            <EditText
+                android:id="@+id/ediPostcode"
+                style="@style/register_edittext"
+                android:layout_width="match_parent" android:inputType="number"
+                android:textColor="@color/black" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/register_margin_top"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="@dimen/register_label_width"
+                android:layout_height="wrap_content" android:layout_gravity="center_vertical"
+                android:text="Conutry"
+                android:textColor="@color/black" />
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/spiCountry"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@drawable/box_shape" />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+    <include layout="@layout/ok"/>
+</RelativeLayout>

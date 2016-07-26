@@ -1,0 +1,5 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <Button android:layout_marginBottom="60dp" android:layout_centerHorizontal="true" android:background="@color/white"
+        android:layout_width="wrap_content" android:layout_alignParentBottom="true" android:id="@+id/btnOk" android:textColor="@color/red"
+        android:layout_height="35dp" android:textAllCaps="false" android:text="Ok &amp; Next" />
+</merge>
