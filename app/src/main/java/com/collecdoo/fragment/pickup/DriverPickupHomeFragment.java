@@ -1,75 +1,25 @@
 package com.collecdoo.fragment.pickup;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.IntentSender;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.collecdoo.MyPreference;
-import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
-import com.collecdoo.Utility;
-import com.collecdoo.activity.MainActivity;
-import com.collecdoo.config.Config;
-import com.collecdoo.config.Constant;
-import com.collecdoo.dto.DriverActivityInfo;
 import com.collecdoo.dto.PathOfRouteInfo;
-import com.collecdoo.dto.PushInfo;
-import com.collecdoo.dto.ResponseInfo;
-import com.collecdoo.dto.UserInfo;
-import com.collecdoo.fragment.ServiceGenerator;
-import com.collecdoo.fragment.home.AccountFragment;
 import com.collecdoo.fragment.home.HomeFragment;
-import com.collecdoo.fragment.home.ListOfDriveFragment;
 import com.collecdoo.fragment.home.StatusLoginFragment;
-import com.collecdoo.fragment.home.driver.DriverSignatureFragment;
-import com.collecdoo.helper.UserHelper;
-import com.collecdoo.interfaces.HomeListener;
 import com.collecdoo.interfaces.HomeNavigationListener;
-import com.collecdoo.interfaces.ParentFragmentListener;
-import com.collecdoo.service.gcm.QuickstartPreferences;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResult;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.JsonObject;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A placeholder fragment containing a simple view.

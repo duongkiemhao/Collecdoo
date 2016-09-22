@@ -158,6 +158,82 @@ public class UserInfo implements Parcelable {
         }
     };
 
+    public String getAddress_optional() {
+        return address_optional;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getDriver_type() {
+        return driver_type;
+    }
+
+    public String getEmail() {
+        return email!=null?email:"";
+    }
+
+    public String getFirst_name() {
+        return first_name!=null?first_name:"";
+    }
+
+    public String getGent() {
+        return gent!=null?gent:"";
+    }
+
+    public String getHouse_no() {
+        return house_no;
+    }
+
+    public String getImage_file_path() {
+        return image_file_path;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getPassenger_type() {
+        return passenger_type;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo!=null?phoneNo:"";
+    }
+
+    public String getPost_code() {
+        return post_code!=null?post_code:"";
+    }
+
+    public String getProf_driver_type() {
+        return prof_driver_type;
+    }
+
+    public String getPush_registered_id() {
+        return push_registered_id;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
 //    @Override
 //    public String toString() {
 //       return new Gson().fr

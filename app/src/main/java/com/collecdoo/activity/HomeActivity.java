@@ -11,7 +11,7 @@ import android.widget.Toast;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
-import com.collecdoo.config.ConstantTabTag;
+
 import com.collecdoo.fragment.home.HomeFragment;
 import com.collecdoo.fragment.home.StatusLoginFragment;
 import com.collecdoo.fragment.home.customer.CustomerHomeFragment;

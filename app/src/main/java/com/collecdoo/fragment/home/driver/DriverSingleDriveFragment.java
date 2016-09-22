@@ -37,7 +37,8 @@ import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
-import com.collecdoo.config.ConstantTabTag;
+
+import com.collecdoo.control.InstantAutoComplete;
 import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.ShareDriveInfo;
 import com.collecdoo.dto.UserInfo;
@@ -62,6 +63,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.gson.internal.LinkedTreeMap;
 
 import org.json.JSONObject;
 
@@ -79,10 +81,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,8 +96,9 @@ import retrofit2.Callback;
  */
 public class DriverSingleDriveFragment extends Fragment implements View.OnClickListener,OnBackListener,
         OnMapReadyCallback ,DatePickerDialog.OnDateSetListener,HomeNavigationListener {
-    @BindView(R.id.txtFrom) AutoCompleteTextView txtFrom;
-    @BindView(R.id.txtTo) AutoCompleteTextView txtTo;
+    @BindView(R.id.txtFrom)
+    InstantAutoComplete txtFrom;
+    @BindView(R.id.txtTo) InstantAutoComplete txtTo;
     @BindView(R.id.imaSearch) ImageView imaSearchFrom;
     @BindView(R.id.imaSearchTo) ImageView imaSearchTo;
     @BindView(R.id.imaQuestion) ImageView imaQuestionFrom;
@@ -146,8 +151,7 @@ public class DriverSingleDriveFragment extends Fragment implements View.OnClickL
         unbinder=ButterKnife.bind(this, view);
         imaSearchFrom.setOnClickListener(this);
         imaSearchTo.setOnClickListener(this);
-        imaQuestionFrom.setOnClickListener(this);
-        imaQuestionTo.setOnClickListener(this);
+
         btnDatePicker.setOnClickListener(this);
         btnOk.setOnClickListener(this);
         return view;
@@ -204,12 +208,25 @@ public class DriverSingleDriveFragment extends Fragment implements View.OnClickL
             @Override
             public void onItemClick(AdapterView<?> arg0, View view, int index,
                                     long id) {
-
                 SimpleAdapter adapter = (SimpleAdapter) arg0.getAdapter();
-                HashMap<String, String> hm = (HashMap<String, String>) adapter.getItem(index);
+                HashMap<String, String> hm = new HashMap<String, String>();
+                try {
+                    hm = (HashMap<String, String>) adapter.getItem(index);
+                }
+                catch (Exception exp){
+                    LinkedTreeMap<String,String> tmap= (LinkedTreeMap<String,String>) adapter.getItem(index);
+                    for ( String key : tmap.keySet() ) {
+                        hm.put(key,tmap.get(key));
+                    }
+                }
+                HashSet<HashMap<String,String>> hashSet= (HashSet<HashMap<String, String>>) MyPreference.getObjectHashsetMap(Constant.PRE_LIST_SUGGESTION,HashSet.class);
+                hashSet.add(hm);
+                MyPreference.setObject(Constant.PRE_LIST_SUGGESTION,hashSet );
+
                 autoCompleteTextView.setText(hm.get("description"));
                 String url = getPlaceDetailsUrl(hm.get("reference"));
                 placeTask(url);
+                
             }
         });
 
@@ -232,20 +249,13 @@ public class DriverSingleDriveFragment extends Fragment implements View.OnClickL
             case R.id.imaSearchTo:
                 drawMap();
                 break;
-            case R.id.imaQuestion:
 
-                break;
-            case R.id.imaQuestionTo:
-
-                break;
             case R.id.btnDatePicker:
                 showDatePicker();
                 break;
             case R.id.btnOk:
-                if(startLat==null || endLat==null ||
-                        TextUtils.isEmpty(UIHelper.getStringFromEditText(ediFreeSeat))
-                    || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePicker)))
-                    return;
+                if(!validate())
+                    return ;
                 UserInfo userInfo= (UserInfo) MyPreference.getObject("userInfo",UserInfo.class);
                 ShareDriveInfo shareInfo=new ShareDriveInfo();
                 shareInfo.setUserId(userInfo.user_id);
@@ -255,7 +265,7 @@ public class DriverSingleDriveFragment extends Fragment implements View.OnClickL
                 shareInfo.setToAddress(txtTo.getText().toString());
                 shareInfo.setLat2(endLat.latitude+"");
                 shareInfo.setLon2(endLat.longitude+"");
-                shareInfo.setOwnDistance("");
+                shareInfo.setOwnDistance(Utility.calculationByDistance(startLat,endLat)+"");
                 shareInfo.setFreeSeats(UIHelper.getStringFromEditText(ediFreeSeat));
                 shareInfo.setType(index+"");
 
@@ -268,13 +278,63 @@ public class DriverSingleDriveFragment extends Fragment implements View.OnClickL
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-
                 shareInfo.setDesiredDropTime("");
 
                 shareDrive(shareInfo);
                 break;
         }
 
+    }
+
+    @OnClick(R.id.imaQuestion)
+    void onQuesionFromClick(){
+        isStartClick=true;
+        onProcessQuestionClick();
+    }
+
+    @OnClick(R.id.imaQuestionTo)
+    void onQuesionToClick(){
+        isStartClick=false;
+        onProcessQuestionClick();
+    }
+
+    private void onProcessQuestionClick(){
+        HashSet<HashMap<String,String>> lHMFrom= (HashSet<HashMap<String, String>>) MyPreference.getObject(Constant.PRE_LIST_SUGGESTION,HashSet.class);
+        if(lHMFrom!=null)
+        {
+            String[] from = new String[] { "description"};
+            int[] to = new int[] { android.R.id.text1 };
+            List<HashMap<String, String>> hashMapList=new ArrayList<HashMap<String, String>>(lHMFrom);
+            SimpleAdapter adapter = new SimpleAdapter(context, hashMapList, android.R.layout.simple_list_item_1, from, to);
+
+            if(isStartClick) {
+                txtFrom.showDropDown();
+                txtFrom.setAdapter(adapter);
+            }
+            else {
+                txtTo.showDropDown();
+                txtTo.setAdapter(adapter);
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    private boolean validate(){
+        if(startLat==null || endLat==null ||
+                TextUtils.isEmpty(UIHelper.getStringFromEditText(ediFreeSeat))
+                || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePicker)))
+            return false;
+        SimpleDateFormat fromFormat = new SimpleDateFormat("MMM dd yyyy HH:mm");
+        try {
+            Date     date=fromFormat.parse( txtDatePicker.getText().toString());
+            if(date.compareTo(new Date())<=0)
+                return false;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     private void showNextDialog() {
@@ -560,6 +620,7 @@ public class DriverSingleDriveFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onNextClick() {
+        if(validate())
         showNextDialog();
     }
 

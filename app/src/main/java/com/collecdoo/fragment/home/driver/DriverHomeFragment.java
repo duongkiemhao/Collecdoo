@@ -13,7 +13,7 @@ import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
-import com.collecdoo.config.ConstantTabTag;
+
 import com.collecdoo.dto.PathOfRouteInfo;
 import com.collecdoo.fragment.ServiceGenerator;
 import com.collecdoo.fragment.home.StatusLoginFragment;

@@ -34,6 +34,11 @@
                 android:layout_gravity="center"
                 android:text="Receiver address:"
                 android:textColor="@color/black" />
+            <ImageView
+                android:id="@+id/imaQuestion"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ico_question" />
         </LinearLayout>
 
         <LinearLayout android:layout_above="@+id/btnOk"
@@ -49,7 +54,7 @@
                 style="@style/register_edittext"
                 android:layout_width="match_parent"
                 android:textColor="@color/black" />
-            <AutoCompleteTextView
+            <com.collecdoo.control.InstantAutoComplete
                 android:id="@+id/txtFrom" android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="35dp" android:singleLine="true"

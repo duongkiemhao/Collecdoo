@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
@@ -31,11 +32,14 @@ import com.collecdoo.MyApplicationContext;
 import com.collecdoo.MyPreference;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
-import com.collecdoo.config.ConstantTabTag;
+
+import com.collecdoo.config.Constant;
+import com.collecdoo.control.InstantAutoComplete;
 import com.collecdoo.dto.DeliveryInfo;
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.parser.PlaceDetailsJSONParser;
 import com.collecdoo.fragment.parser.PlaceJSONParser;
+import com.collecdoo.helper.UIHelper;
 import com.collecdoo.interfaces.HomeNavigationListener;
 import com.collecdoo.interfaces.OnBackListener;
 import com.github.jjobes.slidedatetimepicker.SlideDateTimeListener;
@@ -48,6 +52,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.internal.LinkedTreeMap;
 
 import org.json.JSONObject;
 
@@ -59,10 +64,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -71,7 +78,8 @@ import butterknife.Unbinder;
 public class CustomerDelivery1Fragment extends Fragment implements View.OnClickListener,OnBackListener,
         OnMapReadyCallback ,DatePickerDialog.OnDateSetListener,HomeNavigationListener {
     @BindView(R.id.ediFirstName) EditText ediFirstName;
-    @BindView(R.id.txtFrom) AutoCompleteTextView txtFrom;
+    @BindView(R.id.txtFrom)
+    InstantAutoComplete txtFrom;
     @BindView(R.id.ediTel) EditText ediTel;
     @BindView(R.id.ediAddress) EditText ediAddress;
     @BindView(R.id.txtDatePicker) TextView txtDatePicker;
@@ -168,7 +176,20 @@ public class CustomerDelivery1Fragment extends Fragment implements View.OnClickL
                                     long id) {
 
                 SimpleAdapter adapter = (SimpleAdapter) arg0.getAdapter();
-                HashMap<String, String> hm = (HashMap<String, String>) adapter.getItem(index);
+                HashMap<String, String> hm = new HashMap<String, String>();
+                try {
+                    hm = (HashMap<String, String>) adapter.getItem(index);
+                }
+                catch (Exception exp){
+                    LinkedTreeMap<String,String> tmap= (LinkedTreeMap<String,String>) adapter.getItem(index);
+                    for ( String key : tmap.keySet() ) {
+                        hm.put(key,tmap.get(key));
+                    }
+                }
+                HashSet<HashMap<String,String>> hashSet= (HashSet<HashMap<String, String>>) MyPreference.getObjectHashsetMap(Constant.PRE_LIST_SUGGESTION,HashSet.class);
+                hashSet.add(hm);
+                MyPreference.setObject(Constant.PRE_LIST_SUGGESTION,hashSet );
+
                 autoCompleteTextView.setText(hm.get("description"));
                 String url = getPlaceDetailsUrl(hm.get("reference"));
                 placeTask(url);
@@ -202,6 +223,8 @@ public class CustomerDelivery1Fragment extends Fragment implements View.OnClickL
                 showDatePicker();
                 break;
             case R.id.btnOk:
+                if(startLat==null || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePicker)))
+                    return;
                 UserInfo userInfo= (UserInfo) MyPreference.getObject("userInfo",UserInfo.class);
                 DeliveryInfo deliveryInfo=new DeliveryInfo();
                 deliveryInfo.setUserId(userInfo.user_id);
@@ -209,7 +232,7 @@ public class CustomerDelivery1Fragment extends Fragment implements View.OnClickL
                 deliveryInfo.setLat1(startLat.latitude+"");
                 deliveryInfo.setLon1(startLat.longitude+"");
                 deliveryInfo.setParcelSize(seekBar.getProgress()+"");
-                deliveryInfo.setEstimatedDistance("");
+
                 deliveryInfo.setDescription("");
                 SimpleDateFormat fromFormat = new SimpleDateFormat("MMM dd yyyy HH:mm");
                 SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -217,6 +240,8 @@ public class CustomerDelivery1Fragment extends Fragment implements View.OnClickL
                 try {
                     Date date=fromFormat.parse( txtDatePicker.getText().toString());
                     deliveryInfo.setDesiredPickupTime(toFormat.format(date));
+                    if(date.compareTo(new Date())<=0)
+                        return;
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -304,6 +329,30 @@ public class CustomerDelivery1Fragment extends Fragment implements View.OnClickL
         if(value<10)
             return "0"+value;
         else return value+"";
+    }
+
+
+    @OnClick(R.id.imaQuestion)
+    void onQuesionClick(){
+
+        onProcessQuestionClick();
+    }
+
+
+    private void onProcessQuestionClick(){
+        HashSet<HashMap<String,String>> lHMFrom= (HashSet<HashMap<String, String>>) MyPreference.getObject(Constant.PRE_LIST_SUGGESTION,HashSet.class);
+        if(lHMFrom!=null)
+        {
+            String[] from = new String[] { "description"};
+            int[] to = new int[] { android.R.id.text1 };
+            List<HashMap<String, String>> hashMapList=new ArrayList<HashMap<String, String>>(lHMFrom);
+            SimpleAdapter adapter = new SimpleAdapter(context, hashMapList, android.R.layout.simple_list_item_1, from, to);
+
+                txtFrom.showDropDown();
+                txtFrom.setAdapter(adapter);
+
+            adapter.notifyDataSetChanged();
+        }
     }
 
     //------------map------------

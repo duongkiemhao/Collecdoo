@@ -22,8 +22,6 @@ import com.collecdoo.dto.PathOfRouteInfo;
 import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.fragment.ServiceGenerator;
 import com.collecdoo.fragment.home.driver.DriverHomeFragment;
-import com.collecdoo.fragment.home.driver.DriverSignatureFragment;
-import com.collecdoo.interfaces.HomeListener;
 import com.collecdoo.interfaces.HomeNavigationListener;
 import com.collecdoo.interfaces.OnBackListener;
 import com.google.android.gms.maps.CameraUpdate;

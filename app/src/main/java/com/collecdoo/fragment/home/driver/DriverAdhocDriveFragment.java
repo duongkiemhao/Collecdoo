@@ -1,12 +1,11 @@
 package com.collecdoo.fragment.home.driver;
 
-import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.location.Address;
-import android.location.Geocoder;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,10 +21,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.DatePicker;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -37,7 +37,6 @@ import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
-import com.collecdoo.config.ConstantTabTag;
 import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.ShareDriveInfo;
@@ -80,7 +79,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -92,13 +90,14 @@ import retrofit2.Callback;
  * A placeholder fragment containing a simple view.
  */
 public class DriverAdhocDriveFragment extends Fragment implements View.OnClickListener,OnBackListener,
-        OnMapReadyCallback ,DatePickerDialog.OnDateSetListener,HomeNavigationListener {
+        OnMapReadyCallback ,TimePickerDialog.OnTimeSetListener,HomeNavigationListener {
     @BindView(R.id.txtFrom) AutoCompleteTextView txtFrom;
     @BindView(R.id.txtTo) AutoCompleteTextView txtTo;
     @BindView(R.id.ediFreeSeat) EditText ediFreeSeat;
     @BindView(R.id.btnTimePicker) View btnTimePicker;
     @BindView(R.id.txtDatePicker) TextView txtDatePicker;
     @BindView(R.id.btnSendPassenger) TextView btnSendPassenger;
+    @BindView(R.id.btnOk) Button btnOk;
     private GoogleMap googleMap;
     private LatLng startLat;
     private LatLng endLat;
@@ -141,6 +140,7 @@ public class DriverAdhocDriveFragment extends Fragment implements View.OnClickLi
 
         btnTimePicker.setOnClickListener(this);
         btnSendPassenger.setOnClickListener(this);
+        btnOk.setOnClickListener(this);
 
         return view;
     }
@@ -212,7 +212,9 @@ public class DriverAdhocDriveFragment extends Fragment implements View.OnClickLi
             if(autoCompleteTextView.getId()==R.id.txtFrom) {
                 try {
                     startLat=((HomeListener)getParentFragment()).getLatLng();
-                    txtFrom.setText(Utility.getAddressFromLatLng(context,startLat));
+                    if(startLat!=null)
+                        txtFrom.setText(Utility.getAddressFromLatLng(context,startLat));
+                    else txtFrom.setText("");
                 } catch (IOException e) {
                     txtFrom.setText("");
                 }
@@ -244,7 +246,10 @@ public class DriverAdhocDriveFragment extends Fragment implements View.OnClickLi
 
                 break;
             case R.id.btnTimePicker:
-                showDatePicker();
+                showTimePicker();
+                break;
+            case R.id.btnOk:
+                btnSendPassenger.performClick();
                 break;
             case R.id.btnSendPassenger:
                 if(startLat==null || endLat==null ||
@@ -255,38 +260,27 @@ public class DriverAdhocDriveFragment extends Fragment implements View.OnClickLi
                 ShareDriveInfo shareInfo=new ShareDriveInfo();
                 shareInfo.setUserId(userInfo.user_id);
                 shareInfo.setFromAddress(txtFrom.getText().toString());
-                if(startLat!=null) {
+
                     shareInfo.setLat1(startLat.latitude + "");
                     shareInfo.setLon1(startLat.longitude + "");
-                }
-                else{
-                    shareInfo.setLat1("");
-                    shareInfo.setLon1("");
-                }
+
                 shareInfo.setToAddress(txtTo.getText().toString());
-                if(startLat!=null) {
+
                     shareInfo.setLat2(endLat.latitude + "");
                     shareInfo.setLon2(endLat.longitude + "");
-                }
-                else{
-                    shareInfo.setLat2("");
-                    shareInfo.setLon2("");
-                }
-
-                shareInfo.setOwnDistance("");
                 shareInfo.setFreeSeats(UIHelper.getStringFromEditText(ediFreeSeat));
                 shareInfo.setType("1");
 
-                SimpleDateFormat fromFormat = new SimpleDateFormat("HH:mm");
                 SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-                try {
-                    Date     date=fromFormat.parse( txtDatePicker.getText().toString());
-                    shareInfo.setDesiredPickupTime(toFormat.format(date));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
+                Calendar calendar=Calendar.getInstance();
+                calendar.setTime(new Date());
+                calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(txtDatePicker.getText().toString().substring(0,2).toString()));
+                calendar.set(Calendar.MINUTE, Integer.parseInt(txtDatePicker.getText().toString().substring(3).toString()));
+                if(calendar.getTime().compareTo(new Date())<=0)
+                    return;
+                shareInfo.setDesiredPickupTime(toFormat.format(calendar.getTime()));
+                shareInfo.setOwnDistance(Utility.calculationByDistance(startLat,endLat)+"");
                 shareInfo.setDesiredDropTime("");
 
                 shareDrive(shareInfo);
@@ -351,23 +345,41 @@ public class DriverAdhocDriveFragment extends Fragment implements View.OnClickLi
         }
     };
 
-    private void showDatePicker()
+    private void showTimePicker()
     {
-        SimpleDateFormat mFormatter = new SimpleDateFormat("MMM dd yyyy HH:mm");
-        Date date=new Date();
-        try {
-            date=mFormatter.parse( txtDatePicker.getText().toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
+        Calendar calendar=Calendar.getInstance();
+        String time=txtDatePicker.getText().toString();
+        if(!TextUtils.isEmpty(time)) {
+            try {
+                Date date=new SimpleDateFormat("HH:mm").parse(time);
+                calendar.setTime(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
-        SlideDateTimePicker slideDateTimePicker=new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
-                .setListener(listener)
-                .setInitialDate(date)
-                .setMinDate(new Date())
-                .setMaxDate(new Date())
-                .build();
+        else calendar.setTime(new Date());
+        final TimePickerDialog datePickerDialog = new TimePickerDialog(
+                context, android.R.style.Theme_Holo_Light_Dialog_MinWidth,this, calendar.get(Calendar.HOUR_OF_DAY),
+                calendar.get(Calendar.MINUTE),false);
 
-        slideDateTimePicker.show();
+        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        datePickerDialog.show();
+
+//        SimpleDateFormat mFormatter = new SimpleDateFormat("MMM dd yyyy HH:mm");
+//        Date date=new Date();
+//        try {
+//            date=mFormatter.parse( txtDatePicker.getText().toString());
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        SlideDateTimePicker slideDateTimePicker=new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
+//                .setListener(listener)
+//                .setInitialDate(date)
+//                .setMinDate(new Date())
+//                .setMaxDate(new Date())
+//                .build();
+//
+//        slideDateTimePicker.show();
 
     }
 
@@ -424,10 +436,6 @@ public class DriverAdhocDriveFragment extends Fragment implements View.OnClickLi
     }
 
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        txtDatePicker.setText(formatCalendarOutput(monthOfYear + 1) + "/" + formatCalendarOutput(dayOfMonth) + "/" + year);
-    }
 
     private String formatCalendarOutput(int value){
         if(value<10)
@@ -570,6 +578,12 @@ public class DriverAdhocDriveFragment extends Fragment implements View.OnClickLi
     @Override
     public void onNextClick() {
 
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        txtDatePicker.setText(hourOfDay+":"+minute);
+        txtDatePicker.setText(hourOfDay+":"+minute);
     }
 
     // Fetches data from url passed

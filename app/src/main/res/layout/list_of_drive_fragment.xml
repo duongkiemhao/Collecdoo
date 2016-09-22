@@ -35,25 +35,30 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <LinearLayout
-            android:layout_width="match_parent" android:weightSum="2"
-            android:layout_height="wrap_content" android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp" android:layout_weight="1" android:textColor="@color/black"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView android:id="@+id/lblFrom"
+                android:layout_width="wrap_content"  android:textColor="@color/black"
                 android:layout_height="wrap_content" android:text="From:"/>
-            <TextView
-                android:layout_width="0dp" android:layout_weight="1" android:textColor="@color/black"
+            <TextView android:layout_centerHorizontal="true" android:id="@+id/lblTo"
+                android:layout_width="wrap_content" android:textColor="@color/black"
+
                 android:layout_height="wrap_content" android:text="To:"/>
-        </LinearLayout>
+            <TextView android:paddingTop="5dp" android:paddingBottom="5dp" android:id="@+id/txtDatePickerFrom"
+                android:layout_width="150dp" android:textColor="@color/black" android:layout_below="@+id/lblFrom"
+                android:layout_height="wrap_content" android:layout_marginTop="5dp" android:background="@drawable/box_shape"/>
+            <TextView android:paddingTop="5dp" android:paddingBottom="5dp" android:id="@+id/txtDatePickerTo"
+                android:layout_width="150dp"  android:textColor="@color/black" android:layout_below="@+id/lblTo"
+                android:layout_alignLeft="@+id/lblTo"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content" android:background="@drawable/box_shape" />
+
+        </RelativeLayout>
         <LinearLayout android:layout_marginTop="10dp"
             android:layout_width="match_parent" android:weightSum="2"
             android:layout_height="wrap_content" android:orientation="horizontal">
-            <TextView android:paddingTop="5dp" android:paddingBottom="5dp" android:id="@+id/txtDatePickerFrom"
-                android:layout_width="0dp" android:layout_weight="1" android:textColor="@color/black"
-                android:layout_height="wrap_content" android:text="2016 Mar 15"/>
-            <TextView android:paddingTop="5dp" android:paddingBottom="5dp" android:id="@+id/txtDatePickerTo"
-                android:layout_width="0dp" android:layout_weight="1" android:textColor="@color/black"
-                android:layout_height="wrap_content" android:text="2016 Mar 15"/>
+
         </LinearLayout>
         <Button
             android:layout_width="match_parent" android:layout_marginLeft="40dp"

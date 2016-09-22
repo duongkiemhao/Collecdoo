@@ -1,9 +1,12 @@
 package com.collecdoo;
 
 
+import com.collecdoo.dto.BookingHistoryPostInfo;
 import com.collecdoo.dto.DeliveryInfo;
 import com.collecdoo.dto.DrivePostInfo;
 import com.collecdoo.dto.DriverActivityInfo;
+
+import com.collecdoo.dto.MyJsonObject;
 import com.collecdoo.dto.PathOfRouteInfo;
 import com.collecdoo.dto.PushInfo;
 import com.collecdoo.dto.ResponseInfo;
@@ -11,8 +14,10 @@ import com.collecdoo.dto.RouteDetailPostInfo;
 import com.collecdoo.dto.ShareDriveInfo;
 import com.collecdoo.dto.ShareTimeInfo;
 import com.collecdoo.dto.UserInfo;
+import com.collecdoo.fragment.home.ListOfDriveFragment;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
 
 import java.util.List;
 
@@ -33,7 +38,7 @@ public interface MyRetrofitService {
     Call<ResponseInfo> updatePushId(@Body PushInfo pushInfo);
 
     @POST("login")
-    Call<ResponseInfo> login(@Body JsonObject jsonObject);
+    Call<MyJsonObject<UserInfo>> login(@Body JsonObject jsonObject);
 
     @POST("booking/drive")
     Call<ResponseInfo> driveBooking(@Body DrivePostInfo drivePostInfo);
@@ -61,5 +66,9 @@ public interface MyRetrofitService {
 
     @POST("route/update-signature")
     Call<ResponseInfo> updateSignature(@Body JsonObject jsonObject);
+
+    @POST("booking/history")
+    Call<ResponseInfo> bookingHistory(@Body BookingHistoryPostInfo postInfo);
+
 
 }

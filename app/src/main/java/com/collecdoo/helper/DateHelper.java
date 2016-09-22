@@ -28,6 +28,7 @@ public class DateHelper {
     public static String SERVER_FORMAT = "dd/MM/yyyy HH:mm:ss";
     public static String HH_MM = "HH:mm";
     public static String DD_MM = "dd/MM";
+    public static String SERVER_DATE_FORMAT= "yyyy-MM-dd HH:mm";
 
     // public static String DD_MM_YYYY_HH_mm_YYYY = "dd/MM/yyyy HH:mm:ss";
 

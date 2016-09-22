@@ -11,7 +11,6 @@ public class ResponseInfo {
     public String status;
     public String message;
     public JsonElement data;
-
     public String getData() {
         return new Gson().toJson(data);
     }

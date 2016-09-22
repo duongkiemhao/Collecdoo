@@ -21,7 +21,7 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/ico_pin_from" />
 
-            <AutoCompleteTextView
+            <com.collecdoo.control.InstantAutoComplete
                 android:id="@+id/txtFrom"
                 android:layout_width="match_parent"
                 android:layout_height="35dp" android:singleLine="true"
@@ -67,7 +67,7 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/ico_pin_to" />
 
-            <AutoCompleteTextView
+            <com.collecdoo.control.InstantAutoComplete
                 android:id="@+id/txtTo"
                 android:layout_width="match_parent" android:singleLine="true"
                 android:layout_height="35dp"

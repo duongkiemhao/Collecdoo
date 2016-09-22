@@ -19,7 +19,7 @@ import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
-import com.collecdoo.config.ConstantTabTag;
+
 import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.ShareTimeInfo;
@@ -116,9 +116,7 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
                 showDatePicker(false);
                 break;
             case R.id.btnOk:
-                if(TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePickerFrom))
-                        || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePickerTo))
-                        || TextUtils.isEmpty(UIHelper.getStringFromEditText(ediFreeSeat)))
+                if(!validate())
                     return;
                 UserInfo userInfo= (UserInfo) MyPreference.getObject("userInfo",UserInfo.class);
                 ShareTimeInfo shareInfo=new ShareTimeInfo();
@@ -142,6 +140,7 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
                     shareInfo.setFromTime(toFormat.format(fromDate));
                     Date toDate=fromFormat.parse( txtDatePickerTo.getText().toString());
                     shareInfo.setToTime(toFormat.format(toDate));
+
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -153,6 +152,26 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
 
     }
 
+    private boolean validate(){
+        if(TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePickerFrom))
+                || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePickerTo))
+                || TextUtils.isEmpty(UIHelper.getStringFromEditText(ediFreeSeat)))
+            return false;
+        try {
+            SimpleDateFormat fromFormat = new SimpleDateFormat("MMM dd yyyy HH:mm");
+            SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Date fromDate=fromFormat.parse( txtDatePickerFrom.getText().toString());
+            Date toDate=fromFormat.parse( txtDatePickerTo.getText().toString());
+            if(fromDate.compareTo(new Date())<=0
+                    || toDate.compareTo(new Date())<=0)
+                return false;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
 
     private void shareDrive(ShareTimeInfo shareInfo){
         Log.d(TAG,shareInfo.toString());
@@ -318,6 +337,7 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onNextClick() {
+        if(validate())
         showNextDialog();
     }
 

@@ -34,7 +34,6 @@ import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.ServiceGenerator;
 import com.collecdoo.fragment.pickup.DriverPickupDropFragment;
-import com.collecdoo.fragment.home.driver.DriverSignatureFragment;
 import com.collecdoo.fragment.pickup.DriverPickupHomeFragment;
 import com.collecdoo.helper.UserHelper;
 import com.collecdoo.interfaces.HomeListener;
@@ -172,8 +171,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
 
 
     private void driverActivity(int actionIndex) {
-        if (latLng == null)
+
+        if (latLng == null) {
+            if(actionIndex==Config.ACTION_LOGOUT) {
+                toMainActivity();
+            }
             return;
+        }
         DriverActivityInfo activityInfo = new DriverActivityInfo();
         activityInfo.user_id = UserHelper.getUserId();
         activityInfo.latitude = latLng.latitude + "";
@@ -469,6 +473,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
 
                     if (responseInfo.status.toLowerCase().equals("ok")) {
                         Log.d(TAG, "----action logined sent---");
+
+                        if (mGoogleApiClient != null)
+                            stopLocationUpdates();
                         mGoogleApiClient.disconnect();
                         Log.d(TAG, "isConnected ...............: " + mGoogleApiClient.isConnected());
 

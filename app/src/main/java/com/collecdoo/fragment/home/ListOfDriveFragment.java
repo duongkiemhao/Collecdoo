@@ -2,24 +2,48 @@ package com.collecdoo.fragment.home;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.collecdoo.MyPreference;
+import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
+import com.collecdoo.activity.HomeActivity;
+import com.collecdoo.config.Constant;
+import com.collecdoo.control.SimpleProgressDialog;
+import com.collecdoo.dto.BookingHistoryInfo;
+import com.collecdoo.dto.BookingHistoryPostInfo;
+import com.collecdoo.dto.PathOfRouteInfo;
+import com.collecdoo.dto.ResponseInfo;
+import com.collecdoo.dto.UserInfo;
+import com.collecdoo.fragment.ServiceGenerator;
+import com.collecdoo.fragment.main.RegisterDriverFragment;
+import com.collecdoo.helper.DateHelper;
+import com.collecdoo.helper.UserHelper;
 import com.collecdoo.interfaces.HomeNavigationListener;
 import com.collecdoo.interfaces.OnBackListener;
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +54,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -42,6 +69,7 @@ public class ListOfDriveFragment extends Fragment implements View.OnClickListene
     @BindView(R.id.btnSearch) View btnSearch;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     private SearchAdapter searchAdapter;
+    private ListOfDriveDetailDialogFragment dialogFragment;
 
     private Unbinder unbinder;
 
@@ -87,8 +115,7 @@ public class ListOfDriveFragment extends Fragment implements View.OnClickListene
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-         searchAdapter=new SearchAdapter(context);
-        recyclerView.setAdapter(searchAdapter);
+
 
 
 
@@ -120,12 +147,26 @@ public class ListOfDriveFragment extends Fragment implements View.OnClickListene
     }
 
     private void doSearch(){
-        List<LODDetailInfo> list=new ArrayList<>();
-        for (int i=0;i<10;i++){
-            list.add(new LODDetailInfo("21.3", "A"+i, "B"+i, "4.5 EUR"));
+        if(TextUtils.isEmpty(txtDatePickerFrom.getText().toString())
+                || TextUtils.isEmpty(txtDatePickerTo.getText().toString()))
+            return;
+        BookingHistoryPostInfo postInfo=new BookingHistoryPostInfo();
+        try {
+            Date date=new SimpleDateFormat(DateHelper.MM_DD_YYYY).parse(txtDatePickerFrom.getText().toString());
+            postInfo.fromTime=new SimpleDateFormat("yyyy-MM-dd").format(date);
+            Date dateTo=new SimpleDateFormat(DateHelper.MM_DD_YYYY).parse(txtDatePickerTo.getText().toString());
+            postInfo.toTime=new SimpleDateFormat("yyyy-MM-dd").format(dateTo);
+            postInfo.userId= UserHelper.getUserId();
+            postInfo.pageNumber="1";
+            postInfo.pageSize="300";
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
-        searchAdapter.setList(list);
-        searchAdapter.notifyDataSetChanged();
+        getBookingtHistory(postInfo);
+
+        searchAdapter=new SearchAdapter(context);
+        recyclerView.setAdapter(searchAdapter);
+
 
     }
 
@@ -212,9 +253,10 @@ public class ListOfDriveFragment extends Fragment implements View.OnClickListene
 
 
      class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHolder> {
-        private List<LODDetailInfo> list;
+        private List<BookingHistoryInfo> list;
         private Context context;
-
+        private SimpleDateFormat serverFormat=new SimpleDateFormat(DateHelper.SERVER_DATE_FORMAT);
+         private SimpleDateFormat toFormat=new SimpleDateFormat("dd.MM");
 
         public SearchAdapter(Context context) {
             this.context = context;
@@ -222,7 +264,7 @@ public class ListOfDriveFragment extends Fragment implements View.OnClickListene
 
         }
 
-        public void setList(List<LODDetailInfo> list) {
+        public void setList(List<BookingHistoryInfo> list) {
             this.list = list;
         }
 
@@ -234,19 +276,26 @@ public class ListOfDriveFragment extends Fragment implements View.OnClickListene
 
 
         @Override
-        public void onBindViewHolder(MyViewHolder myViewHolder, int pos) {
+        public void onBindViewHolder(MyViewHolder myViewHolder, final int pos) {
             //songViewHolder.textView.setText(list.get(pos));
 
             myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ListOfDriveDetailDialogFragment dialog=new ListOfDriveDetailDialogFragment();
-                    dialog.show(getFragmentManager(),"listOfDriveDetail");
+                    dialogFragment=ListOfDriveDetailDialogFragment.init(list.get(pos));
+                    dialogFragment.show(getFragmentManager(),ListOfDriveDetailDialogFragment.class.getName());
                 }
             });
-            myViewHolder.txtDate.setText(list.get(pos).date);
-            myViewHolder.txtFrom.setText(list.get(pos).from);
-            myViewHolder.txtTo.setText(list.get(pos).to);
+            try {
+                Date date=serverFormat.parse(list.get(pos).createdOn);
+                myViewHolder.txtDate.setText(toFormat.format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            myViewHolder.txtFrom.setText(list.get(pos).pickupInfo);
+            myViewHolder.txtTo.setText(list.get(pos).dropInfo);
+            myViewHolder.txtPrice.setText(list.get(pos).getFare());
 
         }
 
@@ -273,18 +322,51 @@ public class ListOfDriveFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    class LODDetailInfo{
-        public String date;
-        public String from;
-        public String to;
-        public String price;
+    private void getBookingtHistory( BookingHistoryPostInfo postInfo){
+        Log.d(this.getClass().getName(),new Gson().toJson(postInfo).toString());
+        MyRetrofitService taskService = ServiceGenerator.createService(MyRetrofitService.class);
 
-        public LODDetailInfo(String date, String from, String to, String price) {
-            this.date = date;
-            this.from = from;
-            this.to = to;
-            this.price = price;
-        }
+
+        Call<ResponseInfo> call = taskService.bookingHistory(postInfo);
+        final SimpleProgressDialog simpleProgressDialog=new SimpleProgressDialog(context);
+        simpleProgressDialog.showBox();
+        call.enqueue(new Callback<ResponseInfo>() {
+
+            @Override
+            public void onResponse(Call<ResponseInfo> call, Response<ResponseInfo> response) {
+                simpleProgressDialog.dismiss();
+                if(response.isSuccessful()){
+                    ResponseInfo responseInfo= response.body();
+
+                    if(responseInfo.status.toLowerCase().equals("ok")) {
+                        Type listType = new TypeToken<List<BookingHistoryInfo>>() {
+                        }.getType();
+                        Gson gson = new Gson();
+                        List<BookingHistoryInfo> lodDetailInfoList = gson.fromJson(
+                                new JsonParser().parse(responseInfo.data.toString())
+                                        .getAsJsonArray(), listType);
+
+                        Log.d(ListOfDriveFragment.class.getName(),response.message());
+                        searchAdapter=new SearchAdapter(context);
+                        searchAdapter.setList(lodDetailInfoList);
+                        recyclerView.setAdapter(searchAdapter);
+
+                    }
+
+
+                }
+                else Utility.showMessage(context,response.message());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseInfo> call, Throwable t) {
+                simpleProgressDialog.dismiss();
+                Utility.showMessage(context,t.getMessage());
+                Log.d(Constant.DEBUG_TAG,"error"+t.getMessage());
+            }
+        });
+
     }
+
 
 }

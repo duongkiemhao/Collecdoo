@@ -128,22 +128,24 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(spiCountry!=null)
-                spiCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> arg0, View view,
-                                               int arg2, long arg3) {
-                        ((TextView) view.findViewById(R.id.textView))
-                                .setText(((CountryInfo) arg0.getAdapter()
-                                        .getItem(arg2)).value);
-                    }
-                    @Override
-                    public void onNothingSelected(AdapterView<?> arg0) {
-                        // TODO Auto-generated method stub
+                if(spiCountry!=null) {
+                    spiCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> arg0, View view,
+                                                   int arg2, long arg3) {
+                            ((TextView) view.findViewById(R.id.textView))
+                                    .setText(((CountryInfo) arg0.getAdapter()
+                                            .getItem(arg2)).value);
+                        }
 
-                    }
-                });
-                spiCountry.setSelection(((MySimpleSpinnerAdapter)spiCountry.getAdapter()).findPosition(userInfo.country));
+                        @Override
+                        public void onNothingSelected(AdapterView<?> arg0) {
+                            // TODO Auto-generated method stub
+
+                        }
+                    });
+                    spiCountry.setSelection(((MySimpleSpinnerAdapter) spiCountry.getAdapter()).findPosition(userInfo.country));
+                }
             }
         }, 1000);
 
@@ -216,7 +218,7 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
         else {
             getFragmentManager().beginTransaction().
                     setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
-                    replace(R.id.fragment, RegisterFragment.init(), RegisterFragment.class.getName()).
+                    replace(R.id.fragment, RegisterFragment.init(userInfo), RegisterFragment.class.getName()).
                     commit();
         }
     }

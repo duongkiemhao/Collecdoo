@@ -29,9 +29,10 @@ import com.collecdoo.Utility;
 import com.collecdoo.activity.HomeActivity;
 import com.collecdoo.activity.MainActivity;
 import com.collecdoo.config.Constant;
-import com.collecdoo.config.ConstantTabTag;
+
 import com.collecdoo.control.AsteriskPassword;
 import com.collecdoo.control.SimpleProgressDialog;
+import com.collecdoo.dto.MyJsonObject;
 import com.collecdoo.dto.PushInfo;
 import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.UserInfo;
@@ -191,33 +192,33 @@ public class LoginFragment extends Fragment implements View.OnClickListener,OnBa
         JsonObject jsonObject=new JsonObject();
         jsonObject.addProperty("email",email);
         jsonObject.addProperty("password",password);
-        Call<ResponseInfo> call = taskService.login(jsonObject);
+        Call<MyJsonObject<UserInfo>> call = taskService.login(jsonObject);
         final SimpleProgressDialog simpleProgressDialog=new SimpleProgressDialog(context);
         simpleProgressDialog.showBox();
-        call.enqueue(new Callback<ResponseInfo>() {
+        call.enqueue(new Callback<MyJsonObject<UserInfo>>() {
 
             @Override
-            public void onResponse(Call<ResponseInfo> call, Response<ResponseInfo> response) {
+            public void onResponse(Call<MyJsonObject<UserInfo>> call, Response<MyJsonObject<UserInfo>> response) {
                 simpleProgressDialog.dismiss();
                 if(response.isSuccessful()){
-                    ResponseInfo responseInfo= response.body();
+                    MyJsonObject responseInfo= response.body();
 
-                    if(responseInfo.status.toLowerCase().equals("ok")) {
+                    //if(responseInfo.status.toLowerCase().equals("ok")) {
 
-                        UserInfo userInfo= new Gson().fromJson( responseInfo.data,UserInfo.class);
+                        UserInfo userInfo= (UserInfo) responseInfo.data;
 
                         MyPreference.setObject("userInfo",userInfo);
 
                         startActivity(new Intent(context, HomeActivity.class));
                         getActivity().finish();
-                    }
-                    else Utility.showMessage(context,responseInfo.message);
+//                    }
+//                    else Utility.showMessage(context,responseInfo.message);
                 }
                 else Utility.showMessage(context,response.message());
             }
 
             @Override
-            public void onFailure(Call<ResponseInfo> call, Throwable t) {
+            public void onFailure(Call<MyJsonObject<UserInfo>> call, Throwable t) {
                 simpleProgressDialog.dismiss();
                 Utility.showMessage(context,t.getMessage());
                 Log.d(Constant.DEBUG_TAG,"error"+t.getMessage());

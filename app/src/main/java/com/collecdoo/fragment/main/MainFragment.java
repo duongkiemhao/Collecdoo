@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.collecdoo.MyPreference;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
-import com.collecdoo.config.ConstantTabTag;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;

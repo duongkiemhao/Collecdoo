@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.collecdoo.MyPreference;
 import com.collecdoo.R;
-import com.collecdoo.config.ConstantTabTag;
+
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.home.customer.CustomerHomeFragment;
 import com.collecdoo.fragment.home.driver.DriverHomeFragment;

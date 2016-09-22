@@ -21,11 +21,12 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/ico_pin_from" />
 
-            <AutoCompleteTextView
+            <com.collecdoo.control.InstantAutoComplete
                 android:id="@+id/txtFrom"
                 android:layout_width="match_parent"
                 android:layout_height="35dp" android:singleLine="true"
-                android:layout_centerVertical="true"
+                android:layout_centerVertical="true" android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_marginLeft="10dp" android:textSize="16sp"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/imaSearch" android:textColor="@color/black"
@@ -47,7 +48,7 @@
 
             <ImageView
                 android:id="@+id/imaQuestion"
-                android:layout_width="30dp"
+                android:layout_width="30dp" android:clickable="true"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
@@ -67,7 +68,7 @@
                 android:layout_centerVertical="true"
                 android:src="@drawable/ico_pin_to" />
 
-            <AutoCompleteTextView
+            <com.collecdoo.control.InstantAutoComplete
                 android:id="@+id/txtTo"
                 android:layout_width="match_parent" android:singleLine="true"
                 android:layout_height="35dp"

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
@@ -26,17 +27,20 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.collecdoo.MyApplicationContext;
+import com.collecdoo.MyPreference;
 import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
-import com.collecdoo.config.ConstantTabTag;
+
+import com.collecdoo.control.InstantAutoComplete;
 import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.DeliveryInfo;
 import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.fragment.ServiceGenerator;
 import com.collecdoo.fragment.parser.PlaceDetailsJSONParser;
 import com.collecdoo.fragment.parser.PlaceJSONParser;
+import com.collecdoo.helper.UIHelper;
 import com.collecdoo.interfaces.HomeNavigationListener;
 import com.collecdoo.interfaces.OnBackListener;
 import com.google.android.gms.maps.CameraUpdate;
@@ -47,6 +51,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.internal.LinkedTreeMap;
 
 import org.json.JSONObject;
 
@@ -54,10 +59,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,7 +75,8 @@ import retrofit2.Callback;
 public class CustomerDelivery2Fragment extends Fragment implements View.OnClickListener,OnBackListener,
         OnMapReadyCallback ,HomeNavigationListener {
     @BindView(R.id.ediFirstName) EditText ediFirstName;
-    @BindView(R.id.txtFrom) AutoCompleteTextView txtFrom;
+    @BindView(R.id.txtFrom)
+    InstantAutoComplete txtFrom;
     @BindView(R.id.ediTel) EditText ediTel;
     @BindView(R.id.ediAddress) EditText ediAddress;
     private final String TAG="--delive step2--";
@@ -164,7 +172,20 @@ public class CustomerDelivery2Fragment extends Fragment implements View.OnClickL
                                     long id) {
 
                 SimpleAdapter adapter = (SimpleAdapter) arg0.getAdapter();
-                HashMap<String, String> hm = (HashMap<String, String>) adapter.getItem(index);
+                HashMap<String, String> hm = new HashMap<String, String>();
+                try {
+                    hm = (HashMap<String, String>) adapter.getItem(index);
+                }
+                catch (Exception exp){
+                    LinkedTreeMap<String,String> tmap= (LinkedTreeMap<String,String>) adapter.getItem(index);
+                    for ( String key : tmap.keySet() ) {
+                        hm.put(key,tmap.get(key));
+                    }
+                }
+                HashSet<HashMap<String,String>> hashSet= (HashSet<HashMap<String, String>>) MyPreference.getObjectHashsetMap(Constant.PRE_LIST_SUGGESTION,HashSet.class);
+                hashSet.add(hm);
+                MyPreference.setObject(Constant.PRE_LIST_SUGGESTION,hashSet );
+
                 autoCompleteTextView.setText(hm.get("description"));
                 String url = getPlaceDetailsUrl(hm.get("reference"));
                 placeTask(url);
@@ -198,10 +219,15 @@ public class CustomerDelivery2Fragment extends Fragment implements View.OnClickL
 
                 break;
             case R.id.btnOk:
+                if(endLat==null || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtFrom)))
+                    return;
                 deliveryInfo.setDropInfo(txtFrom.getText().toString());
                 deliveryInfo.setLat2(endLat.latitude+"");
                 deliveryInfo.setLon2(endLat.longitude+"");
-
+                deliveryInfo.setEstimatedDistance(Utility.calculationByDistance(
+                        new LatLng(Double.parseDouble(deliveryInfo.getLat1()),
+                                Double.parseDouble(deliveryInfo.getLon1())),
+                        endLat)+"");
                 deliveryBooking(deliveryInfo);
                 break;
         }
@@ -295,6 +321,32 @@ public class CustomerDelivery2Fragment extends Fragment implements View.OnClickL
         AlertDialog dialog = builder.create();
         // display dialog
         dialog.show();
+    }
+
+
+
+    @OnClick(R.id.imaQuestion)
+    void onQuesionClick(){
+
+        onProcessQuestionClick();
+    }
+
+
+    private void onProcessQuestionClick(){
+        HashSet<HashMap<String,String>> lHMFrom= (HashSet<HashMap<String, String>>) MyPreference.getObject(Constant.PRE_LIST_SUGGESTION,HashSet.class);
+        if(lHMFrom!=null)
+        {
+            String[] from = new String[] { "description"};
+            int[] to = new int[] { android.R.id.text1 };
+            List<HashMap<String, String>> hashMapList=new ArrayList<HashMap<String, String>>(lHMFrom);
+            SimpleAdapter adapter = new SimpleAdapter(context, hashMapList, android.R.layout.simple_list_item_1, from, to);
+
+
+            txtFrom.showDropDown();
+            txtFrom.setAdapter(adapter);
+
+            adapter.notifyDataSetChanged();
+        }
     }
 
     //------------map------------

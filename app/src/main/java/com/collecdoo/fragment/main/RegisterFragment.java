@@ -18,8 +18,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -29,13 +31,14 @@ import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.activity.HomeActivity;
 import com.collecdoo.config.Constant;
-import com.collecdoo.config.ConstantTabTag;
+
 import com.collecdoo.control.AsteriskPassword;
 import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.ServiceGenerator;
 import com.collecdoo.fragment.home.StatusLoginFragment;
+import com.collecdoo.helper.DateHelper;
 import com.collecdoo.helper.UIHelper;
 import com.collecdoo.interfaces.OnBackListener;
 import com.collecdoo.service.gcm.QuickstartPreferences;
@@ -84,6 +87,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,O
         registerFragment.setArguments(bundle);
         return registerFragment;
     }
+    public static RegisterFragment init(UserInfo userInfo){
+        RegisterFragment registerFragment=new RegisterFragment();
+        Bundle bundle=new Bundle();
+        bundle.putParcelable("userInfo",userInfo);
+        registerFragment.setArguments(bundle);
+        return registerFragment;
+    }
 
     private Context context;
 
@@ -99,6 +109,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
     }
 
@@ -122,6 +133,34 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,O
         ediConfirmPass
                 .setTransformationMethod(new AsteriskPassword());
         txtYearOfBirth.setOnClickListener(this);
+
+        UserInfo userInfo=getArguments().getParcelable("userInfo");
+        if(userInfo!=null){
+            ediEmail.setText(userInfo.getEmail());
+            ediFirstName.setText(userInfo.getFirst_name());
+            ediName.setText(userInfo.getLast_name());
+            ediPhone.setText(userInfo.getPhoneNo());
+            ediPassword.setText(userInfo.getPassword());
+            ediConfirmPass.setText(userInfo.getPassword());
+            SimpleDateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
+            SimpleDateFormat toFormat = new SimpleDateFormat("MM/dd/yyyy");
+            if(!TextUtils.isEmpty(userInfo.birthday)){
+                Date date= null;
+                try {
+                    date = fromFormat.parse(userInfo.birthday);
+                    txtYearOfBirth.setText(toFormat.format(date));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            if(TextUtils.isEmpty(userInfo.getGent()) || userInfo.getGent().equals("0") )
+                ((RadioButton)rdgGender.getChildAt(1)).setChecked(true);
+            else ((RadioButton)rdgGender.getChildAt(1)).setChecked(false);
+
+
+        }
     }
 
     private void setColorSpan(TextView textView,  int fromPos,int toPos){
@@ -179,9 +218,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,O
 
                         register(userInfo);
 
-//                        startActivity(new Intent(context, HomeActivity.class));
-//                        getActivity().finish();
-
 
                 }
                 break;
@@ -192,7 +228,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,O
 
     private void showDatePicker()
     {
-        final boolean isOkClicked;
+
         Calendar calendar=Calendar.getInstance();
         String birthDay=txtYearOfBirth.getText().toString();
         if(!TextUtils.isEmpty(birthDay)) {
@@ -227,6 +263,19 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,O
             mesError.append("Password in invalid");
         }
 
+        if(!TextUtils.isEmpty(mesError.toString())) {
+            Utility.showMessage(context, mesError.toString());
+            return false;
+        }
+        try {
+            Date date=new SimpleDateFormat("MM/dd/yyyy").parse(txtYearOfBirth.getText().toString());
+            if(DateHelper.compare2DatePart(date,new Date())>=0) {
+                Utility.showMessage(context, "Please enter a valid birthday");
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if(!TextUtils.isEmpty(mesError.toString())) {
             Utility.showMessage(context, mesError.toString());
             return false;

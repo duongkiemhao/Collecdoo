@@ -37,7 +37,8 @@ import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
-import com.collecdoo.config.ConstantTabTag;
+
+import com.collecdoo.control.InstantAutoComplete;
 import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.DrivePostInfo;
 import com.collecdoo.dto.ResponseInfo;
@@ -46,6 +47,7 @@ import com.collecdoo.fragment.ServiceGenerator;
 import com.collecdoo.fragment.parser.DirectionsJSONParser;
 import com.collecdoo.fragment.parser.PlaceDetailsJSONParser;
 import com.collecdoo.fragment.parser.PlaceJSONParser;
+import com.collecdoo.helper.DateHelper;
 import com.collecdoo.helper.UIHelper;
 import com.collecdoo.interfaces.HomeListener;
 import com.collecdoo.interfaces.HomeNavigationListener;
@@ -62,6 +64,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
@@ -70,6 +76,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -79,10 +86,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -92,8 +102,9 @@ import retrofit2.Callback;
  */
 public class CustomerSingleDriveFragment extends Fragment implements View.OnClickListener,OnBackListener,
         OnMapReadyCallback ,DatePickerDialog.OnDateSetListener,HomeNavigationListener {
-    @BindView(R.id.txtFrom) AutoCompleteTextView txtFrom;
-    @BindView(R.id.txtTo) AutoCompleteTextView txtTo;
+    @BindView(R.id.txtFrom)
+    InstantAutoComplete txtFrom;
+    @BindView(R.id.txtTo) InstantAutoComplete txtTo;
     @BindView(R.id.imaSearch) ImageView imaSearchFrom;
     @BindView(R.id.imaSearchTo) ImageView imaSearchTo;
     @BindView(R.id.imaQuestion) ImageView imaQuestionFrom;
@@ -147,8 +158,7 @@ public class CustomerSingleDriveFragment extends Fragment implements View.OnClic
         unbinder=ButterKnife.bind(this, view);
         imaSearchFrom.setOnClickListener(this);
         imaSearchTo.setOnClickListener(this);
-        imaQuestionFrom.setOnClickListener(this);
-        imaQuestionTo.setOnClickListener(this);
+
         btnDatePicker.setOnClickListener(this);
         btnOk.setOnClickListener(this);
         return view;
@@ -209,7 +219,20 @@ public class CustomerSingleDriveFragment extends Fragment implements View.OnClic
                                     long id) {
 
                 SimpleAdapter adapter = (SimpleAdapter) arg0.getAdapter();
-                HashMap<String, String> hm = (HashMap<String, String>) adapter.getItem(index);
+                HashMap<String, String> hm = new HashMap<String, String>();
+                try {
+                    hm = (HashMap<String, String>) adapter.getItem(index);
+                }
+                catch (Exception exp){
+                    LinkedTreeMap<String,String> tmap= (LinkedTreeMap<String,String>) adapter.getItem(index);
+                    for ( String key : tmap.keySet() ) {
+                        hm.put(key,tmap.get(key));
+                    }
+                }
+                HashSet<HashMap<String,String>> hashSet= (HashSet<HashMap<String, String>>) MyPreference.getObjectHashsetMap(Constant.PRE_LIST_SUGGESTION,HashSet.class);
+                hashSet.add(hm);
+                MyPreference.setObject(Constant.PRE_LIST_SUGGESTION,hashSet );
+
                 autoCompleteTextView.setText(hm.get("description"));
                 String url = getPlaceDetailsUrl(hm.get("reference"));
                 placeTask(url);
@@ -218,13 +241,13 @@ public class CustomerSingleDriveFragment extends Fragment implements View.OnClic
         if(index==1){
             try {
                 startLat=((HomeListener)getParentFragment()).getLatLng();
-                txtFrom.setText(Utility.getAddressFromLatLng(context,startLat));
+                if(startLat!=null)
+                    txtFrom.setText(Utility.getAddressFromLatLng(context,startLat));
+                else txtFrom.setText("");
             } catch (IOException e) {
                 txtFrom.setText("");
             }
-            catch (NullPointerException e) {
-                txtFrom.setText("");
-            }
+
         }
     }
 
@@ -243,19 +266,12 @@ public class CustomerSingleDriveFragment extends Fragment implements View.OnClic
             case R.id.imaSearchTo:
                 drawMap();
                 break;
-            case R.id.imaQuestion:
 
-                break;
-            case R.id.imaQuestionTo:
-
-                break;
             case R.id.btnDatePicker:
                 showDatePicker();
                 break;
             case R.id.btnOk:
-                if(startLat==null || endLat==null ||
-                        TextUtils.isEmpty(UIHelper.getStringFromEditText(ediNoOfPerson))
-                        || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePicker)))
+                if(!validate())
                     return;
                 UserInfo userInfo= (UserInfo) MyPreference.getObject("userInfo",UserInfo.class);
                 DrivePostInfo drivePostInfo=new DrivePostInfo();
@@ -267,11 +283,11 @@ public class CustomerSingleDriveFragment extends Fragment implements View.OnClic
                 drivePostInfo.setLat2(endLat.latitude+"");
                 drivePostInfo.setLon2(endLat.longitude+"");
                 drivePostInfo.setPersonCount(UIHelper.getStringFromEditText(ediNoOfPerson));
-                drivePostInfo.setEstimatedDistance("");
+
                 drivePostInfo.setPaymentMethod("");
                 drivePostInfo.setDescription("");
                 SimpleDateFormat fromFormat = new SimpleDateFormat("MMM dd yyyy HH:mm");
-                SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                SimpleDateFormat toFormat = new SimpleDateFormat(DateHelper.SERVER_DATE_FORMAT);
 
                 try {
                     Date     date=fromFormat.parse( txtDatePicker.getText().toString());
@@ -282,10 +298,65 @@ public class CustomerSingleDriveFragment extends Fragment implements View.OnClic
 
                 drivePostInfo.setDesiredDropTime("");
                 drivePostInfo.setType(String.valueOf(index));
+
+                drivePostInfo.setEstimatedDistance(Utility.calculationByDistance(startLat,endLat)+"");
                 driveBooking(drivePostInfo);
                 break;
         }
 
+    }
+
+    @OnClick(R.id.imaQuestion)
+    void onQuesionFromClick(){
+        isStartClick=true;
+        onProcessQuestionClick();
+    }
+
+    @OnClick(R.id.imaQuestionTo)
+    void onQuesionToClick(){
+        isStartClick=false;
+        onProcessQuestionClick();
+    }
+
+    private void onProcessQuestionClick(){
+        HashSet<HashMap<String,String>> lHMFrom= (HashSet<HashMap<String, String>>) MyPreference.getObject(Constant.PRE_LIST_SUGGESTION,HashSet.class);
+        if(lHMFrom!=null)
+        {
+            String[] from = new String[] { "description"};
+            int[] to = new int[] { android.R.id.text1 };
+            List<HashMap<String, String>> hashMapList=new ArrayList<HashMap<String, String>>(lHMFrom);
+            SimpleAdapter adapter = new SimpleAdapter(context, hashMapList, android.R.layout.simple_list_item_1, from, to);
+
+            if(isStartClick) {
+                txtFrom.showDropDown();
+                txtFrom.setAdapter(adapter);
+            }
+            else {
+                txtTo.showDropDown();
+                txtTo.setAdapter(adapter);
+            }
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+
+    private boolean validate(){
+        if(startLat==null || endLat==null ||
+                TextUtils.isEmpty(UIHelper.getStringFromEditText(ediNoOfPerson))
+                || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePicker)))
+            return false;
+        SimpleDateFormat fromFormat = new SimpleDateFormat("MMM dd yyyy HH:mm");
+        try {
+            Date     date=fromFormat.parse( txtDatePicker.getText().toString());
+            if(date.compareTo(new Date())<=0) {
+                //Utility.showMessage(context,"Please provide the correct pickup datetime");
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     private void showNextDialog() {
@@ -574,6 +645,7 @@ public class CustomerSingleDriveFragment extends Fragment implements View.OnClic
 
     @Override
     public void onNextClick() {
+        if(validate())
         showNextDialog();
 
     }

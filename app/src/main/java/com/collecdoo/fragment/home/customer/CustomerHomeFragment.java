@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.collecdoo.R;
 import com.collecdoo.config.Constant;
-import com.collecdoo.config.ConstantTabTag;
+
 import com.collecdoo.fragment.home.StatusLoginFragment;
 import com.collecdoo.interfaces.HomeNavigationListener;
 import com.collecdoo.interfaces.OnBackListener;

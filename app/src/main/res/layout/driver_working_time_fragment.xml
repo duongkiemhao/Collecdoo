@@ -65,8 +65,8 @@
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/box_shape"
                     android:gravity="center"
-                    android:lines="2"
-                    android:padding="10dp"
+                    android:lines="1"
+                    android:padding="5dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black_light" />
 
@@ -114,8 +114,8 @@
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/box_shape"
                         android:gravity="center"
-                        android:lines="2"
-                        android:padding="10dp"
+                        android:lines="1"
+                        android:padding="5dp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black_light" />
 
@@ -126,7 +126,7 @@
                 style="@style/register_edittext" android:layout_height="35dp"
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="40dp" android:inputType="number"
-                android:hint="Free seat"
+                android:hint="Free seat" android:lines="1"
                 android:textColor="@color/black" android:layout_marginTop="10dp"
                 android:textColorHint="@color/black_light" />
         </LinearLayout>
