@@ -203,7 +203,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener,OnBa
                 if(response.isSuccessful()){
                     MyJsonObject responseInfo= response.body();
 
-                    //if(responseInfo.status.toLowerCase().equals("ok")) {
+                    if(responseInfo.status.toLowerCase().equals("ok")) {
 
                         UserInfo userInfo= (UserInfo) responseInfo.data;
 
@@ -211,8 +211,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener,OnBa
 
                         startActivity(new Intent(context, HomeActivity.class));
                         getActivity().finish();
-//                    }
-//                    else Utility.showMessage(context,responseInfo.message);
+                    }
+                    else Utility.showMessage(context,responseInfo.message);
                 }
                 else Utility.showMessage(context,response.message());
             }

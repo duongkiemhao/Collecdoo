@@ -9,4 +9,8 @@ import com.google.gson.annotations.Expose;
 public class MyJsonObject<T> {
     @Expose
     public T data;
+    @Expose
+    public String status;
+    @Expose
+    public String message;
 }
