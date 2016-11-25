@@ -15,5 +15,6 @@ public interface HomeListener {
      void updateDriverActivity();
      LatLng getLatLng();
      void logOut();
+     void onGotPush(String pushId);
 
 }

@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.collecdoo.R;
+import com.collecdoo.activity.HomeActivity;
 import com.collecdoo.activity.MainActivity;
 import com.collecdoo.config.Constant;
 import com.google.android.gms.gcm.GcmListenerService;
@@ -25,10 +26,12 @@ public class MyGcmListenerService extends GcmListenerService {
     public void onMessageReceived(String from, Bundle data) {
 
         if(data.getString("route_id")!=null){
-            Intent intent = new Intent(QuickstartPreferences.PUSH_ARRIVED);
-            intent.putExtra("route_id", data.getString("route_id"));
-            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-            Log.d(Constant.DEBUG_TAG,data.toString());
+//            Intent intent = new Intent(QuickstartPreferences.PUSH_ARRIVED);
+//            intent.putExtra("route_id", data.getString("route_id"));
+//            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+//            Log.d(Constant.DEBUG_TAG,data.toString());
+
+            sendNotification("New Routes for Driver",data.getString("route_id"));
         }
 
 
@@ -36,12 +39,12 @@ public class MyGcmListenerService extends GcmListenerService {
 
     }
 
-    private void sendNotification(String message) {
-        Intent intent = new Intent(this, MainActivity.class);
+    private void sendNotification(String message,String routeId) {
+        Intent intent = new Intent(this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
+        intent.putExtra("route_id",routeId);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
@@ -55,7 +58,7 @@ public class MyGcmListenerService extends GcmListenerService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        notificationManager.notify(new Random().nextInt(), notificationBuilder.build());
+        notificationManager.notify(1, notificationBuilder.build());
     }
 
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -17,6 +18,7 @@ import com.collecdoo.config.Constant;
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.main.MainFragment;
 import com.collecdoo.interfaces.OnBackListener;
+import com.collecdoo.service.gcm.QuickstartPreferences;
 import com.collecdoo.service.gcm.RegistrationIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -35,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RegistrationIntentService.class);
         startService(intent);
 
-//        getSupportFragmentManager().beginTransaction().
-//                replace(R.id.fragment, MainFragment.init(), ConstantTabTag.MAIN).
-//                commit();
 
         if(MyPreference.getObject("userInfo", UserInfo.class)==null)
             getSupportFragmentManager().beginTransaction().
@@ -104,10 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-    }
 
 
     private boolean checkPlayServices() {

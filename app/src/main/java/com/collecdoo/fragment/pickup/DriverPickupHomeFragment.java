@@ -4,14 +4,24 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
+import com.collecdoo.Utility;
+import com.collecdoo.config.Config;
+import com.collecdoo.config.Constant;
+import com.collecdoo.dto.DriverActivityInfo;
 import com.collecdoo.dto.PathOfRouteInfo;
+import com.collecdoo.dto.ResponseInfo;
+import com.collecdoo.fragment.LocationManger;
+import com.collecdoo.fragment.ServiceGenerator;
 import com.collecdoo.fragment.home.HomeFragment;
 import com.collecdoo.fragment.home.StatusLoginFragment;
+import com.collecdoo.helper.UserHelper;
 import com.collecdoo.interfaces.HomeNavigationListener;
 
 import java.util.ArrayList;
@@ -20,6 +30,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -93,7 +106,8 @@ public class DriverPickupHomeFragment extends Fragment implements View.OnClickLi
                         getArguments().getParcelableArrayList("list"),
                         getArguments().getInt("viewIndex")), StatusLoginFragment.class.getName()).
                 commit();
-
+        if(UserHelper.isDriver())
+            driverActivity(Config.ACTION_WORKING);
     }
 
     @Override
@@ -109,9 +123,12 @@ public class DriverPickupHomeFragment extends Fragment implements View.OnClickLi
         switch (v.getId()) {
 
             case R.id.btnBack:
-                getFragmentManager().beginTransaction().replace(R.id.fragment, HomeFragment.init(),HomeFragment.class.getName())
-                        .commit();
-
+                if(UserHelper.isDriver())
+                    driverActivity(Config.ACTION_LOGIN);
+                else{
+                    getFragmentManager().beginTransaction().replace(R.id.fragment, HomeFragment.init(),HomeFragment.class.getName())
+                            .commit();
+                }
                 break;
             case R.id.btnCall:
                 HomeNavigationListener navigationListener = (HomeNavigationListener) getChildFragmentManager().findFragmentById(R.id.fragment);
@@ -137,6 +154,50 @@ public class DriverPickupHomeFragment extends Fragment implements View.OnClickLi
                 break;
 
         }
+
+    }
+
+    private void driverActivity(int actionIndex) {
+
+
+        DriverActivityInfo activityInfo = new DriverActivityInfo();
+        activityInfo.user_id = UserHelper.getUserId();
+        activityInfo.latitude = LocationManger.getInstance().getLocation().getLatitude()+ "";
+        activityInfo.longitude = LocationManger.getInstance().getLocation().getLongitude()+ "";
+        activityInfo.action = actionIndex + "";
+        driverActivityTask(activityInfo);
+    }
+
+    private void driverActivityTask(final DriverActivityInfo activityInfo) {
+
+        MyRetrofitService taskService = ServiceGenerator.createService(MyRetrofitService.class);
+
+        Call<ResponseInfo> call = taskService.driverActivity(activityInfo);
+        call.enqueue(new Callback<ResponseInfo>() {
+
+            @Override
+            public void onResponse(Call<ResponseInfo> call, Response<ResponseInfo> response) {
+                if(Integer.parseInt(activityInfo.action)==Config.ACTION_LOGIN) {
+                    getFragmentManager().beginTransaction().replace(R.id.fragment, HomeFragment.init(),HomeFragment.class.getName())
+                            .commit();
+                    return;
+                }
+                if (response.isSuccessful()) {
+                    ResponseInfo responseInfo = response.body();
+                    if (responseInfo.status.toLowerCase().equals("ok")) {
+                        Log.d(DriverPickupHomeFragment.this.getClass().getName(),responseInfo.toString());
+
+
+                    } else Utility.showMessage(context, responseInfo.message);
+                } else Utility.showMessage(context, response.message());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseInfo> call, Throwable t) {
+                Log.d(Constant.DEBUG_TAG, "error" + t.getMessage());
+
+            }
+        });
 
     }
 

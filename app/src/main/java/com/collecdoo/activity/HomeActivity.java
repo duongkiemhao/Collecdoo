@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
@@ -16,7 +17,9 @@ import com.collecdoo.fragment.home.HomeFragment;
 import com.collecdoo.fragment.home.StatusLoginFragment;
 import com.collecdoo.fragment.home.customer.CustomerHomeFragment;
 import com.collecdoo.fragment.home.driver.DriverHomeFragment;
+import com.collecdoo.interfaces.HomeListener;
 import com.collecdoo.interfaces.OnBackListener;
+import com.collecdoo.service.gcm.QuickstartPreferences;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -35,6 +38,22 @@ public class HomeActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().
                 replace(R.id.fragment, HomeFragment.init(),HomeFragment.class.getName()).
                 commit();
+
+        if(getIntent().getStringExtra("route_id")!=null){
+            processPush(getIntent().getStringExtra("route_id"));
+        }
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        processPush(intent.getStringExtra("route_id"));
+
+    }
+
+    private void processPush(String pushId){
+        ((HomeListener)getSupportFragmentManager().findFragmentById(R.id.fragment)).onGotPush(pushId);
     }
 
     @Override

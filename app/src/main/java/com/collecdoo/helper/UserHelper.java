@@ -15,4 +15,7 @@ public class UserHelper {
         return (UserInfo) MyPreference.getObject("userInfo",UserInfo.class);
 
     }
+    public static boolean isDriver(){
+        return UserHelper.getUserInfo().driver_type.equals("0")?false:true;
+    }
 }

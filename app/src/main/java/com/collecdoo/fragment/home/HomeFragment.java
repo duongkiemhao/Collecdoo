@@ -32,6 +32,7 @@ import com.collecdoo.dto.PathOfRouteInfo;
 import com.collecdoo.dto.PushInfo;
 import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.UserInfo;
+import com.collecdoo.fragment.LocationManger;
 import com.collecdoo.fragment.ServiceGenerator;
 import com.collecdoo.fragment.pickup.DriverPickupDropFragment;
 import com.collecdoo.fragment.pickup.DriverPickupHomeFragment;
@@ -103,7 +104,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
     private Location mCurrentLocation;
     private String mLastUpdateTime;
     private LatLng latLng;
-    private BroadcastReceiver routeBroadcast;
+
 
 
     public static HomeFragment init() {
@@ -150,15 +151,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
         getChildFragmentManager().beginTransaction().
                 replace(R.id.fragment, StatusLoginFragment.init(), StatusLoginFragment.class.getName()).
                 commit();
-        routeBroadcast = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                getPathOfRoute(intent.getStringExtra("route_id"));
-            }
-        };
 
         updatePushId(MyPreference.getString(QuickstartPreferences.TOKEN_STRING));
     }
+
 
 
     @Override
@@ -172,16 +168,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
 
     private void driverActivity(int actionIndex) {
 
-        if (latLng == null) {
-            if(actionIndex==Config.ACTION_LOGOUT) {
+        if (mCurrentLocation == null) {
+            if(actionIndex==Config.ACTION_LOGOUT)
                 toMainActivity();
-            }
             return;
         }
         DriverActivityInfo activityInfo = new DriverActivityInfo();
         activityInfo.user_id = UserHelper.getUserId();
-        activityInfo.latitude = latLng.latitude + "";
-        activityInfo.longitude = latLng.longitude + "";
+        activityInfo.latitude = LocationManger.getInstance().getLocation().getLatitude()+ "";
+        activityInfo.longitude = LocationManger.getInstance().getLocation().getLongitude()+ "";
         activityInfo.action = actionIndex + "";
         driverActivityTask(activityInfo);
     }
@@ -307,16 +302,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
     //step 3
     protected void buildLocationSettingsRequest() {
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+
         builder.addLocationRequest(mLocationRequest);
+        builder.setAlwaysShow(true);
         mLocationSettingsRequest = builder.build();
     }
 
     protected void checkLocationSettings() {
+
         PendingResult<LocationSettingsResult> result =
                 LocationServices.SettingsApi.checkLocationSettings(
                         mGoogleApiClient,
                         mLocationSettingsRequest
                 );
+
         result.setResultCallback(this);
     }
 
@@ -351,6 +350,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
         Log.d(Constant.DEBUG_TAG, "Firing onLocationChanged..............................................");
         mCurrentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+        LocationManger.getInstance().setLocation(mCurrentLocation);
         updateUI();
     }
 
@@ -358,6 +358,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
         Log.d(Constant.DEBUG_TAG, "UI update initiated .............");
         if (null != mCurrentLocation) {
             latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+            if(UserHelper.isDriver())
             driverActivity(Config.ACTION_LOGIN);
         } else {
             Log.d(Constant.DEBUG_TAG, "location is null ...............");
@@ -369,7 +370,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
         super.onPause();
         if (mGoogleApiClient != null)
             stopLocationUpdates();
-        LocalBroadcastManager.getInstance(context).unregisterReceiver(routeBroadcast);
+
     }
 
 
@@ -380,7 +381,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
             startLocationUpdates();
             Log.d(Constant.DEBUG_TAG, "Location update resumed .....................");
         }
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(routeBroadcast, new IntentFilter(QuickstartPreferences.PUSH_ARRIVED));
+
     }
 
 
@@ -468,9 +469,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
                     toMainActivity();
                     return;
                 }
+                if(Integer.parseInt(activityInfo.action)==Config.ACTION_WORKING) {
+                    return;
+                }
                 if (response.isSuccessful()) {
                     ResponseInfo responseInfo = response.body();
-
                     if (responseInfo.status.toLowerCase().equals("ok")) {
                         Log.d(TAG, "----action logined sent---");
 
@@ -498,7 +501,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
 
     @Override
     public void updateDriverActivity() {
-        if (!UserHelper.getUserInfo().driver_type.equals("0")) {
+        if (UserHelper.isDriver()) {
             if (isGooglePlayServicesAvailable()) {
                 initGoogleLocationService();
                 stopLocationUpdates();
@@ -514,7 +517,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
 
     @Override
     public void logOut() {
-        driverActivity(Config.ACTION_LOGOUT);
+        if(UserHelper.isDriver())
+            driverActivity(Config.ACTION_LOGOUT);
+        else toMainActivity();
+    }
+
+    @Override
+    public void onGotPush(String pushId) {
+        if(UserHelper.isDriver())
+            getPathOfRoute(pushId);
     }
 
 
