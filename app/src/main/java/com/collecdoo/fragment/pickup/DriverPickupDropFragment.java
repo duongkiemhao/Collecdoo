@@ -1,9 +1,14 @@
 package com.collecdoo.fragment.pickup;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -149,7 +154,14 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
         switch (v.getId()) {
 
             case R.id.btnSos:
-                Utility.showMessage(context,"call");
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:00491717522012"));
+
+                if (ActivityCompat.checkSelfPermission(context,
+                        Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                startActivity(callIntent);
                 break;
             case R.id.txtPickupTitle:
                 updateRouteDetail(pathOfRouteInfoList.get(viewIndex).routeDetailId);
@@ -185,7 +197,14 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onButton1() {
-        Utility.showMessage(context,"call clicked");
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:00491717522012"));
+
+        if (ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        startActivity(callIntent);
     }
 
     @Override

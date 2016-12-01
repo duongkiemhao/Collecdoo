@@ -53,7 +53,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void processPush(String pushId){
-        ((HomeListener)getSupportFragmentManager().findFragmentById(R.id.fragment)).onGotPush(pushId);
+        if(getSupportFragmentManager().findFragmentById(R.id.fragment) instanceof  HomeListener)
+            ((HomeListener)getSupportFragmentManager().findFragmentById(R.id.fragment)).onGotPush(pushId);
     }
 
     @Override
