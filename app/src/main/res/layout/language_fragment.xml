@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:clickable="true"
+    android:layout_height="match_parent"
+    android:background="@color/white" android:orientation="vertical"
+    android:padding="5dp">
+
+    <include layout="@layout/logo" />
+    <LinearLayout android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RadioGroup android:layout_margin="10dp" android:id="@+id/radio_group"
+            android:layout_width="wrap_content" android:orientation="vertical" android:checkedButton="@+id/rb_us"
+            android:layout_height="wrap_content">
+            <RadioButton android:text="English" android:textColor="@color/black" android:button="@drawable/language_selector"
+                android:layout_width="wrap_content" android:padding="10dp"
+                android:layout_height="wrap_content" android:id="@+id/rb_us"/>
+            <RadioButton android:text="Germany" android:textColor="@color/black"
+
+                android:layout_width="wrap_content" android:padding="10dp" android:button="@drawable/language_selector"
+                android:layout_height="wrap_content" android:id="@+id/rb_de"/>
+        </RadioGroup>
+    </LinearLayout>
+    <Button android:layout_margin="10dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="200dp" android:background="@drawable/box_shape"
+        android:layout_alignParentBottom="true" android:layout_marginBottom="60dp"
+        android:id="@+id/btnSave" android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content" android:text="Save"/>
+
+</LinearLayout>

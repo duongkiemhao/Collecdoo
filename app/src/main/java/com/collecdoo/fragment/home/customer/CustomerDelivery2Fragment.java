@@ -564,6 +564,7 @@ public class CustomerDelivery2Fragment extends Fragment implements View.OnClickL
 
     }
 
+
     @Override
     public void onNextClick() {
         getFragmentManager().beginTransaction().

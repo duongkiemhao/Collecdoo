@@ -2,33 +2,20 @@ package com.collecdoo.fragment.home.driver;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
-import com.collecdoo.Utility;
-import com.collecdoo.config.Constant;
 
-import com.collecdoo.dto.PathOfRouteInfo;
-import com.collecdoo.fragment.ServiceGenerator;
-import com.collecdoo.fragment.home.StatusLoginFragment;
+import com.collecdoo.fragment.home.HomeFragment;
 import com.collecdoo.interfaces.HomeNavigationListener;
 import com.collecdoo.interfaces.OnBackListener;
-import com.google.gson.JsonObject;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -68,7 +55,7 @@ public class DriverHomeFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.driver_plan_ride_fragment, container, false);
+        View view=inflater.inflate(R.layout.driver_fragment, container, false);
         unbinder=ButterKnife.bind(this, view);
         btnPlanSingleAdvance.setOnClickListener(this);
         btnPlanAdHoc.setOnClickListener(this);
@@ -128,7 +115,7 @@ public class DriverHomeFragment extends Fragment implements View.OnClickListener
     public void onBackClick() {
         getFragmentManager().beginTransaction().
                 setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
-                replace(R.id.fragment, StatusLoginFragment.init(), StatusLoginFragment.class.getName()).
+                replace(R.id.fragment, HomeFragment.init(), HomeFragment.class.getName()).
                 commit();
     }
 
@@ -152,6 +139,7 @@ public class DriverHomeFragment extends Fragment implements View.OnClickListener
 
     }
 
+
     @Override
     public void onNextClick() {
 
@@ -162,7 +150,7 @@ public class DriverHomeFragment extends Fragment implements View.OnClickListener
     public void onBackPress() {
         getFragmentManager().beginTransaction().
                 setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
-                replace(R.id.fragment, StatusLoginFragment.init(),StatusLoginFragment.class.getName()).
+                replace(R.id.fragment, HomeFragment.init(),HomeFragment.class.getName()).
                 commit();
     }
 

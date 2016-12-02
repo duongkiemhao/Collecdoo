@@ -65,7 +65,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:src="@drawable/ico_next_bold"/>
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp" android:background="@color/black"/>
+        <LinearLayout android:id="@+id/btnLanguage"
+            android:layout_width="match_parent" android:gravity="center_vertical"
+            android:layout_height="wrap_content" android:orientation="horizontal">
+            <TextView android:paddingTop="10dp" android:paddingBottom="10dp"
+                android:layout_width="0dp" android:layout_weight="1" android:gravity="left|center_vertical"
+                android:layout_height="wrap_content" android:textColor="@color/black" android:text="Language"/>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:src="@drawable/ico_next_bold"/>
+        </LinearLayout>
     </LinearLayout>
     <Button
 

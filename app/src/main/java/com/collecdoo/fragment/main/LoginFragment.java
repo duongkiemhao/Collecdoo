@@ -1,15 +1,10 @@
 package com.collecdoo.fragment.main;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -27,24 +22,17 @@ import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.activity.HomeActivity;
-import com.collecdoo.activity.MainActivity;
 import com.collecdoo.config.Constant;
 
 import com.collecdoo.control.AsteriskPassword;
 import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.MyJsonObject;
-import com.collecdoo.dto.PushInfo;
-import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.ServiceGenerator;
-import com.collecdoo.fragment.home.StatusLoginFragment;
 import com.collecdoo.helper.UIHelper;
 import com.collecdoo.helper.UserHelper;
 import com.collecdoo.interfaces.OnBackListener;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

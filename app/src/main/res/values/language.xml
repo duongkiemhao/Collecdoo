@@ -1,0 +1,51 @@
+<resources>
+    <!--common-->
+    <string name="ok_next">Ok &amp; Next</string>
+
+    <!--main page-->
+    <string name="main_title">Collecdoo enables easly\n ad hoc door2door transfer in your city</string>
+    <string name="main_desc">Collecdoo reduces pollution and traffic jams in your city by sharing a ride.Sometime you can take someone with you on your ride or some time you can just ride as a passenger.</string>
+    <string name="main_do_you_like">Do you like to use Collecdoo app</string>
+
+    <!--login-->
+    <string name="login_title">Collecdoo login</string>
+    <string name="login_email">Email</string>
+    <string name="login_pass">Password</string>
+    <string name="login_login">Login</string>
+    <string name="login_registration">New registration?</string>
+    <string name="login_forget_pass">Forget password?</string>
+
+    <!--register-->
+    <string name="register_title">Collecdoo registry</string>
+    <string name="register_fname">First Name</string>
+    <string name="register_name">Name</string>
+    <string name="register_phone">Phone Number</string>
+    <string name="register_email">Email</string>
+    <string name="register_pass">Password</string>
+    <string name="register_confirm_pass">Confirm password</string>
+    <string name="register_dob">Year of birth</string>
+    <string name="register_gent">Gent</string>
+
+    <!--register driver-->
+    <string name="register_driver_title">Collecdoo registry for driver</string>
+    <string name="register_driver_pls_input">Pleased input your address:</string>
+    <string name="register_driver_street">Street</string>
+    <string name="register_driver_house">House No</string>
+    <string name="register_driver_city">City</string>
+    <string name="register_driver_postcode">Postcode</string>
+    <string name="register_driver_country">Country</string>
+
+    <string name="register_driver_photo_title">You can photograph your drive licence, your business registration  and upload it for registration as professional driver at Collecdoo.</string>
+    <string name="register_driver_photo_picture">Your picture</string>
+    <string name="register_driver_photo_driver">Your drive license</string>
+    <string name="register_driver_photo_business">Your business registration</string>
+    <string name="register_driver_photo_agree">I agree to the general business terms and confirm that I am of age and possess a valid driver\'s license and vehicle insurance</string>
+
+    <string name="home_title">Collecdoo - schedule</string>
+    <string name="home_require_ride_desc">You want to go from A to B in your city. You wish that a "Taxi“ comes to your door and take you to your destination for less money.  Then click "Require a ride“</string>
+    <string name="home_require_ride">Require a ride</string>
+    <string name="home_share_trip_desc">You have to go from A to B with your car and you have some free seats in your car. You want to share your car with other and you can make money of sharing. Then click "Share my trip“</string>
+    <string name="home_sgare_trip">Share my trip</string>
+    <string name="home_bottom">Any way our mother earth is happy!</string>
+
+</resources>

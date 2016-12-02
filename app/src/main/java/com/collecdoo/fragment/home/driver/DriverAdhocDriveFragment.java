@@ -575,6 +575,7 @@ public class DriverAdhocDriveFragment extends Fragment implements View.OnClickLi
 
     }
 
+
     @Override
     public void onNextClick() {
 

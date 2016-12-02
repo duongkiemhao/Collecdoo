@@ -1,19 +1,14 @@
 package com.collecdoo.fragment.home;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.collecdoo.MyPreference;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
-import com.collecdoo.activity.MainActivity;
-import com.collecdoo.dto.DriverActivityInfo;
-import com.collecdoo.helper.UserHelper;
 import com.collecdoo.interfaces.HomeListener;
 import com.collecdoo.interfaces.HomeNavigationListener;
 import com.collecdoo.interfaces.OnBackListener;
@@ -33,6 +28,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener,On
     @BindView(R.id.btnBankAcc) View btnBankAcc;
     @BindView(R.id.btnUpgrade) View btnUpgrade;
     @BindView(R.id.btnLogout) View btnLogout;
+    @BindView(R.id.btnLanguage) View btnLanguage;
+
 
     private Unbinder unbinder;
 
@@ -68,6 +65,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener,On
         btnBankAcc.setOnClickListener(this);
         btnUpgrade.setOnClickListener(this);
         btnLogout.setOnClickListener(this);
+        btnLanguage.setOnClickListener(this);
         return view;
     }
 
@@ -95,7 +93,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener,On
                 break;
             case R.id.btnLogout:
 
-                ((HomeListener)getParentFragment().getFragmentManager().findFragmentByTag(HomeFragment.class.getName())).logOut();
+                ((HomeListener)getParentFragment().getFragmentManager().findFragmentByTag(HomeWrapperFragment.class.getName())).logOut();
+                break;
+            case R.id.btnLanguage:
+                getFragmentManager().beginTransaction().add(R.id.fragment, LanguageFragment.instantiate(context,LanguageFragment.class.getName()),
+                        null).addToBackStack(LanguageFragment.class.getName()).commit();
                 break;
 
         }
@@ -143,9 +145,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener,On
     @Override
     public void onNextClick() {
 
-
     }
-
 
 
 }

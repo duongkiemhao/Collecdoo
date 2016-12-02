@@ -572,11 +572,9 @@ public class CustomerDelivery1Fragment extends Fragment implements View.OnClickL
 
     @Override
     public void onNextClick() {
-//        getFragmentManager().beginTransaction().
-//                setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
-//                replace(R.id.fragment, CustomerDelivery2Fragment.init(), ConstantTabTag.CUSTOMER_DELIVERY_STEP2).
-//                commit();
+
     }
+
 
     /** A class to parse the Google Places in JSON format */
     private class ParserPlaceTask extends AsyncTask<String, Integer, List<HashMap<String,String>>>{

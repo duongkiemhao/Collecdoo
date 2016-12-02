@@ -19,8 +19,8 @@ import com.collecdoo.dto.PathOfRouteInfo;
 import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.fragment.LocationManger;
 import com.collecdoo.fragment.ServiceGenerator;
+import com.collecdoo.fragment.home.HomeWrapperFragment;
 import com.collecdoo.fragment.home.HomeFragment;
-import com.collecdoo.fragment.home.StatusLoginFragment;
 import com.collecdoo.helper.UserHelper;
 import com.collecdoo.interfaces.HomeNavigationListener;
 
@@ -104,7 +104,7 @@ public class DriverPickupHomeFragment extends Fragment implements View.OnClickLi
         getChildFragmentManager().beginTransaction().
                 replace(R.id.fragment, DriverPickupDropFragment.init(getArguments().getBoolean("isPickup"),
                         getArguments().getParcelableArrayList("list"),
-                        getArguments().getInt("viewIndex")), StatusLoginFragment.class.getName()).
+                        getArguments().getInt("viewIndex")), HomeFragment.class.getName()).
                 commit();
         if(UserHelper.isDriver())
             driverActivity(Config.ACTION_WORKING);
@@ -126,7 +126,7 @@ public class DriverPickupHomeFragment extends Fragment implements View.OnClickLi
                 if(UserHelper.isDriver())
                     driverActivity(Config.ACTION_LOGIN);
                 else{
-                    getFragmentManager().beginTransaction().replace(R.id.fragment, HomeFragment.init(),HomeFragment.class.getName())
+                    getFragmentManager().beginTransaction().replace(R.id.fragment, HomeWrapperFragment.init(),HomeWrapperFragment.class.getName())
                             .commit();
                 }
                 break;
@@ -178,7 +178,7 @@ public class DriverPickupHomeFragment extends Fragment implements View.OnClickLi
             @Override
             public void onResponse(Call<ResponseInfo> call, Response<ResponseInfo> response) {
                 if(Integer.parseInt(activityInfo.action)==Config.ACTION_LOGIN) {
-                    getFragmentManager().beginTransaction().replace(R.id.fragment, HomeFragment.init(),HomeFragment.class.getName())
+                    getFragmentManager().beginTransaction().replace(R.id.fragment, HomeWrapperFragment.init(),HomeWrapperFragment.class.getName())
                             .commit();
                     return;
                 }

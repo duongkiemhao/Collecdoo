@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -13,18 +13,17 @@ import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
 
+import com.collecdoo.fragment.home.HomeWrapperFragment;
 import com.collecdoo.fragment.home.HomeFragment;
-import com.collecdoo.fragment.home.StatusLoginFragment;
-import com.collecdoo.fragment.home.customer.CustomerHomeFragment;
-import com.collecdoo.fragment.home.driver.DriverHomeFragment;
+import com.collecdoo.fragment.home.LanguageFragment;
 import com.collecdoo.interfaces.HomeListener;
 import com.collecdoo.interfaces.OnBackListener;
-import com.collecdoo.service.gcm.QuickstartPreferences;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 
 public class HomeActivity extends AppCompatActivity {
+
     private boolean doubleBackToExitPressedOnce;
 
 
@@ -36,8 +35,9 @@ public class HomeActivity extends AppCompatActivity {
         checkPlayServices();
 
         getSupportFragmentManager().beginTransaction().
-                replace(R.id.fragment, HomeFragment.init(),HomeFragment.class.getName()).
+                replace(R.id.fragment, HomeWrapperFragment.init(),HomeWrapperFragment.class.getName()).
                 commit();
+
 
         if(getIntent().getStringExtra("route_id")!=null){
             processPush(getIntent().getStringExtra("route_id"));
@@ -48,7 +48,16 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        processPush(intent.getStringExtra("route_id"));
+
+        //new route for driver
+        if(!TextUtils.isEmpty(intent.getStringExtra("route_id")))
+            processPush(intent.getStringExtra("route_id"));
+
+        //language changed
+        if(intent.getBooleanExtra(LanguageFragment.IS_CONFIG_CHANGED,false))
+            getSupportFragmentManager().beginTransaction().
+                replace(R.id.fragment, HomeWrapperFragment.init(),HomeWrapperFragment.class.getName()).
+                commit();
 
     }
 
@@ -64,7 +73,7 @@ public class HomeActivity extends AppCompatActivity {
         String currentTag = getSupportFragmentManager().findFragmentById(R.id.fragment).
                 getChildFragmentManager().findFragmentById(R.id.fragment).getTag();
 
-        if (currentTag.equals(StatusLoginFragment.class.getName())
+        if (currentTag.equals(HomeFragment.class.getName())
         ) {
             if (doubleBackToExitPressedOnce) {
                 finish();

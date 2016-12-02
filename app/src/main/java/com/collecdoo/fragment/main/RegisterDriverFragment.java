@@ -9,7 +9,6 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +18,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.collecdoo.MyPreference;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.dto.CountryInfo;
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.adapter.MySimpleSpinnerAdapter;
-import com.collecdoo.fragment.home.StatusLoginFragment;
+import com.collecdoo.fragment.home.HomeFragment;
 import com.collecdoo.helper.UIHelper;
 import com.collecdoo.interfaces.HomeListener;
 import com.collecdoo.interfaces.OnBackListener;
@@ -212,7 +210,7 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
         if(wasPassenger) {
             getFragmentManager().beginTransaction().
                     setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
-                    replace(R.id.fragment, StatusLoginFragment.init(), StatusLoginFragment.class.getName()).
+                    replace(R.id.fragment, HomeFragment.init(), HomeFragment.class.getName()).
                     commit();
         }
         else {

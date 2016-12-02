@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Collecdoo registry for driver"
+            android:text="@string/register_driver_title"
             android:textColor="@color/black" />
     </LinearLayout>
 
@@ -33,7 +33,7 @@
 
         <TextView
             android:layout_width="wrap_content" android:textColor="@color/black" android:id="@+id/txtDesc"
-            android:layout_height="wrap_content" android:text="You can photograph your drive licence, your business registration  and upload it for registration as professional driver at Collecdoo."/>
+            android:layout_height="wrap_content" android:text="@string/register_driver_photo_title"/>
         <LinearLayout
             android:layout_width="match_parent" android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             <TextView
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:text="Your picture"
+                android:text="@string/register_driver_photo_picture"
                 android:textColor="@color/black" />
 
             <TextView
@@ -60,7 +60,7 @@
             <TextView
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:text="Your drive license"
+                android:text="@string/register_driver_photo_driver"
                 android:textColor="@color/black" />
             <TextView
                 android:id="@+id/txtDriveLicense"
@@ -76,7 +76,7 @@
             <TextView
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:text="Your business registration"
+                android:text="@string/register_driver_photo_business"
                 android:textColor="@color/black" />
             <TextView
                 android:id="@+id/txtBusinessRegis"
@@ -98,7 +98,7 @@
                 android:id="@+id/checkbox"/>
             <TextView android:layout_height="wrap_content" android:padding="10dp"
                 android:layout_gravity="top" android:gravity="top" android:id="@+id/txtPolicy"
-                android:layout_width="match_parent" android:text="I agree to the general business terms and confirm that I am of age and possess a valid driver's license and vehicle insurance"
+                android:layout_width="match_parent" android:text="@string/register_driver_photo_agree"
                 android:textColor="@color/black" />
         </LinearLayout>
 

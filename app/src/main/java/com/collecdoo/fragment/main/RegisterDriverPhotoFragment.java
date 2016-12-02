@@ -41,7 +41,7 @@ import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.ServiceGenerator;
-import com.collecdoo.fragment.home.StatusLoginFragment;
+import com.collecdoo.fragment.home.HomeFragment;
 import com.collecdoo.helper.ImageHelper;
 import com.collecdoo.helper.UIHelper;
 import com.collecdoo.interfaces.HomeListener;
@@ -203,7 +203,7 @@ public class RegisterDriverPhotoFragment extends Fragment implements View.OnClic
                     if(wasPassenger)
                         getFragmentManager().beginTransaction().
                             setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
-                            replace(R.id.fragment, StatusLoginFragment.init(),StatusLoginFragment.class.getName()).
+                            replace(R.id.fragment, HomeFragment.init(),HomeFragment.class.getName()).
                             commit();
                     else{
 

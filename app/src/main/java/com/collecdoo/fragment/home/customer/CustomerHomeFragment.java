@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.collecdoo.R;
 import com.collecdoo.config.Constant;
 
-import com.collecdoo.fragment.home.StatusLoginFragment;
+import com.collecdoo.fragment.home.HomeFragment;
 import com.collecdoo.interfaces.HomeNavigationListener;
 import com.collecdoo.interfaces.OnBackListener;
 
@@ -58,7 +58,7 @@ public class CustomerHomeFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.require_drive_fragment, container, false);
+        View view=inflater.inflate(R.layout.customer_fragment, container, false);
         unbinder=ButterKnife.bind(this, view);
         btnSingle.setOnClickListener(this);
         btnAdHoc.setOnClickListener(this);
@@ -119,7 +119,7 @@ public class CustomerHomeFragment extends Fragment implements View.OnClickListen
         Log.d(Constant.DEBUG_TAG, "on back require drive");
         getFragmentManager().beginTransaction().
                 setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
-                replace(R.id.fragment, StatusLoginFragment.init(), StatusLoginFragment.class.getName()).
+                replace(R.id.fragment, HomeFragment.init(), HomeFragment.class.getName()).
                 commit();
     }
 
@@ -147,6 +147,7 @@ public class CustomerHomeFragment extends Fragment implements View.OnClickListen
     public void onMapClick() {
 
     }
+
 
     @Override
     public void onNextClick() {

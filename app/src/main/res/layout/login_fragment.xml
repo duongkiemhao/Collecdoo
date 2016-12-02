@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Collecdoo login"
+            android:text="@string/login_title"
             android:textColor="@color/black" />
     </LinearLayout>
 
@@ -39,7 +39,7 @@
             <TextView
                 android:layout_width="@dimen/register_label_width"
                 android:layout_height="wrap_content"
-                android:text="Email"
+                android:text="@string/login_email"
                 android:textColor="@color/black" />
             <EditText
                 android:id="@+id/ediEmail"
@@ -55,7 +55,7 @@
             <TextView
                 android:layout_width="@dimen/register_label_width"
                 android:layout_height="wrap_content"
-                android:text="Password"
+                android:text="@string/login_pass"
                 android:textColor="@color/black" />
             <EditText
                 android:id="@+id/ediPassword"
@@ -66,14 +66,14 @@
         <Button android:layout_gravity="center_horizontal" android:background="@drawable/box_shape"
             android:layout_width="wrap_content" android:id="@+id/btnLogin" android:textColor="@color/black"
             android:layout_marginTop="20dp" android:textAllCaps="false"
-            android:layout_height="35dp" android:text="Login" />
+            android:layout_height="35dp" android:text="@string/login_login" />
 
         <TextView android:layout_marginTop="20dp" android:id="@+id/btnRegister"
             android:layout_width="wrap_content" android:textColor="@color/black"
-            android:layout_height="wrap_content" android:text="New registration?"/>
+            android:layout_height="wrap_content" android:text="@string/login_registration"/>
         <TextView android:layout_marginTop="15dp" android:id="@+id/btnForgetPass"
             android:layout_width="wrap_content" android:textColor="@color/black"
-            android:layout_height="wrap_content" android:text="Forget password?"/>
+            android:layout_height="wrap_content" android:text="@string/login_forget_pass"/>
     </LinearLayout>
 
 </RelativeLayout>

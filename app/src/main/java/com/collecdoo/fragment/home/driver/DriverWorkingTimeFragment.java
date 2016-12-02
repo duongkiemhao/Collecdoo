@@ -335,6 +335,7 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
 
     }
 
+
     @Override
     public void onNextClick() {
         if(validate())
