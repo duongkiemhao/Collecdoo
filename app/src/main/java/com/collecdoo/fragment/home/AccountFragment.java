@@ -97,7 +97,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener,On
                 break;
             case R.id.btnLanguage:
                 getFragmentManager().beginTransaction().add(R.id.fragment, LanguageFragment.instantiate(context,LanguageFragment.class.getName()),
-                        null).addToBackStack(LanguageFragment.class.getName()).commit();
+                        LanguageFragment.class.getName()).addToBackStack(LanguageFragment.class.getName()).commit();
                 break;
 
         }

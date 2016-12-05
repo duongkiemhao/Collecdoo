@@ -1,11 +1,14 @@
 package com.collecdoo.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -16,12 +19,15 @@ import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
 
 import com.collecdoo.dto.UserInfo;
+import com.collecdoo.fragment.home.LanguageFragment;
 import com.collecdoo.fragment.main.MainFragment;
 import com.collecdoo.interfaces.OnBackListener;
 import com.collecdoo.service.gcm.QuickstartPreferences;
 import com.collecdoo.service.gcm.RegistrationIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+        if(MyPreference.getString(LanguageFragment.LANGUAGE)==null)
+            LanguageFragment.setDefaultLanguage(this);
+        else LanguageFragment.setLanguageToActitity(this);
+
 
         checkPlayServices();
         Intent intent = new Intent(this, RegistrationIntentService.class);

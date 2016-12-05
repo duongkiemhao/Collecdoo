@@ -6,12 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +59,7 @@ import com.google.gson.JsonObject;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -212,7 +216,7 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
                 ft = fm.beginTransaction();
                     if (fm.getBackStackEntryCount() > 0) {
                         Log.d(Constant.DEBUG_TAG, fm.getBackStackEntryCount() + "");
-                        fm.popBackStack();
+                        fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     }
 
                     currentFragmentTag = fm.findFragmentById(R.id.fragment).getTag();
@@ -609,6 +613,7 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
 
     private void toMainActivity(){
         MyPreference.setObject("userInfo",null);
+
         context.startActivity(new Intent(context, MainActivity.class));
         getActivity().finish();
     }

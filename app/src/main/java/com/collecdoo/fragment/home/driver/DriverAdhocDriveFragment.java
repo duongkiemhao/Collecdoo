@@ -1,13 +1,16 @@
 package com.collecdoo.fragment.home.driver;
 
+import android.app.Activity;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +44,10 @@ import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.ShareDriveInfo;
 import com.collecdoo.dto.UserInfo;
+import com.collecdoo.fragment.BaseFragment;
 import com.collecdoo.fragment.ServiceGenerator;
+import com.collecdoo.fragment.home.TextToSpeedManager;
+import com.collecdoo.fragment.home.customer.CustomerSingleDriveFragment;
 import com.collecdoo.fragment.parser.DirectionsJSONParser;
 import com.collecdoo.fragment.parser.PlaceDetailsJSONParser;
 import com.collecdoo.fragment.parser.PlaceJSONParser;
@@ -89,7 +95,7 @@ import retrofit2.Callback;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class DriverAdhocDriveFragment extends Fragment implements View.OnClickListener,OnBackListener,
+public class DriverAdhocDriveFragment extends BaseFragment implements View.OnClickListener,OnBackListener,
         OnMapReadyCallback ,TimePickerDialog.OnTimeSetListener,HomeNavigationListener {
     @BindView(R.id.txtFrom) AutoCompleteTextView txtFrom;
     @BindView(R.id.txtTo) AutoCompleteTextView txtTo;
@@ -158,8 +164,35 @@ public class DriverAdhocDriveFragment extends Fragment implements View.OnClickLi
         setupAutoCompleteTextView(txtFrom);
         setupAutoCompleteTextView(txtTo);
 
+        txtFrom.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                TextToSpeedManager.startTTS(DriverAdhocDriveFragment.this,txtFrom,FROM_REQUEST_CODE);
+                return false;
+            }
+        });
+        txtTo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                TextToSpeedManager.startTTS(DriverAdhocDriveFragment.this,txtTo,TO_REQUEST_CODE);
+                return false;
+            }
+        });
 
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case FROM_REQUEST_CODE|TO_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK && null != data) {
+                    ArrayList<String> text = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    (requestCode==FROM_REQUEST_CODE?txtFrom:txtTo).setText(text.get(0));
+                }
+                break;
+        }
     }
 
     private void setupAutoCompleteTextView(final AutoCompleteTextView autoCompleteTextView){

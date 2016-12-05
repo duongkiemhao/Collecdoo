@@ -1,10 +1,13 @@
 package com.collecdoo.fragment.home.customer;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -37,6 +40,8 @@ import com.collecdoo.config.Constant;
 import com.collecdoo.control.InstantAutoComplete;
 import com.collecdoo.dto.DeliveryInfo;
 import com.collecdoo.dto.UserInfo;
+import com.collecdoo.fragment.BaseFragment;
+import com.collecdoo.fragment.home.TextToSpeedManager;
 import com.collecdoo.fragment.parser.PlaceDetailsJSONParser;
 import com.collecdoo.fragment.parser.PlaceJSONParser;
 import com.collecdoo.helper.UIHelper;
@@ -75,7 +80,7 @@ import butterknife.Unbinder;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CustomerDelivery1Fragment extends Fragment implements View.OnClickListener,OnBackListener,
+public class CustomerDelivery1Fragment extends BaseFragment implements View.OnClickListener,OnBackListener,
         OnMapReadyCallback ,DatePickerDialog.OnDateSetListener,HomeNavigationListener {
     @BindView(R.id.ediFirstName) EditText ediFirstName;
     @BindView(R.id.txtFrom)
@@ -142,60 +147,28 @@ public class CustomerDelivery1Fragment extends Fragment implements View.OnClickL
 
         // Getting a reference to the AutoCompleteTextView
         setupAutoCompleteTextView(txtFrom);
+        txtFrom.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                TextToSpeedManager.startTTS(CustomerDelivery1Fragment.this,txtFrom,FROM_REQUEST_CODE);
+                return false;
+            }
+        });
 
     }
 
-    private void setupAutoCompleteTextView(final AutoCompleteTextView autoCompleteTextView){
-        autoCompleteTextView.setThreshold(1);
-        Point pointSize = new Point();
-
-        ((AppCompatActivity)context).getWindowManager().getDefaultDisplay().getSize(pointSize);
-
-        autoCompleteTextView.setDropDownWidth(pointSize.x);
-        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                autoCompleteTask(s.toString());
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
-                // TODO Auto-generated method stub
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub
-            }
-        });
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> arg0, View view, int index,
-                                    long id) {
-
-                SimpleAdapter adapter = (SimpleAdapter) arg0.getAdapter();
-                HashMap<String, String> hm = new HashMap<String, String>();
-                try {
-                    hm = (HashMap<String, String>) adapter.getItem(index);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case FROM_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK && null != data) {
+                    ArrayList<String> text = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    txtFrom.setText(text.get(0));
                 }
-                catch (Exception exp){
-                    LinkedTreeMap<String,String> tmap= (LinkedTreeMap<String,String>) adapter.getItem(index);
-                    for ( String key : tmap.keySet() ) {
-                        hm.put(key,tmap.get(key));
-                    }
-                }
-                HashSet<HashMap<String,String>> hashSet= (HashSet<HashMap<String, String>>) MyPreference.getObjectHashsetMap(Constant.PRE_LIST_SUGGESTION,HashSet.class);
-                hashSet.add(hm);
-                MyPreference.setObject(Constant.PRE_LIST_SUGGESTION,hashSet );
-
-                autoCompleteTextView.setText(hm.get("description"));
-                String url = getPlaceDetailsUrl(hm.get("reference"));
-                placeTask(url);
-            }
-        });
-
+                break;
+        }
     }
 
     @Override
@@ -253,6 +226,60 @@ public class CustomerDelivery1Fragment extends Fragment implements View.OnClickL
                         commit();
                 break;
         }
+
+    }
+
+
+    private void setupAutoCompleteTextView(final AutoCompleteTextView autoCompleteTextView){
+        autoCompleteTextView.setThreshold(1);
+        Point pointSize = new Point();
+
+        ((AppCompatActivity)context).getWindowManager().getDefaultDisplay().getSize(pointSize);
+
+        autoCompleteTextView.setDropDownWidth(pointSize.x);
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                autoCompleteTask(s.toString());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub
+            }
+        });
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View view, int index,
+                                    long id) {
+
+                SimpleAdapter adapter = (SimpleAdapter) arg0.getAdapter();
+                HashMap<String, String> hm = new HashMap<String, String>();
+                try {
+                    hm = (HashMap<String, String>) adapter.getItem(index);
+                }
+                catch (Exception exp){
+                    LinkedTreeMap<String,String> tmap= (LinkedTreeMap<String,String>) adapter.getItem(index);
+                    for ( String key : tmap.keySet() ) {
+                        hm.put(key,tmap.get(key));
+                    }
+                }
+                HashSet<HashMap<String,String>> hashSet= (HashSet<HashMap<String, String>>) MyPreference.getObjectHashsetMap(Constant.PRE_LIST_SUGGESTION,HashSet.class);
+                hashSet.add(hm);
+                MyPreference.setObject(Constant.PRE_LIST_SUGGESTION,hashSet );
+
+                autoCompleteTextView.setText(hm.get("description"));
+                String url = getPlaceDetailsUrl(hm.get("reference"));
+                placeTask(url);
+            }
+        });
 
     }
 

@@ -1,10 +1,13 @@
 package com.collecdoo.fragment.home.customer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +40,9 @@ import com.collecdoo.control.InstantAutoComplete;
 import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.DeliveryInfo;
 import com.collecdoo.dto.ResponseInfo;
+import com.collecdoo.fragment.BaseFragment;
 import com.collecdoo.fragment.ServiceGenerator;
+import com.collecdoo.fragment.home.TextToSpeedManager;
 import com.collecdoo.fragment.parser.PlaceDetailsJSONParser;
 import com.collecdoo.fragment.parser.PlaceJSONParser;
 import com.collecdoo.helper.UIHelper;
@@ -72,11 +77,11 @@ import retrofit2.Callback;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CustomerDelivery2Fragment extends Fragment implements View.OnClickListener,OnBackListener,
+public class CustomerDelivery2Fragment extends BaseFragment implements View.OnClickListener,OnBackListener,
         OnMapReadyCallback ,HomeNavigationListener {
     @BindView(R.id.ediFirstName) EditText ediFirstName;
-    @BindView(R.id.txtFrom)
-    InstantAutoComplete txtFrom;
+    @BindView(R.id.txtTo)
+    InstantAutoComplete txtTo;
     @BindView(R.id.ediTel) EditText ediTel;
     @BindView(R.id.ediAddress) EditText ediAddress;
     private final String TAG="--delive step2--";
@@ -136,9 +141,30 @@ public class CustomerDelivery2Fragment extends Fragment implements View.OnClickL
         getChildFragmentManager().beginTransaction().replace(R.id.fragment,supportMapFragment,"map").commit();
 
         // Getting a reference to the AutoCompleteTextView
-        setupAutoCompleteTextView(txtFrom);
+        setupAutoCompleteTextView(txtTo);
         deliveryInfo=getArguments().getParcelable("deliveryInfo");
+        txtTo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                TextToSpeedManager.startTTS(CustomerDelivery2Fragment.this,txtTo,TO_REQUEST_CODE);
+                return false;
+            }
+        });
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case FROM_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK && null != data) {
+                    ArrayList<String> text = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    txtTo.setText(text.get(0));
+                }
+                break;
+        }
     }
 
     private void setupAutoCompleteTextView(final AutoCompleteTextView autoCompleteTextView){
@@ -219,9 +245,9 @@ public class CustomerDelivery2Fragment extends Fragment implements View.OnClickL
 
                 break;
             case R.id.btnOk:
-                if(endLat==null || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtFrom)))
+                if(endLat==null || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtTo)))
                     return;
-                deliveryInfo.setDropInfo(txtFrom.getText().toString());
+                deliveryInfo.setDropInfo(txtTo.getText().toString());
                 deliveryInfo.setLat2(endLat.latitude+"");
                 deliveryInfo.setLon2(endLat.longitude+"");
                 deliveryInfo.setEstimatedDistance(Utility.calculationByDistance(
@@ -342,8 +368,8 @@ public class CustomerDelivery2Fragment extends Fragment implements View.OnClickL
             SimpleAdapter adapter = new SimpleAdapter(context, hashMapList, android.R.layout.simple_list_item_1, from, to);
 
 
-            txtFrom.showDropDown();
-            txtFrom.setAdapter(adapter);
+            txtTo.showDropDown();
+            txtTo.setAdapter(adapter);
 
             adapter.notifyDataSetChanged();
         }
@@ -621,7 +647,7 @@ public class CustomerDelivery2Fragment extends Fragment implements View.OnClickL
                     SimpleAdapter adapter = new SimpleAdapter(context, result, android.R.layout.simple_list_item_1, from, to);
 
 
-                        txtFrom.setAdapter(adapter);
+                    txtTo.setAdapter(adapter);
 
                     adapter.notifyDataSetChanged();
                     break;
@@ -641,7 +667,7 @@ public class CustomerDelivery2Fragment extends Fragment implements View.OnClickL
                     MarkerOptions markerStart = new MarkerOptions();
                     markerStart.icon(BitmapDescriptorFactory.fromResource(R.drawable.ico_pin_from));
                     markerStart.position(endLat);
-                    markerStart.title(txtFrom.getText().toString().trim());
+                    markerStart.title(txtTo.getText().toString().trim());
                     googleMap.addMarker(markerStart);
                     CameraUpdate cameraPosition = CameraUpdateFactory.newLatLng(endLat);
                     CameraUpdate cameraZoom = CameraUpdateFactory.zoomBy(5);

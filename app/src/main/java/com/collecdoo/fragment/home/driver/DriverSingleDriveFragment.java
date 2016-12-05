@@ -1,12 +1,15 @@
 package com.collecdoo.fragment.home.driver;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -43,7 +46,9 @@ import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.ShareDriveInfo;
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.dto.ResponseInfo;
+import com.collecdoo.fragment.BaseFragment;
 import com.collecdoo.fragment.ServiceGenerator;
+import com.collecdoo.fragment.home.TextToSpeedManager;
 import com.collecdoo.fragment.parser.DirectionsJSONParser;
 import com.collecdoo.fragment.parser.PlaceDetailsJSONParser;
 import com.collecdoo.fragment.parser.PlaceJSONParser;
@@ -94,7 +99,7 @@ import retrofit2.Callback;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class DriverSingleDriveFragment extends Fragment implements View.OnClickListener,OnBackListener,
+public class DriverSingleDriveFragment extends BaseFragment implements View.OnClickListener,OnBackListener,
         OnMapReadyCallback ,DatePickerDialog.OnDateSetListener,HomeNavigationListener {
     @BindView(R.id.txtFrom)
     InstantAutoComplete txtFrom;
@@ -161,7 +166,6 @@ public class DriverSingleDriveFragment extends Fragment implements View.OnClickL
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         SupportMapFragment supportMapFragment=SupportMapFragment.newInstance();
         supportMapFragment.getMapAsync(this);
         getChildFragmentManager().beginTransaction().replace(R.id.fragment,supportMapFragment,"map").commit();
@@ -170,6 +174,34 @@ public class DriverSingleDriveFragment extends Fragment implements View.OnClickL
         setupAutoCompleteTextView(txtFrom);
         setupAutoCompleteTextView(txtTo);
 
+        txtFrom.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                TextToSpeedManager.startTTS(DriverSingleDriveFragment.this,txtFrom,FROM_REQUEST_CODE);
+                return false;
+            }
+        });
+        txtTo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                TextToSpeedManager.startTTS(DriverSingleDriveFragment.this,txtTo,TO_REQUEST_CODE);
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case FROM_REQUEST_CODE|TO_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK && null != data) {
+                    ArrayList<String> text = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    (requestCode==FROM_REQUEST_CODE?txtFrom:txtTo).setText(text.get(0));
+                }
+                break;
+        }
     }
 
     private void setupAutoCompleteTextView(final AutoCompleteTextView autoCompleteTextView){

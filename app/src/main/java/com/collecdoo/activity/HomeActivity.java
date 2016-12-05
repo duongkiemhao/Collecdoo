@@ -32,6 +32,9 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
+        LanguageFragment.setLanguageToActitity(this);
+
+
         checkPlayServices();
 
         getSupportFragmentManager().beginTransaction().

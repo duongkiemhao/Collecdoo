@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.util.TypedValue;
@@ -77,6 +78,7 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
     private Context context;
     private List<PathOfRouteInfo> pathOfRouteInfoList;
     private int viewIndex;
+    public final int CALL_PERMISSION_REQUEST_CODE=1;
 
     public static DriverPickupDropFragment init(boolean isPickup, ArrayList<Parcelable> pathOfRouteInfoList, int viewIndex) {
         DriverPickupDropFragment registerFragment = new DriverPickupDropFragment();
@@ -154,14 +156,20 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
         switch (v.getId()) {
 
             case R.id.btnSos:
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:00491717522012"));
-
-                if (ActivityCompat.checkSelfPermission(context,
-                        Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    return;
+                if (ContextCompat.checkSelfPermission(context,
+                        Manifest.permission.CALL_PHONE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.CALL_PHONE},
+                                CALL_PERMISSION_REQUEST_CODE);
                 }
-                startActivity(callIntent);
+                else{
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:00491717522012"));
+                    startActivity(callIntent);
+                }
+
+
                 break;
             case R.id.txtPickupTitle:
                 updateRouteDetail(pathOfRouteInfoList.get(viewIndex).routeDetailId);
@@ -172,6 +180,29 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
 
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case CALL_PERMISSION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Intent callIntent = new Intent(Intent.ACTION_CALL);
+                    callIntent.setData(Uri.parse("tel:00491717522012"));
+
+                    startActivity(callIntent);
+                } else {
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     @Override
@@ -197,19 +228,12 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onButton1() {
-        Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:00491717522012"));
+        btnSos.performClick();
 
-        if (ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        startActivity(callIntent);
     }
 
     @Override
     public void onButton2() {
-        Log.d(Constant.DEBUG_TAG, "---on button 2");
 
         if(isPickup)
             return;

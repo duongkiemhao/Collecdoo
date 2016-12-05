@@ -1,12 +1,17 @@
 package com.collecdoo.fragment.home.customer;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +31,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -43,7 +49,10 @@ import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.DrivePostInfo;
 import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.UserInfo;
+import com.collecdoo.fragment.BaseFragment;
 import com.collecdoo.fragment.ServiceGenerator;
+import com.collecdoo.fragment.home.LanguageFragment;
+import com.collecdoo.fragment.home.TextToSpeedManager;
 import com.collecdoo.fragment.parser.DirectionsJSONParser;
 import com.collecdoo.fragment.parser.PlaceDetailsJSONParser;
 import com.collecdoo.fragment.parser.PlaceJSONParser;
@@ -88,6 +97,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -100,7 +110,7 @@ import retrofit2.Callback;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CustomerSingleDriveFragment extends Fragment implements View.OnClickListener,OnBackListener,
+public class CustomerSingleDriveFragment extends BaseFragment implements View.OnClickListener,OnBackListener,
         OnMapReadyCallback ,DatePickerDialog.OnDateSetListener,HomeNavigationListener {
     @BindView(R.id.txtFrom)
     InstantAutoComplete txtFrom;
@@ -113,6 +123,8 @@ public class CustomerSingleDriveFragment extends Fragment implements View.OnClic
     @BindView(R.id.btnDatePicker) View btnDatePicker;
     @BindView(R.id.txtDatePicker) TextView txtDatePicker;
     @BindView(R.id.btnOk) Button btnOk;
+    private Unbinder unbinder;
+
     private GoogleMap googleMap;
     private LatLng startLat;
     private LatLng endLat;
@@ -123,7 +135,9 @@ public class CustomerSingleDriveFragment extends Fragment implements View.OnClic
     private String browserKey = "AIzaSyBwRYVxhnE8LGKvve6Mq75ke0dkaVp39hQ";
     private boolean isStartClick;
     private int index;
-    private Unbinder unbinder;
+
+
+
 
     public static CustomerSingleDriveFragment init(int index){
         CustomerSingleDriveFragment fragment=new CustomerSingleDriveFragment();
@@ -149,6 +163,7 @@ public class CustomerSingleDriveFragment extends Fragment implements View.OnClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         index=getArguments().getInt("index");
+
     }
 
     @Override
@@ -177,9 +192,38 @@ public class CustomerSingleDriveFragment extends Fragment implements View.OnClic
         setupAutoCompleteTextView(txtFrom);
         setupAutoCompleteTextView(txtTo);
 
-
-
+        txtFrom.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                TextToSpeedManager.startTTS(CustomerSingleDriveFragment.this,txtFrom,FROM_REQUEST_CODE);
+                return false;
+            }
+        });
+        txtTo.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                TextToSpeedManager.startTTS(CustomerSingleDriveFragment.this,txtTo,TO_REQUEST_CODE);
+                return false;
+            }
+        });
     }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case FROM_REQUEST_CODE|TO_REQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK && null != data) {
+                    ArrayList<String> text = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    (requestCode==FROM_REQUEST_CODE?txtFrom:txtTo).setText(text.get(0));
+                }
+                break;
+        }
+    }
+
+
 
     private void setupAutoCompleteTextView(final AutoCompleteTextView autoCompleteTextView){
         autoCompleteTextView.setThreshold(1);
@@ -918,6 +962,7 @@ public class CustomerSingleDriveFragment extends Fragment implements View.OnClic
         });
         MyApplicationContext.getInstance().addToRequestQueue(jsonObjReq, "jreq");
     }
+
 
 
 
