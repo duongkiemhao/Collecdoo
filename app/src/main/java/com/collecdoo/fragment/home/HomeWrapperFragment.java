@@ -164,16 +164,13 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
         unbinder.unbind();
 
 
+
     }
 
 
     private void driverActivity(int actionIndex) {
 
-        if (mCurrentLocation == null) {
-            if(actionIndex==Config.ACTION_LOGOUT)
-                toMainActivity();
-            return;
-        }
+
         DriverActivityInfo activityInfo = new DriverActivityInfo();
         activityInfo.user_id = UserHelper.getUserId();
         activityInfo.latitude = LocationManger.getInstance().getLocation().getLatitude()+ "";

@@ -54,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
                     replace(R.id.fragment, MainFragment.init(),MainFragment.class.getName()).
                     commit();
         else{
-            startActivity(new Intent(this,HomeActivity.class));
+            Intent intentHome=new Intent(this,HomeActivity.class);
+            intentHome.putExtra("route_id",getIntent().getStringExtra("route_id"));
+            startActivity(intentHome);
             finish();
         }
     }

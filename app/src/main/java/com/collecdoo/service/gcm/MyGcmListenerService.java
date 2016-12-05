@@ -40,7 +40,7 @@ public class MyGcmListenerService extends GcmListenerService {
     }
 
     private void sendNotification(String message,String routeId) {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("route_id",routeId);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,

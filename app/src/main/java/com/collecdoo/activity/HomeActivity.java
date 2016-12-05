@@ -34,17 +34,17 @@ public class HomeActivity extends AppCompatActivity {
 
         LanguageFragment.setLanguageToActitity(this);
 
-
         checkPlayServices();
 
         getSupportFragmentManager().beginTransaction().
-                replace(R.id.fragment, HomeWrapperFragment.init(),HomeWrapperFragment.class.getName()).
-                commit();
+                replace(R.id.fragment, HomeWrapperFragment.init(), HomeWrapperFragment.class.getName()).
+                commitNow();
 
-
-        if(getIntent().getStringExtra("route_id")!=null){
+        if (getIntent().getStringExtra("route_id") != null) {
             processPush(getIntent().getStringExtra("route_id"));
         }
+
+
     }
 
 
@@ -53,20 +53,20 @@ public class HomeActivity extends AppCompatActivity {
         super.onNewIntent(intent);
 
         //new route for driver
-        if(!TextUtils.isEmpty(intent.getStringExtra("route_id")))
+        if (!TextUtils.isEmpty(intent.getStringExtra("route_id")))
             processPush(intent.getStringExtra("route_id"));
 
         //language changed
-        if(intent.getBooleanExtra(LanguageFragment.IS_CONFIG_CHANGED,false))
+        if (intent.getBooleanExtra(LanguageFragment.IS_CONFIG_CHANGED, false))
             getSupportFragmentManager().beginTransaction().
-                replace(R.id.fragment, HomeWrapperFragment.init(),HomeWrapperFragment.class.getName()).
-                commit();
+                    replace(R.id.fragment, HomeWrapperFragment.init(), HomeWrapperFragment.class.getName()).
+                    commit();
 
     }
 
-    private void processPush(String pushId){
-        if(getSupportFragmentManager().findFragmentById(R.id.fragment) instanceof  HomeListener)
-            ((HomeListener)getSupportFragmentManager().findFragmentById(R.id.fragment)).onGotPush(pushId);
+    private void processPush(String pushId) {
+        if (getSupportFragmentManager().findFragmentById(R.id.fragment) instanceof HomeListener)
+            ((HomeListener) getSupportFragmentManager().findFragmentById(R.id.fragment)).onGotPush(pushId);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
                 getChildFragmentManager().findFragmentById(R.id.fragment).getTag();
 
         if (currentTag.equals(HomeFragment.class.getName())
-        ) {
+                ) {
             if (doubleBackToExitPressedOnce) {
                 finish();
 
@@ -105,7 +105,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
     }
-
 
 
     @Override
