@@ -12,9 +12,8 @@ import android.widget.Toast;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
-
-import com.collecdoo.fragment.home.HomeWrapperFragment;
 import com.collecdoo.fragment.home.HomeFragment;
+import com.collecdoo.fragment.home.HomeWrapperFragment;
 import com.collecdoo.fragment.home.LanguageFragment;
 import com.collecdoo.interfaces.HomeListener;
 import com.collecdoo.interfaces.OnBackListener;
@@ -45,6 +44,11 @@ public class HomeActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
 

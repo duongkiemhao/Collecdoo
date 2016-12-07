@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="You can require a drive"
+            android:text="@string/customer_home_title"
             android:textColor="@color/black" />
     </LinearLayout>
 
@@ -36,32 +36,35 @@
         android:padding="10dp">
 
         <Button
+            android:id="@+id/btnSingle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/box_shape"
             android:gravity="left|center_vertical"
-            android:padding="10dp" android:id="@+id/btnSingle"
-            android:text="as single drive in advanve "
+            android:padding="10dp"
+            android:text="@string/customer_home_single"
             android:textAllCaps="false"
             android:textColor="@color/black" />
 
         <Button
+            android:id="@+id/btnAdHoc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/box_shape"
             android:gravity="left|center_vertical"
-            android:padding="10dp" android:id="@+id/btnAdHoc"
-            android:text="as ad hoc drive for now "
+            android:padding="10dp"
+            android:text="@string/customer_home_adhoc"
             android:textAllCaps="false"
             android:textColor="@color/black" />
 
         <Button
+            android:id="@+id/btnPreriodic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/box_shape"
             android:gravity="left|center_vertical"
-            android:padding="10dp" android:id="@+id/btnPreriodic"
-            android:text="as periodic drives in next 7 days "
+            android:padding="10dp"
+            android:text="@string/customer_home_periodic"
             android:textAllCaps="false"
             android:textColor="@color/black" />
 
@@ -75,19 +78,25 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left|center_vertical" android:padding="5dp"
-                android:text="If you or your parent have to deliver  parcel from A to B for less in every city where Collecdoo operates , you can order delivery here"
+                android:gravity="left|center_vertical"
+                android:padding="5dp"
+                android:text="@string/customer_home_desc"
                 android:textAllCaps="false"
                 android:textColor="@color/black" />
 
             <Button
-                android:layout_width="wrap_content" android:paddingLeft="20dp"
-                android:paddingRight="20dp" android:layout_gravity="center_horizontal"
-                android:layout_height="35dp" android:layout_marginTop="10dp"
+                android:id="@+id/btnRequireDelivery"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/box_shape"
-                android:gravity="center" android:layout_margin="10dp"
-                android:text="Require delivery"
-                android:textAllCaps="false" android:id="@+id/btnRequireDelivery"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/customer_home_delivery"
+                android:textAllCaps="false"
                 android:textColor="@color/black" />
         </LinearLayout>
     </LinearLayout>

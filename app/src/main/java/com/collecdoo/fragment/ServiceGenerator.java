@@ -6,7 +6,6 @@ import com.google.gson.JsonArray;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
-
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -37,13 +36,13 @@ public class ServiceGenerator {
         retrofitBuilder.baseUrl(API_BASE_URL);
         retrofitBuilder.addConverterFactory(GsonConverterFactory.create(builder.create()));
 
-        OkHttpClient okHttpClient=httpClient.build();
+        OkHttpClient okHttpClient = httpClient.build();
 
-        Retrofit retrofit =retrofitBuilder.client(okHttpClient).build();
+        Retrofit retrofit = retrofitBuilder.client(okHttpClient).build();
         return retrofit.create(serviceClass);
     }
 
-    class BaseResponse{
+    class BaseResponse {
         JsonArray data;
     }
 

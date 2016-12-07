@@ -5,7 +5,8 @@
     android:orientation="vertical">
 
 
-    <RelativeLayout android:id="@+id/linearLayout0"
+    <RelativeLayout
+        android:id="@+id/linearLayout0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp">
@@ -14,11 +15,12 @@
 
         <LinearLayout
             android:id="@+id/linearLayout1"
-            android:layout_width="wrap_content" android:padding="5dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <ImageView
                 android:id="@+id/imaPin"
@@ -26,14 +28,22 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/ico_pin_to" />
+
             <TextView
-                android:id="@+id/txtTitle" android:background="@drawable/box_shape"
-                android:layout_width="wrap_content" android:paddingLeft="30dp"
-                android:paddingRight="30dp" android:paddingTop="10dp" android:paddingBottom="10dp"
-                android:layout_height="wrap_content" android:layout_centerVertical="true" android:gravity="center"
+                android:id="@+id/txtTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center"
-                android:text="Receiver address:"
+                android:background="@drawable/box_shape"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp"
+                android:paddingTop="10dp"
+                android:text="@string/customer_delivery_receiver_title"
                 android:textColor="@color/black" />
+
             <ImageView
                 android:id="@+id/imaQuestion"
                 android:layout_width="30dp"
@@ -41,52 +51,71 @@
                 android:src="@drawable/ico_question" />
         </LinearLayout>
 
-        <LinearLayout android:layout_above="@+id/btnOk"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/btnOk"
             android:layout_below="@+id/linearLayout1"
-            android:orientation="vertical" android:id="@+id/linearLayout2"
+            android:orientation="vertical"
             android:padding="10dp">
 
 
-            <EditText android:hint="First name &amp; name"
+            <EditText
                 android:id="@+id/ediFirstName"
                 style="@style/register_edittext"
                 android:layout_width="match_parent"
+                android:hint="@string/customer_delivery_receiver_name"
                 android:textColor="@color/black" />
+
             <com.collecdoo.control.InstantAutoComplete
-                android:id="@+id/txtTo" android:layout_marginTop="10dp"
+                android:id="@+id/txtTo"
                 android:layout_width="match_parent"
-                android:layout_height="35dp" android:singleLine="true"
+                android:layout_height="35dp"
                 android:layout_centerVertical="true"
-                android:textSize="16sp"
-                android:maxLines="1" android:ellipsize="start"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/box_shape"
-                android:hint="From: Street, house no, city"
-                android:imeOptions="actionNext" android:textColor="@color/black"
+                android:ellipsize="start"
+                android:hint="@string/customer_delivery_receiver_to"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
                 android:textCursorDrawable="@null"
-                android:padding="5dp" />
+                android:textSize="16sp" />
 
 
-            <EditText android:layout_marginTop="10dp"
+            <EditText
                 android:id="@+id/ediTel"
-                style="@style/register_edittext" android:hint="Telephone of receiver"
-                android:layout_width="match_parent" android:inputType="number"
+                style="@style/register_edittext"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:hint="@string/customer_delivery_receiver_phone"
+                android:inputType="number"
                 android:textColor="@color/black" />
-            <EditText android:layout_marginTop="10dp"
-                android:id="@+id/ediAddress" android:gravity="top"
-                style="@style/register_edittext" android:hint="Address option"
-                android:layout_width="match_parent" android:layout_height="70dp" android:inputType="number"
+
+            <EditText
+                android:id="@+id/ediAddress"
+                style="@style/register_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="10dp"
+                android:gravity="top"
+                android:hint="@string/customer_delivery_receiver_address"
+                android:inputType="number"
                 android:textColor="@color/black" />
         </LinearLayout>
     </RelativeLayout>
 
     <FrameLayout
-        android:id="@+id/fragment" android:layout_below="@+id/linearLayout0"
+        android:id="@+id/fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linearLayout0">
 
     </FrameLayout>
-    <include layout="@layout/ok"/>
+
+    <include layout="@layout/ok" />
 </RelativeLayout>
 

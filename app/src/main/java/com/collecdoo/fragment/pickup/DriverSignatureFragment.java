@@ -40,17 +40,25 @@ import retrofit2.Response;
  * A placeholder fragment containing a simple view.
  */
 public class DriverSignatureFragment extends Fragment implements View.OnClickListener, OnBackListener,
-        HomeNavigationListener{
+        HomeNavigationListener {
 
 
-    @BindView(R.id.txtMobile) TextView txtMobile;
-    @BindView(R.id.txtName) TextView txtName;
-    @BindView(R.id.txtAddress) TextView txtAddress;
-    @BindView(R.id.txtNeighborName) EditText txtNeighborName;
-    @BindView(R.id.btnCancel) Button btnCancel;
-    @BindView(R.id.btnConfirm) Button btnConfirm;
-    @BindView(R.id.btnClear) Button btnClear;
-    @BindView(R.id.signature_pad) SignaturePad signature_pad;
+    @BindView(R.id.txtMobile)
+    TextView txtMobile;
+    @BindView(R.id.txtName)
+    TextView txtName;
+    @BindView(R.id.txtAddress)
+    TextView txtAddress;
+    @BindView(R.id.txtNeighborName)
+    EditText txtNeighborName;
+    @BindView(R.id.btnCancel)
+    Button btnCancel;
+    @BindView(R.id.btnConfirm)
+    Button btnConfirm;
+    @BindView(R.id.btnClear)
+    Button btnClear;
+    @BindView(R.id.signature_pad)
+    SignaturePad signature_pad;
 
 
     private Unbinder unbinder;
@@ -58,11 +66,10 @@ public class DriverSignatureFragment extends Fragment implements View.OnClickLis
     private PathOfRouteInfo pathOfRouteInfo;
 
 
-
     public static DriverSignatureFragment init(PathOfRouteInfo pathOfRouteInfo) {
         DriverSignatureFragment registerFragment = new DriverSignatureFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable("object",pathOfRouteInfo);
+        bundle.putParcelable("object", pathOfRouteInfo);
         registerFragment.setArguments(bundle);
         return registerFragment;
     }
@@ -76,7 +83,7 @@ public class DriverSignatureFragment extends Fragment implements View.OnClickLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pathOfRouteInfo=getArguments().getParcelable("object");
+        pathOfRouteInfo = getArguments().getParcelable("object");
 
     }
 
@@ -101,8 +108,6 @@ public class DriverSignatureFragment extends Fragment implements View.OnClickLis
     }
 
 
-
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -121,8 +126,8 @@ public class DriverSignatureFragment extends Fragment implements View.OnClickLis
                 onBackPress();
                 break;
             case R.id.btnConfirm:
-                if(!signature_pad.isEmpty())
-                updateSignature();
+                if (!signature_pad.isEmpty())
+                    updateSignature();
                 break;
         }
 
@@ -138,7 +143,7 @@ public class DriverSignatureFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onBackPress() {
-       getFragmentManager().popBackStack();
+        getFragmentManager().popBackStack();
     }
 
 
@@ -155,40 +160,39 @@ public class DriverSignatureFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onButton1() {
-        Utility.showMessage(context,"call clicked");
+        Utility.showMessage(context, "call clicked");
 
     }
 
     @Override
     public void onButton2() {
-        Utility.showMessage(context,"no action");
+        Utility.showMessage(context, "no action");
 
     }
 
     @Override
     public void onButton3() {
-        Utility.showMessage(context,"no action");
+        Utility.showMessage(context, "no action");
 
     }
 
     @Override
     public void onMapClick() {
-        Utility.showMessage(context,"no action");
+        Utility.showMessage(context, "no action");
     }
 
     @Override
     public void onNextClick() {
-        Utility.showMessage(context,"no action");
+        Utility.showMessage(context, "no action");
     }
 
-    private void updateUIAll(){
+    private void updateUIAll() {
 
         txtMobile.setText(pathOfRouteInfo.telephone);
         txtAddress.setText(pathOfRouteInfo.destinationInfo);
         txtName.setText(pathOfRouteInfo.customer_name);
 
     }
-
 
 
     private void updateSignature() {
@@ -204,7 +208,7 @@ public class DriverSignatureFragment extends Fragment implements View.OnClickLis
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        jsonObject.addProperty("signature",strPhoto );
+        jsonObject.addProperty("signature", strPhoto);
         jsonObject.addProperty("neighbor_name", UIHelper.getStringFromEditText(txtNeighborName));
         Call<ResponseInfo> call = taskService.updateSignature(jsonObject);
 

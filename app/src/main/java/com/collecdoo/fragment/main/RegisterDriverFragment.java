@@ -41,59 +41,63 @@ import butterknife.Unbinder;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class RegisterDriverFragment extends Fragment implements View.OnClickListener,OnBackListener {
-    @BindView(R.id.txtTitle) TextView txtTitle;
-    @BindView(R.id.ediStreet) EditText ediStreet;
-    @BindView(R.id.ediHouseNo) EditText ediHouseNo;
-    @BindView(R.id.ediCity) EditText ediCity;
-    @BindView(R.id.ediPostcode) EditText ediPostcode;
-    @BindView(R.id.spiCountry) Spinner spiCountry;
+public class RegisterDriverFragment extends Fragment implements View.OnClickListener, OnBackListener {
+    @BindView(R.id.txtTitle)
+    TextView txtTitle;
+    @BindView(R.id.ediStreet)
+    EditText ediStreet;
+    @BindView(R.id.ediHouseNo)
+    EditText ediHouseNo;
+    @BindView(R.id.ediCity)
+    EditText ediCity;
+    @BindView(R.id.ediPostcode)
+    EditText ediPostcode;
+    @BindView(R.id.spiCountry)
+    Spinner spiCountry;
+    @BindView(R.id.btnOk)
+    Button btnOk;
     private UserInfo userInfo;
     private boolean wasPassenger;
-
-
-    @BindView(R.id.btnOk) Button btnOk;
-
     private Unbinder unbinder;
+    private Context context;
 
-//    public static RegisterDriverFragment init(boolean wasPassenger){
+    public RegisterDriverFragment() {
+    }
+
+    //    public static RegisterDriverFragment init(boolean wasPassenger){
 //        RegisterDriverFragment registerDriverFragment=new RegisterDriverFragment();
 //        Bundle bundle=new Bundle();
 //        bundle.putBoolean("wasPassenger",wasPassenger);
 //        registerDriverFragment.setArguments(bundle);
 //        return registerDriverFragment;
 //    }
-    public static RegisterDriverFragment init(boolean wasPassenger,UserInfo userInfo){
-        RegisterDriverFragment registerDriverFragment=new RegisterDriverFragment();
-        Bundle bundle=new Bundle();
-        bundle.putBoolean("wasPassenger",wasPassenger);
-        bundle.putParcelable("userInfo",userInfo);
+    public static RegisterDriverFragment init(boolean wasPassenger, UserInfo userInfo) {
+        RegisterDriverFragment registerDriverFragment = new RegisterDriverFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("wasPassenger", wasPassenger);
+        bundle.putParcelable("userInfo", userInfo);
         registerDriverFragment.setArguments(bundle);
         return registerDriverFragment;
-    }
-    private Context context;
-
-    public RegisterDriverFragment() {
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userInfo= getArguments().getParcelable("userInfo");
-        wasPassenger =getArguments().getBoolean("wasPassenger");
+        userInfo = getArguments().getParcelable("userInfo");
+        wasPassenger = getArguments().getBoolean("wasPassenger");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.register_driver_fragment, container, false);
-        unbinder=ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.register_driver_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
         btnOk.setOnClickListener(this);
         return view;
     }
@@ -102,8 +106,8 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if(getParentFragment() instanceof HomeListener)
-            ((HomeListener)getParentFragment()).hideNavigationBar();
+        if (getParentFragment() instanceof HomeListener)
+            ((HomeListener) getParentFragment()).hideNavigationBar();
         setColorSpan(txtTitle, 0, 9);
 
 
@@ -126,7 +130,7 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(spiCountry!=null) {
+                if (spiCountry != null) {
                     spiCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> arg0, View view,
@@ -153,35 +157,35 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
         ediHouseNo.setText(userInfo.house_no);
 
 
-
     }
 
-    private void setColorSpan(TextView textView,  int fromPos,int toPos){
+    private void setColorSpan(TextView textView, int fromPos, int toPos) {
         SpannableStringBuilder sb = new SpannableStringBuilder(textView.getText());
         ForegroundColorSpan fcs = new ForegroundColorSpan(Color.RED);
         sb.setSpan(fcs, fromPos, toPos, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         textView.setText(sb);
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        if(getParentFragment() instanceof HomeListener)
-        ((HomeListener)getParentFragment()).showNavigationBar();
+        if (getParentFragment() instanceof HomeListener)
+            ((HomeListener) getParentFragment()).showNavigationBar();
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
             default:
-                if(validate()){
-                    userInfo.street= UIHelper.getStringFromEditText(ediStreet);
-                    userInfo.house_no= UIHelper.getStringFromEditText(ediHouseNo);
-                    userInfo.country= ((CountryInfo)spiCountry.getSelectedItem()).value;
-                    userInfo.location= UIHelper.getStringFromEditText(ediCity);
-                    userInfo.post_code= UIHelper.getStringFromEditText(ediPostcode);
+                if (validate()) {
+                    userInfo.street = UIHelper.getStringFromEditText(ediStreet);
+                    userInfo.house_no = UIHelper.getStringFromEditText(ediHouseNo);
+                    userInfo.country = ((CountryInfo) spiCountry.getSelectedItem()).value;
+                    userInfo.location = UIHelper.getStringFromEditText(ediCity);
+                    userInfo.post_code = UIHelper.getStringFromEditText(ediPostcode);
 
                     //MyPreference.setObject("userInfo",userInfo);
                     getFragmentManager().beginTransaction().
@@ -195,10 +199,9 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
     }
 
 
-
-    private boolean validate(){
-        StringBuffer mesError=new StringBuffer();
-        if(!TextUtils.isEmpty(mesError.toString())) {
+    private boolean validate() {
+        StringBuffer mesError = new StringBuffer();
+        if (!TextUtils.isEmpty(mesError.toString())) {
             Utility.showMessage(context, mesError.toString());
             return false;
         }
@@ -207,13 +210,12 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onBackPress() {
-        if(wasPassenger) {
+        if (wasPassenger) {
             getFragmentManager().beginTransaction().
                     setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
                     replace(R.id.fragment, HomeFragment.init(), HomeFragment.class.getName()).
                     commit();
-        }
-        else {
+        } else {
             getFragmentManager().beginTransaction().
                     setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
                     replace(R.id.fragment, RegisterFragment.init(userInfo), RegisterFragment.class.getName()).
@@ -222,9 +224,7 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
     }
 
 
-
-
-    public  List<CountryInfo> listAll() {
+    public List<CountryInfo> listAll() {
         Set<MyLocale> byLocale = new TreeSet();
         // Gather them all up.
         for (Locale locale : Locale.getAvailableLocales()) {
@@ -237,14 +237,14 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
         // Roll them out of the set.
         ArrayList<CountryInfo> list = new ArrayList<>();
         for (MyLocale l : byLocale) {
-            if(!TextUtils.isEmpty(l.getCountry()))
-            list.add(new CountryInfo(l.getCountry(),l.getCountry()));
+            if (!TextUtils.isEmpty(l.getCountry()))
+                list.add(new CountryInfo(l.getCountry(), l.getCountry()));
         }
         return list;
     }
 
 
-    private  class MyLocale implements Comparable<MyLocale> {
+    private class MyLocale implements Comparable<MyLocale> {
         // My Locale.
         private final Locale me;
 

@@ -41,8 +41,9 @@ public class MyPreference {
     }
 
     public static int getInt(String key) {
-        return getDefault().getInt(key,0);
+        return getDefault().getInt(key, 0);
     }
+
     public static void setBoolean(String key, boolean value) {
         getDefault().edit().putBoolean(key, value).commit();
     }
@@ -58,7 +59,7 @@ public class MyPreference {
                 .putString(key, gson.toJson(listObject)).commit();
     }
 
-//
+    //
 //    public static void setHashsetObject(String key, HashSet<?> listObject) {
 //        Gson gson = new Gson();
 //        getDefault().edit()
@@ -101,13 +102,11 @@ public class MyPreference {
     public static HashSet getObjectHashsetMap(String key, Class classType) {
         String result = getDefault().getString(key, "");
         Gson gson = new Gson();
-        HashSet<HashMap> object= (HashSet<HashMap>) gson.fromJson(result, classType);
-        if(object==null)
-        {
-            HashSet<HashMap> hashSet=new HashSet<HashMap>();
-            setObject(key,hashSet);
+        HashSet<HashMap> object = (HashSet<HashMap>) gson.fromJson(result, classType);
+        if (object == null) {
+            HashSet<HashMap> hashSet = new HashSet<HashMap>();
+            setObject(key, hashSet);
             return hashSet;
-        }
-        else return object;
+        } else return object;
     }
 }

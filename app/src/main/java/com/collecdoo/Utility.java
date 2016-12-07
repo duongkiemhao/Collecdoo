@@ -35,7 +35,6 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.collecdoo.interfaces.HomeListener;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.File;
@@ -435,28 +434,26 @@ public class Utility {
 
 
         snackBarView.setBackgroundColor(Color.BLACK);
-                textView.setBackgroundColor(Color.BLACK);
-                textView.setTextColor(Color.WHITE);
+        textView.setBackgroundColor(Color.BLACK);
+        textView.setTextColor(Color.WHITE);
 
 
         snackbar.show();
     }
 
-    public static String getAddressFromLatLng(Context context,LatLng latLng) throws IOException,NullPointerException {
+    public static String getAddressFromLatLng(Context context, LatLng latLng) throws IOException, NullPointerException {
         Geocoder geocoder;
         List<Address> addresses;
         geocoder = new Geocoder(context, Locale.getDefault());
 
 //        LatLng latLng=((HomeListener)fragment.getParentFragment()).getLatLng();
         addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
-        if (addresses.size() > 0)
-        {
+        if (addresses.size() > 0) {
             String yourAddress = addresses.get(0).getAddressLine(0);
             String yourCity = addresses.get(0).getAddressLine(1);
             String yourCountry = addresses.get(0).getAddressLine(2);
-            return yourAddress+","+yourCity+","+yourCountry;
-        }
-        else return "";
+            return yourAddress + "," + yourCity + "," + yourCountry;
+        } else return "";
     }
 
     public static double calculationByDistance(LatLng StartP, LatLng EndP) {
@@ -481,7 +478,7 @@ public class Utility {
         Log.d("Utility", "Radius Value  " + valueResult + "   KM  " + kmInDec
                 + " Meter   " + meterInDec);
 
-        return (int)(Radius * c*1000);
+        return (int) (Radius * c * 1000);
         //return meterInDec;
     }
 }

@@ -48,6 +48,9 @@ public class DrivePostInfo {
     @SerializedName("drive_booking_id")
     @Expose
     private String driveBookingId;
+    @SerializedName("type")
+    @Expose
+    private String type;
 
     public String getType() {
         return type;
@@ -57,256 +60,197 @@ public class DrivePostInfo {
         this.type = type;
     }
 
-    @SerializedName("type")
-    @Expose
-    private String type;
     /**
-     *
-     * @return
-     * The userId
+     * @return The userId
      */
     public String getUserId() {
         return userId;
     }
 
     /**
-     *
-     * @param userId
-     * The user_id
+     * @param userId The user_id
      */
     public void setUserId(String userId) {
         this.userId = userId;
     }
 
     /**
-     *
-     * @return
-     * The pickupInfo
+     * @return The pickupInfo
      */
     public String getPickupInfo() {
         return pickupInfo;
     }
 
     /**
-     *
-     * @param pickupInfo
-     * The pickup_info
+     * @param pickupInfo The pickup_info
      */
     public void setPickupInfo(String pickupInfo) {
         this.pickupInfo = pickupInfo;
     }
 
     /**
-     *
-     * @return
-     * The lat1
+     * @return The lat1
      */
     public String getLat1() {
         return lat1;
     }
 
     /**
-     *
-     * @param lat1
-     * The lat1
+     * @param lat1 The lat1
      */
     public void setLat1(String lat1) {
         this.lat1 = lat1;
     }
 
     /**
-     *
-     * @return
-     * The lon1
+     * @return The lon1
      */
     public String getLon1() {
         return lon1;
     }
 
     /**
-     *
-     * @param lon1
-     * The lon1
+     * @param lon1 The lon1
      */
     public void setLon1(String lon1) {
         this.lon1 = lon1;
     }
 
     /**
-     *
-     * @return
-     * The dropInfo
+     * @return The dropInfo
      */
     public String getDropInfo() {
         return dropInfo;
     }
 
     /**
-     *
-     * @param dropInfo
-     * The drop_info
+     * @param dropInfo The drop_info
      */
     public void setDropInfo(String dropInfo) {
         this.dropInfo = dropInfo;
     }
 
     /**
-     *
-     * @return
-     * The lat2
+     * @return The lat2
      */
     public String getLat2() {
         return lat2;
     }
 
     /**
-     *
-     * @param lat2
-     * The lat2
+     * @param lat2 The lat2
      */
     public void setLat2(String lat2) {
         this.lat2 = lat2;
     }
 
     /**
-     *
-     * @return
-     * The lon2
+     * @return The lon2
      */
     public String getLon2() {
         return lon2;
     }
 
     /**
-     *
-     * @param lon2
-     * The lon2
+     * @param lon2 The lon2
      */
     public void setLon2(String lon2) {
         this.lon2 = lon2;
     }
 
     /**
-     *
-     * @return
-     * The personCount
+     * @return The personCount
      */
     public String getPersonCount() {
         return personCount;
     }
 
     /**
-     *
-     * @param personCount
-     * The person_count
+     * @param personCount The person_count
      */
     public void setPersonCount(String personCount) {
         this.personCount = personCount;
     }
 
     /**
-     *
-     * @return
-     * The estimatedDistance
+     * @return The estimatedDistance
      */
     public String getEstimatedDistance() {
         return estimatedDistance;
     }
 
     /**
-     *
-     * @param estimatedDistance
-     * The estimated_distance
+     * @param estimatedDistance The estimated_distance
      */
     public void setEstimatedDistance(String estimatedDistance) {
         this.estimatedDistance = estimatedDistance;
     }
 
     /**
-     *
-     * @return
-     * The paymentMethod
+     * @return The paymentMethod
      */
     public String getPaymentMethod() {
         return paymentMethod;
     }
 
     /**
-     *
-     * @param paymentMethod
-     * The payment_method
+     * @param paymentMethod The payment_method
      */
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
     /**
-     *
-     * @return
-     * The description
+     * @return The description
      */
     public String getDescription() {
         return description;
     }
 
     /**
-     *
-     * @param description
-     * The description
+     * @param description The description
      */
     public void setDescription(String description) {
         this.description = description;
     }
 
     /**
-     *
-     * @return
-     * The desiredPickupTime
+     * @return The desiredPickupTime
      */
     public String getDesiredPickupTime() {
         return desiredPickupTime;
     }
 
     /**
-     *
-     * @param desiredPickupTime
-     * The desired_pickup_time
+     * @param desiredPickupTime The desired_pickup_time
      */
     public void setDesiredPickupTime(String desiredPickupTime) {
         this.desiredPickupTime = desiredPickupTime;
     }
 
     /**
-     *
-     * @return
-     * The desiredDropTime
+     * @return The desiredDropTime
      */
     public String getDesiredDropTime() {
         return desiredDropTime;
     }
 
     /**
-     *
-     * @param desiredDropTime
-     * The desired_drop_time
+     * @param desiredDropTime The desired_drop_time
      */
     public void setDesiredDropTime(String desiredDropTime) {
         this.desiredDropTime = desiredDropTime;
     }
 
     /**
-     *
-     * @return
-     * The driveBookingId
+     * @return The driveBookingId
      */
     public String getDriveBookingId() {
         return driveBookingId;
     }
 
     /**
-     *
-     * @param driveBookingId
-     * The drive_booking_id
+     * @param driveBookingId The drive_booking_id
      */
     public void setDriveBookingId(String driveBookingId) {
         this.driveBookingId = driveBookingId;

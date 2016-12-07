@@ -1,51 +1,152 @@
 <resources>
     <!--common-->
-    <string name="ok_next">Ok &amp; Next</string>
+    <string name="ok_next">Ok &amp; Weiter</string>
 
     <!--main page-->
-    <string name="main_title">Collecdoo enables easly\n ad hoc door2door transfer in your city</string>
-    <string name="main_desc">Collecdoo reduces pollution and traffic jams in your city by sharing a ride.Sometime you can take someone with you on your ride or some time you can just ride as a passenger.</string>
-    <string name="main_do_you_like">Do you like to use Collecdoo app</string>
+    <string name="main_title">Collecdoo erleichtert von Tür zu Tür Transport in der Stadt</string>
+    <string name="main_desc">Collecdoo reduziert Staus durch gemeinsame Fahrten. Manchmal bist Du Fahrgast und manchmal bist Du Fahrer selbst.</string>
+    <string name="main_do_you_like"> Bitte wähle Deine gewünschten Funktionen</string>
+    <array name="main_login_type">
+        <item>als Fahrgast ?</item>
+        <item>als Fahrer?</item>
+        <item>als Berufsfahrer?</item>
+    </array>
 
     <!--login-->
-    <string name="login_title">Collecdoo login de</string>
+    <string name="login_title">Collecdoo login</string>
     <string name="login_email">Email</string>
-    <string name="login_pass">Password</string>
+    <string name="login_pass">Passwort</string>
     <string name="login_login">Login</string>
-    <string name="login_registration">New registration?</string>
-    <string name="login_forget_pass">Forget password?</string>
+    <string name="login_registration">Neu registrieren?</string>
+    <string name="login_forget_pass">Passwort vergessen?</string>
 
     <!--register-->
-    <string name="register_title">Collecdoo registry</string>
-    <string name="register_fname">First Name</string>
-    <string name="register_name">Name</string>
-    <string name="register_phone">Phone Number</string>
+    <string name="register_title">Collecdoo registrieren</string>
+    <string name="register_fname">Vorname</string>
+    <string name="register_name">Nachname</string>
+    <string name="register_phone">Telefon</string>
     <string name="register_email">Email</string>
-    <string name="register_pass">Password</string>
-    <string name="register_confirm_pass">Confirm password</string>
-    <string name="register_dob">Year of birth</string>
-    <string name="register_gent">Gent</string>
+    <string name="register_pass">Passwort</string>
+    <string name="register_confirm_pass">Passwort bestätigen</string>
+    <string name="register_dob">Geburtsjahr</string>
+    <string name="register_gent">Geschlecht</string>
 
     <!--register driver-->
-    <string name="register_driver_title">Collecdoo registry for driver</string>
-    <string name="register_driver_pls_input">Pleased input your address:</string>
-    <string name="register_driver_street">Street</string>
-    <string name="register_driver_house">House No</string>
-    <string name="register_driver_city">City</string>
-    <string name="register_driver_postcode">Postcode</string>
-    <string name="register_driver_country">Country</string>
+    <string name="register_driver_title">Collecdoo registrieren als Fahrer</string>
+    <string name="register_driver_pls_input">Adresse eingeben:</string>
+    <string name="register_driver_street">Strasse</string>
+    <string name="register_driver_house">Haus-Nr.</string>
+    <string name="register_driver_city">Stadt</string>
+    <string name="register_driver_postcode">PLZ</string>
+    <string name="register_driver_country">Land</string>
 
-    <string name="register_driver_photo_title">You can photograph your drive licence, your business registration  and upload it for registration as professional driver at Collecdoo.</string>
-    <string name="register_driver_photo_picture">Your picture</string>
-    <string name="register_driver_photo_driver">Your drive license</string>
-    <string name="register_driver_photo_business">Your business registration</string>
-    <string name="register_driver_photo_agree">I agree to the general business terms and confirm that I am of age and possess a valid driver\'s license and vehicle insurance</string>
+    <string name="register_driver_photo_title">As Berufsfahrer kannst Du Deine Fahrerlaubnis und Deine Geschäftsanmeldung fotografierenund hochladen</string>
+    <string name="register_driver_photo_picture">Dein Bild</string>
+    <string name="register_driver_photo_driver">Deine Fahrerlaubnis</string>
+    <string name="register_driver_photo_business">Deine Geschäftsanmeldung</string>
+    <string name="register_driver_photo_agree"> Ich bin einverstanden mit AGB und ich bestätige hiermit dass ich gültige Fahrerlaubnis und gültige Versicherung besitze</string>
 
-    <string name="home_title">Collecdoo - schedule de</string>
-    <string name="home_require_ride_desc">You want to go from A to B in your city. You wish that a "Taxi“ comes to your door and take you to your destination for less money.  Then click "Require a ride“</string>
-    <string name="home_require_ride">Require a ride</string>
-    <string name="home_share_trip_desc">You have to go from A to B with your car and you have some free seats in your car. You want to share your car with other and you can make money of sharing. Then click "Share my trip“</string>
-    <string name="home_sgare_trip">Share my trip</string>
-    <string name="home_bottom">Any way our mother earth is happy!</string>
+    <string name="home_title">Collecdoo - Planen:</string>
+    <string name="home_require_ride_desc">Du willst von A zu B bewegen. Du wünschst ein "Taxi" kommt zu Dir und Dich für wenig Geld dorthin bringt. Dann klick auf "Fahrten anfordern"</string>
+    <string name="home_require_ride">Fahrten anfordern</string>
+    <string name="home_share_trip_desc">Du willst mit dem eigenen Auto von A zu B fahren und Deine noch freien Sitze mit anderen Menschen teilen, um Geld zu verdienen, Dann klick auf "Fahrten teilen“</string>
+    <string name="home_sgare_trip">Fahrten teilen</string>
+    <string name="home_bottom">Wie auch immer, unsere Mutter Erde freut sich !</string>
 
+    <!--customer-->
+    <string name="customer_home_title">Fahrten anfordern:</string>
+    <string name="customer_home_single">als eine einfache Fahrt in Voraus</string>
+    <string name="customer_home_adhoc">als ad hoc Fahrt für jetzt</string>
+    <string name="customer_home_periodic">als regelmäßige Fahrten in nächsten 7 Tagen</string>
+    <string name="customer_home_desc">Wenn Du Deine Pakete liefern lasen willst, dann klick auf "Lieferung anfordern".Du bekommst sofort danach ein gültiges Lieferungsangebot von Collecdoo</string>
+    <string name="customer_home_delivery">Lieferung anfordern</string>
+
+    <string name="customer_single_from">Von: Strasse, Haus-Nr., Stadt</string>
+    <string name="customer_single_to">Zu: Strasse, Haus-Nr., Stadt</string>
+    <string name="customer_single_nop">Anzahl der Personen</string>
+    <string name="customer_single_select_pickup">wähle Abholdatum &amp; Uhrzeit</string>
+
+    <string name="customer_delivery_sender_title">Adresse von Sender:</string>
+    <string name="customer_delivery_sender_name">Vorname &amp; Name</string>
+    <string name="customer_delivery_sender_from">Von: Strasse, Haus-Nr., Stadt</string>
+    <string name="customer_delivery_sender_phone">Telefon-Nr. von Sender</string>
+    <string name="customer_delivery_sender_address">Adresse option</string>
+    <string name="customer_delivery_sender_select_pickup">wähle Abholdatum &amp; Uhrzeit</string>
+    <string name="customer_delivery_sender_package">Paket-Grösse:</string>
+    <string name="customer_delivery_sender_small">klein (&lt;60cm)</string>
+    <string name="customer_delivery_sender_medium">mittel (&lt;110cm)</string>
+    <string name="customer_delivery_sender_big">groß (&lt;130cm)</string>
+
+    <string name="customer_delivery_receiver_title">Adresse von Empfänger:</string>
+    <string name="customer_delivery_receiver_to">Zu: Strasse, Haus-Nr., Stadt</string>
+    <string name="customer_delivery_receiver_name">Vorname &amp; Name</string>
+    <string name="customer_delivery_receiver_phone">Telephone of receiver</string>
+    <string name="customer_delivery_receiver_address">Address option</string>
+
+
+    <!--driver-->
+    <string name="driver_home_title">Deine eigenen Fahrten planen:</string>
+    <string name="driver_home_single">als einfache fahrt in Voraus</string>
+    <string name="driver_home_adhoc">als ad hoc Fahrt für jetzt</string>
+    <string name="driver_home_periodic">als regelmäßige Fahrten in den nächsten 7 Tagen</string>
+    <string name="driver_home_desc">Wenn Du in bestimmten Zeiträme des Tages arbeiten willst, dann klick auf "Arbeitszeit planen"</string>
+    <string name="driver_home_plan">Arbeitszeit planen</string>
+
+    <string name="driver_single_select_pickup">wähle Startdatum date &amp; Uhrzeit</string>
+
+    <string name="driver_adhoc_from">Von hier</string>
+    <string name="driver_adhoc_to">Zu: Strasse, Haus-Nr., Stadt</string>
+
+    <string name="driver_adhoc_start_time">Start Zeit</string>
+    <string name="driver_adhoc_send_me">send me passenger</string>
+
+    <string name="from">Von</string>
+    <string name="to">Zu</string>
+    <string name="free_seat">Freie Sitze</string>
+
+
+    <!--account-->
+    <string name="account_profile">Profile</string>
+    <string name="account_address">Adresse</string>
+    <string name="account_bank_acc">Bank Konto</string>
+    <string name="account_update">Update Collecdoo funktion</string>
+    <string name="account_language">Sprache</string>
+    <string name="account_logout">Logout</string>
+
+    <!--language-->
+    <string name="language_save">Speichern</string>
+
+    <!--list of drive-->
+    <string name="lod_select_time">wähle Zeitsraum</string>
+    <string name="lod_search">Suche</string>
+
+    <!--list of drive detail-->
+    <string name="lod_detail_detail">Detail</string>
+    <string name="lod_detail_from">Von:</string>
+    <string name="lod_detail_to">Zu:</string>
+    <string name="lod_detail_pickup">Abhol:</string>
+    <string name="lod_detail_drop">Lieferung:</string>
+    <string name="lod_detail_cost">Kosten:</string>
+    <string name="lod_detail_rating">Wertung:</string>
+    <string name="lod_detail_note">Bemerkung:</string>
+    <string name="lod_detail_close">Schließen</string>
+
+    <!--pickup drop-->
+    <string name="pickup_drop_title_pickup">Sie werden abholen</string>
+    <string name="pickup_drop_title_drop">Werden Sie fallen</string>
+    <string name="pickup_drop_send_pickup">Send pickup info</string>
+    <string name="pickup_drop_send_drop">Send drop info</string>
+    <string name="pickup_drop_sos">SOS</string>
+    <string name="pickup_drop_dialog_message">Möchten Sie die nächste Haltestelle sehen? Ja/Nein</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+
+    <!--pickup drop stop-->
+    <string name="pickup_drop_stop_title">Unterschrift</string>
+    <string name="pickup_drop_stop_neighbor">Nachbar</string>
+    <string name="pickup_drop_stop_neighbor_hint">Name von Nachbar</string>
+    <string name="pickup_drop_stop_signature">Unterschrift bestätigen</string>
+    <string name="pickup_drop_stop_clear">Lösche</string>
+    <string name="pickup_drop_stop_cancel">Abbruch</string>
+    <string name="pickup_drop_stop_confirm">Bestätigen</string>
 </resources>

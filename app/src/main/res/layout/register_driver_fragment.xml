@@ -8,11 +8,13 @@
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content" android:padding="5dp"
-        android:layout_height="wrap_content" android:background="@drawable/box_shape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:orientation="vertical">
+        android:background="@drawable/box_shape"
+        android:orientation="vertical"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/txtTitle"
@@ -23,20 +25,26 @@
             android:textColor="@color/black" />
     </LinearLayout>
 
-    <LinearLayout android:layout_above="@+id/btnOk"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/btnOk"
         android:layout_below="@+id/linearLayout1"
         android:layout_marginTop="20dp"
-        android:orientation="vertical" android:id="@+id/linearLayout2"
+        android:orientation="vertical"
         android:padding="10dp">
 
         <TextView
-            android:layout_width="wrap_content" android:textColor="@color/black"
-            android:layout_height="wrap_content" android:text="@string/register_driver_pls_input"/>
-        <LinearLayout
-            android:layout_width="match_parent" android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/register_driver_pls_input"
+            android:textColor="@color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <TextView
@@ -57,59 +65,72 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/register_margin_top"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/register_label_width"
                 android:layout_height="wrap_content"
                 android:text="@string/register_driver_house"
                 android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/ediHouseNo"
                 style="@style/register_edittext"
                 android:layout_width="match_parent"
                 android:textColor="@color/black" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/register_margin_top"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/register_label_width"
                 android:layout_height="wrap_content"
                 android:text="@string/register_driver_city"
                 android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/ediCity"
                 style="@style/register_edittext"
                 android:layout_width="match_parent"
                 android:textColor="@color/black" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/register_margin_top"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/register_label_width"
                 android:layout_height="wrap_content"
                 android:text="@string/register_driver_postcode"
                 android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/ediPostcode"
                 style="@style/register_edittext"
-                android:layout_width="match_parent" android:inputType="number"
+                android:layout_width="match_parent"
+                android:inputType="number"
                 android:textColor="@color/black" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/register_margin_top"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/register_label_width"
-                android:layout_height="wrap_content" android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:text="@string/register_driver_country"
                 android:textColor="@color/black" />
+
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/spiCountry"
                 android:layout_width="match_parent"
@@ -119,7 +140,7 @@
         </LinearLayout>
 
 
-
     </LinearLayout>
-    <include layout="@layout/ok"/>
+
+    <include layout="@layout/ok" />
 </RelativeLayout>

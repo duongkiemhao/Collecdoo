@@ -6,10 +6,9 @@
 
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/relativeLayout1"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,7 +54,7 @@
                     android:gravity="center"
                     android:lines="1"
                     android:padding="5dp"
-                    android:text="From"
+                    android:text="@string/from"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -104,7 +103,7 @@
                         android:gravity="center"
                         android:lines="1"
                         android:padding="5dp"
-                        android:text="To"
+                        android:text="@string/to"
                         android:textColor="@color/black" />
 
                     <TextView
@@ -121,17 +120,23 @@
 
                 </LinearLayout>
             </LinearLayout>
+
             <EditText
                 android:id="@+id/ediFreeSeat"
-                style="@style/register_edittext" android:layout_height="35dp"
+                style="@style/register_edittext"
                 android:layout_width="wrap_content"
-                android:layout_marginLeft="40dp" android:inputType="number"
-                android:hint="Free seat" android:lines="1"
-                android:textColor="@color/black" android:layout_marginTop="10dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/free_seat"
+                android:inputType="number"
+                android:lines="1"
+                android:textColor="@color/black"
                 android:textColorHint="@color/black_light" />
         </LinearLayout>
 
     </RelativeLayout>
-    <include layout="@layout/ok"/>
+
+    <include layout="@layout/ok" />
 </RelativeLayout>
 

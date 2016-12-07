@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 
 import com.collecdoo.R;
 import com.collecdoo.config.Constant;
-
 import com.collecdoo.fragment.home.HomeFragment;
 import com.collecdoo.interfaces.HomeNavigationListener;
 import com.collecdoo.interfaces.OnBackListener;
@@ -22,32 +21,35 @@ import butterknife.Unbinder;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CustomerHomeFragment extends Fragment implements View.OnClickListener,OnBackListener,
+public class CustomerHomeFragment extends Fragment implements View.OnClickListener, OnBackListener,
         HomeNavigationListener {
-    @BindView(R.id.btnSingle) View btnSingle;
-    @BindView(R.id.btnAdHoc) View btnAdHoc;
-    @BindView(R.id.btnPreriodic) View btnPreriodic;
-    @BindView(R.id.btnRequireDelivery) View btnRequireDelivery;
+    @BindView(R.id.btnSingle)
+    View btnSingle;
+    @BindView(R.id.btnAdHoc)
+    View btnAdHoc;
+    @BindView(R.id.btnPreriodic)
+    View btnPreriodic;
+    @BindView(R.id.btnRequireDelivery)
+    View btnRequireDelivery;
 
     private Unbinder unbinder;
-
-    public static CustomerHomeFragment init(){
-        CustomerHomeFragment registerFragment=new CustomerHomeFragment();
-        Bundle bundle=new Bundle();
-
-        registerFragment.setArguments(bundle);
-        return registerFragment;
-    }
-
     private Context context;
 
     public CustomerHomeFragment() {
     }
 
+    public static CustomerHomeFragment init() {
+        CustomerHomeFragment registerFragment = new CustomerHomeFragment();
+        Bundle bundle = new Bundle();
+
+        registerFragment.setArguments(bundle);
+        return registerFragment;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -58,8 +60,8 @@ public class CustomerHomeFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.customer_fragment, container, false);
-        unbinder=ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.customer_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
         btnSingle.setOnClickListener(this);
         btnAdHoc.setOnClickListener(this);
         btnPreriodic.setOnClickListener(this);
@@ -83,12 +85,12 @@ public class CustomerHomeFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnSingle:
-                    getFragmentManager().beginTransaction().
-                            setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
-                            replace(R.id.fragment, CustomerSingleDriveFragment.init(0), CustomerSingleDriveFragment.class.getName()).
-                            commit();
+                getFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
+                        replace(R.id.fragment, CustomerSingleDriveFragment.init(0), CustomerSingleDriveFragment.class.getName()).
+                        commit();
 
                 break;
             case R.id.btnAdHoc:
@@ -100,7 +102,7 @@ public class CustomerHomeFragment extends Fragment implements View.OnClickListen
             case R.id.btnPreriodic:
                 getFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
-                        replace(R.id.fragment, CustomerSingleDriveFragment.init(2),CustomerSingleDriveFragment.class.getName()).
+                        replace(R.id.fragment, CustomerSingleDriveFragment.init(2), CustomerSingleDriveFragment.class.getName()).
                         commit();
                 break;
             case R.id.btnRequireDelivery:

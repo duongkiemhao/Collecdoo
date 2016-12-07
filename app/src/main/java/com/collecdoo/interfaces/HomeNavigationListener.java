@@ -5,9 +5,14 @@ package com.collecdoo.interfaces;
  */
 public interface HomeNavigationListener {
     void onBackClick();
+
     void onButton1();
+
     void onButton2();
+
     void onButton3();
+
     void onMapClick();
+
     void onNextClick();
 }

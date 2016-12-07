@@ -9,27 +9,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.collecdoo.MyPreference;
-import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
-import com.collecdoo.Utility;
-import com.collecdoo.activity.HomeActivity;
-import com.collecdoo.config.Constant;
-import com.collecdoo.control.SimpleProgressDialog;
-import com.collecdoo.dto.PushInfo;
-import com.collecdoo.dto.ResponseInfo;
-import com.collecdoo.dto.UserInfo;
-import com.collecdoo.fragment.ServiceGenerator;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import java.io.IOException;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RegistrationIntentService extends IntentService {
 

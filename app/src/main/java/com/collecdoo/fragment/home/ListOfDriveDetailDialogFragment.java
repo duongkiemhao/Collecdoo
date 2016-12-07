@@ -32,27 +32,36 @@ import butterknife.Unbinder;
 public class ListOfDriveDetailDialogFragment extends DialogFragment implements
         View.OnClickListener {
 
+    @BindView(R.id.btnClose)
+    TextView btnClose;
+    @BindView(R.id.txtDetail)
+    TextView txtDetail;
+    @BindView(R.id.txtFrom)
+    TextView txtFrom;
+    @BindView(R.id.txtTo)
+    TextView txtTo;
+    @BindView(R.id.txtPickup)
+    TextView txtPickup;
+    @BindView(R.id.txtDrop)
+    TextView txtDrop;
+    @BindView(R.id.txtCost)
+    TextView txtCost;
+    @BindView(R.id.ratingBar)
+    RatingBar ratingBar;
+    @BindView(R.id.txtNote)
+    TextView txtNote;
     private Context context;
     private Unbinder unbinder;
-    @BindView(R.id.btnClose) TextView btnClose;
-    @BindView(R.id.txtDetail) TextView txtDetail;
-    @BindView(R.id.txtFrom) TextView txtFrom;
-    @BindView(R.id.txtTo) TextView txtTo;
-    @BindView(R.id.txtPickup) TextView txtPickup;
-    @BindView(R.id.txtDrop) TextView txtDrop;
-    @BindView(R.id.txtCost) TextView txtCost;
-    @BindView(R.id.ratingBar) RatingBar ratingBar;
-    @BindView(R.id.txtNote) TextView txtNote;
-
     private BookingHistoryInfo detailInfo;
 
-    public static ListOfDriveDetailDialogFragment init(BookingHistoryInfo detailInfo){
-        ListOfDriveDetailDialogFragment dialogFragment=new ListOfDriveDetailDialogFragment();
-        Bundle bundle=new Bundle();
-        bundle.putParcelable("detailInfo",detailInfo);
+    public static ListOfDriveDetailDialogFragment init(BookingHistoryInfo detailInfo) {
+        ListOfDriveDetailDialogFragment dialogFragment = new ListOfDriveDetailDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("detailInfo", detailInfo);
         dialogFragment.setArguments(bundle);
         return dialogFragment;
     }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -62,7 +71,7 @@ public class ListOfDriveDetailDialogFragment extends DialogFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        detailInfo=getArguments().getParcelable("detailInfo");
+        detailInfo = getArguments().getParcelable("detailInfo");
         // setStyle(DialogFragment.STYLE_NO_FRAME,
         // R.style.TransparentFragmentDialog);
         // DialogFragment.STYLE_NO_TITLE, 0
@@ -104,7 +113,7 @@ public class ListOfDriveDetailDialogFragment extends DialogFragment implements
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.list_of_drive_detail_fragment, null);
-        unbinder= ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         btnClose.setOnClickListener(this);
         return view;
     }
@@ -113,22 +122,22 @@ public class ListOfDriveDetailDialogFragment extends DialogFragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         try {
-            Date date=new SimpleDateFormat(DateHelper.SERVER_DATE_FORMAT).parse(detailInfo.createdOn);
+            Date date = new SimpleDateFormat(DateHelper.SERVER_DATE_FORMAT).parse(detailInfo.createdOn);
 
-            SimpleDateFormat dateFormat=new SimpleDateFormat("dd.MM");
-            SimpleDateFormat timeormat=new SimpleDateFormat("HH:mm");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM");
+            SimpleDateFormat timeormat = new SimpleDateFormat("HH:mm");
 
             txtDetail.setText(dateFormat.format(date));
             txtFrom.setText(detailInfo.pickupInfo);
             txtTo.setText(detailInfo.dropInfo);
-            Date timeFrom=new SimpleDateFormat(DateHelper.SERVER_DATE_FORMAT).parse(detailInfo.getDesiredPickupTime());
+            Date timeFrom = new SimpleDateFormat(DateHelper.SERVER_DATE_FORMAT).parse(detailInfo.getDesiredPickupTime());
             txtPickup.setText(timeormat.format(timeFrom));
 
             txtCost.setText(detailInfo.getFare());
             txtNote.setText(detailInfo.getNotes());
-            Date timeTo=new SimpleDateFormat(DateHelper.SERVER_DATE_FORMAT).parse(detailInfo.getDesiredDropTime());
+            Date timeTo = new SimpleDateFormat(DateHelper.SERVER_DATE_FORMAT).parse(detailInfo.getDesiredDropTime());
             txtDrop.setText(timeormat.format(timeTo));
-            if(!TextUtils.isEmpty(detailInfo.getRating()))
+            if (!TextUtils.isEmpty(detailInfo.getRating()))
                 ratingBar.setNumStars(Integer.parseInt(detailInfo.getRating()));
 
         } catch (ParseException e) {
@@ -139,7 +148,7 @@ public class ListOfDriveDetailDialogFragment extends DialogFragment implements
 
     @Override
     public void onClick(final View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnClose:
                 dismiss();
                 break;

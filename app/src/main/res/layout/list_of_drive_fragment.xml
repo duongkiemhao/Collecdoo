@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text=" select time frame:"
+            android:text="@string/lod_select_time"
             android:textColor="@color/black" />
     </LinearLayout>
 
@@ -38,40 +38,76 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <TextView android:id="@+id/lblFrom"
-                android:layout_width="wrap_content"  android:textColor="@color/black"
-                android:layout_height="wrap_content" android:text="From:"/>
-            <TextView android:layout_centerHorizontal="true" android:id="@+id/lblTo"
-                android:layout_width="wrap_content" android:textColor="@color/black"
 
-                android:layout_height="wrap_content" android:text="To:"/>
-            <TextView android:paddingTop="5dp" android:paddingBottom="5dp" android:id="@+id/txtDatePickerFrom"
-                android:layout_width="150dp" android:textColor="@color/black" android:layout_below="@+id/lblFrom"
-                android:layout_height="wrap_content" android:layout_marginTop="5dp" android:background="@drawable/box_shape"/>
-            <TextView android:paddingTop="5dp" android:paddingBottom="5dp" android:id="@+id/txtDatePickerTo"
-                android:layout_width="150dp"  android:textColor="@color/black" android:layout_below="@+id/lblTo"
-                android:layout_alignLeft="@+id/lblTo"
+            <TextView
+                android:id="@+id/lblFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/from"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/lblTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+
+                android:text="@string/to"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/txtDatePickerFrom"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblFrom"
                 android:layout_marginTop="5dp"
-                android:layout_height="wrap_content" android:background="@drawable/box_shape" />
+                android:background="@drawable/box_shape"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/txtDatePickerTo"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/lblTo"
+                android:layout_below="@+id/lblTo"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/box_shape"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:textColor="@color/black" />
 
         </RelativeLayout>
-        <LinearLayout android:layout_marginTop="10dp"
-            android:layout_width="match_parent" android:weightSum="2"
-            android:layout_height="wrap_content" android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
         </LinearLayout>
+
         <Button
-            android:layout_width="match_parent" android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp" android:layout_gravity="center_horizontal"
-            android:layout_height="35dp" android:layout_marginTop="10dp"
+            android:id="@+id/btnSearch"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/box_shape"
             android:gravity="center"
-            android:text="Search"
-            android:textAllCaps="false" android:id="@+id/btnSearch"
+            android:text="@string/lod_search"
+            android:textAllCaps="false"
             android:textColor="@color/black" />
-        <android.support.v7.widget.RecyclerView android:layout_marginTop="10dp"
-            android:layout_width="match_parent" android:id="@+id/recyclerView"
-            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"></android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
 </RelativeLayout>

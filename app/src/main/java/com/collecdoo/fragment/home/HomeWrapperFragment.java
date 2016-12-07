@@ -6,15 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +21,7 @@ import com.collecdoo.MyPreference;
 import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
+import com.collecdoo.activity.HomeActivity;
 import com.collecdoo.activity.MainActivity;
 import com.collecdoo.config.Config;
 import com.collecdoo.config.Constant;
@@ -59,7 +57,6 @@ import com.google.gson.JsonObject;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,6 +72,12 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
         ParentFragmentListener, LocationListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         ResultCallback<LocationSettingsResult> {
+    //Location service
+    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
+    private static final long INTERVAL = 1000 * 3;
+    private static final long FASTEST_INTERVAL = 1000 * 1;
+    private final String TAG = "--home--";
+    protected LocationSettingsRequest mLocationSettingsRequest;
     @BindView(R.id.btnBack)
     View btnBack;
     @BindView(R.id.btnListDrive)
@@ -89,24 +92,17 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
     View btnMap;
     @BindView(R.id.btnNext)
     View btnNext;
-    private final String TAG = "--home--";
-
     private Unbinder unbinder;
     private String currentFragmentTag;
-
-    //Location service
-    protected static final int REQUEST_CHECK_SETTINGS = 0x1;
-    protected LocationSettingsRequest mLocationSettingsRequest;
-
-    private static final long INTERVAL = 1000 * 3;
-    private static final long FASTEST_INTERVAL = 1000 * 1;
     private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
     private Location mCurrentLocation;
     private String mLastUpdateTime;
     private LatLng latLng;
+    private Context context;
 
-
+    public HomeWrapperFragment() {
+    }
 
     public static HomeWrapperFragment init() {
         HomeWrapperFragment registerFragment = new HomeWrapperFragment();
@@ -114,11 +110,6 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
 
         registerFragment.setArguments(bundle);
         return registerFragment;
-    }
-
-    private Context context;
-
-    public HomeWrapperFragment() {
     }
 
     @Override
@@ -157,12 +148,10 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
     }
 
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-
 
 
     }
@@ -173,8 +162,8 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
 
         DriverActivityInfo activityInfo = new DriverActivityInfo();
         activityInfo.user_id = UserHelper.getUserId();
-        activityInfo.latitude = LocationManger.getInstance().getLocation().getLatitude()+ "";
-        activityInfo.longitude = LocationManger.getInstance().getLocation().getLongitude()+ "";
+        activityInfo.latitude = LocationManger.getInstance().getLocation().getLatitude() + "";
+        activityInfo.longitude = LocationManger.getInstance().getLocation().getLongitude() + "";
         activityInfo.action = actionIndex + "";
         driverActivityTask(activityInfo);
     }
@@ -191,39 +180,38 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
                 break;
             case R.id.btnListDrive:
 
-                    FragmentManager fm = getChildFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    if (fm.getBackStackEntryCount() > 0) {
-                        Log.d(Constant.DEBUG_TAG, fm.getBackStackEntryCount() + "");
-                        fm.popBackStack();
-                    }
+                FragmentManager fm = getChildFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                if (fm.getBackStackEntryCount() > 0) {
+                    Log.d(Constant.DEBUG_TAG, fm.getBackStackEntryCount() + "");
+                    fm.popBackStack();
+                }
 
-                    currentFragmentTag = fm.findFragmentById(R.id.fragment).getTag();
-                    Fragment fragment = ListOfDriveFragment.init();
-                    ft.hide(fm.findFragmentByTag(currentFragmentTag));
-                    ft.add(R.id.fragment, fragment, ListOfDriveFragment.class.getName()).
-                            addToBackStack(ListOfDriveFragment.class.getName());
-                    ft.show(fragment);
-                    ft.commit();
+                currentFragmentTag = fm.findFragmentById(R.id.fragment).getTag();
+                Fragment fragment = ListOfDriveFragment.init();
+                ft.hide(fm.findFragmentByTag(currentFragmentTag));
+                ft.add(R.id.fragment, fragment, ListOfDriveFragment.class.getName()).
+                        addToBackStack(ListOfDriveFragment.class.getName());
+                ft.show(fragment);
+                ft.commit();
 
                 break;
             case R.id.btnAccount:
 
                 fm = getChildFragmentManager();
                 ft = fm.beginTransaction();
-                    if (fm.getBackStackEntryCount() > 0) {
-                        Log.d(Constant.DEBUG_TAG, fm.getBackStackEntryCount() + "");
-                        fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    }
+                if (fm.getBackStackEntryCount() > 0) {
+                    Log.d(Constant.DEBUG_TAG, fm.getBackStackEntryCount() + "");
+                    fm.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                }
 
-                    currentFragmentTag = fm.findFragmentById(R.id.fragment).getTag();
+                currentFragmentTag = fm.findFragmentById(R.id.fragment).getTag();
                 fragment = AccountFragment.init();
-                    ft.hide(fm.findFragmentByTag(currentFragmentTag));
-                    ft.add(R.id.fragment, fragment, AccountFragment.class.getName()).
-                            addToBackStack(AccountFragment.class.getName());
-                    ft.show(fragment);
-                    ft.commit();
-
+                ft.hide(fm.findFragmentByTag(currentFragmentTag));
+                ft.add(R.id.fragment, fragment, AccountFragment.class.getName()).
+                        addToBackStack(AccountFragment.class.getName());
+                ft.show(fragment);
+                ft.commit();
 
 
                 break;
@@ -356,8 +344,8 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
         Log.d(Constant.DEBUG_TAG, "UI update initiated .............");
         if (null != mCurrentLocation) {
             latLng = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-            if(UserHelper.isDriver())
-            driverActivity(Config.ACTION_LOGIN);
+            if (UserHelper.isDriver())
+                driverActivity(Config.ACTION_LOGIN);
         } else {
             Log.d(Constant.DEBUG_TAG, "location is null ...............");
         }
@@ -463,11 +451,11 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onResponse(Call<ResponseInfo> call, Response<ResponseInfo> response) {
-                if(Integer.parseInt(activityInfo.action)==Config.ACTION_LOGOUT) {
+                if (Integer.parseInt(activityInfo.action) == Config.ACTION_LOGOUT) {
                     toMainActivity();
                     return;
                 }
-                if(Integer.parseInt(activityInfo.action)==Config.ACTION_WORKING) {
+                if (Integer.parseInt(activityInfo.action) == Config.ACTION_WORKING) {
                     return;
                 }
                 if (response.isSuccessful()) {
@@ -487,7 +475,7 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
             @Override
             public void onFailure(Call<ResponseInfo> call, Throwable t) {
                 Log.d(Constant.DEBUG_TAG, "error" + t.getMessage());
-                if(Integer.parseInt(activityInfo.action)==Config.ACTION_LOGOUT) {
+                if (Integer.parseInt(activityInfo.action) == Config.ACTION_LOGOUT) {
                     toMainActivity();
                 }
 
@@ -515,14 +503,14 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void logOut() {
-        if(UserHelper.isDriver())
+        if (UserHelper.isDriver())
             driverActivity(Config.ACTION_LOGOUT);
         else toMainActivity();
     }
 
     @Override
     public void onGotPush(String pushId) {
-        if(UserHelper.isDriver())
+        if (UserHelper.isDriver())
             getPathOfRoute(pushId);
     }
 
@@ -547,7 +535,7 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
                         getFragmentManager().beginTransaction().
                                 setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
                                 replace(R.id.fragment, DriverPickupHomeFragment.init(pathOfRouteInfoList.get(0).is_delivery.equals("0") ? true : false,
-                                        pathOfRouteInfoList,0),
+                                        pathOfRouteInfoList, 0),
                                         DriverPickupDropFragment.class.getName()).
                                 commit();
                     }
@@ -567,19 +555,18 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
     }
 
 
-
     private void updatePushId(String token) {
-        PushInfo pushInfo=new PushInfo();
-        UserInfo userInfo= (UserInfo) MyPreference.getObject("userInfo",UserInfo.class);
-        if(userInfo!=null){
-            pushInfo.user_id=userInfo.user_id;
-            pushInfo.push_registered_id=token;
+        PushInfo pushInfo = new PushInfo();
+        UserInfo userInfo = (UserInfo) MyPreference.getObject("userInfo", UserInfo.class);
+        if (userInfo != null) {
+            pushInfo.user_id = userInfo.user_id;
+            pushInfo.push_registered_id = token;
             updatePush(pushInfo);
         }
     }
 
 
-    private void updatePush(PushInfo pushInfo){
+    private void updatePush(PushInfo pushInfo) {
 
         MyRetrofitService taskService = ServiceGenerator.createService(MyRetrofitService.class);
 
@@ -588,30 +575,28 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onResponse(Call<ResponseInfo> call, Response<ResponseInfo> response) {
-                if(response.isSuccessful()){
-                    ResponseInfo responseInfo= response.body();
+                if (response.isSuccessful()) {
+                    ResponseInfo responseInfo = response.body();
 
-                    if(responseInfo.status.toLowerCase().equals("ok")) {
+                    if (responseInfo.status.toLowerCase().equals("ok")) {
                         Log.i(TAG, "update push to server ok");
-                    }
-                    else Log.i(TAG, "update push to server failed");
-                }
-                else Log.i(TAG, "update push to server failed");
+                    } else Log.i(TAG, "update push to server failed");
+                } else Log.i(TAG, "update push to server failed");
             }
 
             @Override
             public void onFailure(Call<ResponseInfo> call, Throwable t) {
-                Log.d(Constant.DEBUG_TAG,t.getMessage()!=null?t.getMessage():"");
+                Log.d(Constant.DEBUG_TAG, t.getMessage() != null ? t.getMessage() : "");
             }
         });
 
     }
 
 
-    private void toMainActivity(){
-        MyPreference.setObject("userInfo",null);
+    private void toMainActivity() {
+        MyPreference.setObject("userInfo", null);
 
-        context.startActivity(new Intent(context, MainActivity.class));
+        startActivity(new Intent(context, MainActivity.class));
         getActivity().finish();
     }
 }

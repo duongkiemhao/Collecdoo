@@ -17,7 +17,7 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:text="Detail:"
+                android:text="@string/lod_detail_detail"
                 android:textColor="@color/black" />
 
             <TextView
@@ -38,7 +38,7 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:text="From:"
+                android:text="@string/lod_detail_from"
                 android:textColor="@color/black" />
 
             <TextView
@@ -59,7 +59,7 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:text="To:"
+                android:text="@string/lod_detail_to"
                 android:textColor="@color/black" />
 
             <TextView
@@ -87,7 +87,7 @@
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="Pickup:"
+                    android:text="@string/lod_detail_pickup"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -111,7 +111,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Drop:"
+                    android:text="@string/lod_detail_drop"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -135,7 +135,7 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:text="Cost:"
+                android:text="@string/lod_detail_cost"
                 android:textColor="@color/black" />
 
             <TextView
@@ -156,7 +156,7 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:text="Rating:"
+                android:text="@string/lod_detail_rating"
                 android:textColor="@color/black" />
 
             <RatingBar
@@ -177,7 +177,7 @@
             <TextView
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:text="Note:"
+                android:text="@string/lod_detail_note"
                 android:textColor="@color/black" />
 
             <TextView
@@ -189,9 +189,14 @@
                 android:textColor="@color/black" />
         </LinearLayout>
 
-        <Button android:layout_marginTop="10dp"
-            android:layout_width="match_parent" android:text="Close" android:id="@+id/btnClose"
-            android:layout_height="35dp" android:background="@drawable/box_shape" android:textColor="@color/black" />
+        <Button
+            android:id="@+id/btnClose"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/box_shape"
+            android:text="@string/lod_detail_close"
+            android:textColor="@color/black" />
 
     </LinearLayout>
 </RelativeLayout>

@@ -6,10 +6,10 @@ public class Constant {
 
     public static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
-//    public static String PRE_LIST_HM_FROM="list from";
+    //    public static String PRE_LIST_HM_FROM="list from";
 //    public static String PRE_LIST_HM_TO="list to";
 //
-    public static String PRE_LIST_SUGGESTION="list suggestion";
+    public static String PRE_LIST_SUGGESTION = "list suggestion";
 
     //
 

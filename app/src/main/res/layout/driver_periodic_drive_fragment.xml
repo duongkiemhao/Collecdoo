@@ -121,16 +121,21 @@
 
                 </LinearLayout>
             </LinearLayout>
+
             <EditText
                 android:id="@+id/ediFreeSeat"
-                style="@style/register_edittext" android:layout_height="35dp"
+                style="@style/register_edittext"
                 android:layout_width="wrap_content"
-                android:layout_marginLeft="40dp" android:inputType="number"
+                android:layout_height="35dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="10dp"
                 android:hint="Free seat"
-                android:textColor="@color/black" android:layout_marginTop="10dp"
+                android:inputType="number"
+                android:textColor="@color/black"
                 android:textColorHint="@color/black_light" />
         </LinearLayout>
-        <include layout="@layout/ok"/>
+
+        <include layout="@layout/ok" />
     </RelativeLayout>
 
 </LinearLayout>

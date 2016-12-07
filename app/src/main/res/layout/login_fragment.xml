@@ -8,11 +8,13 @@
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content" android:padding="5dp"
-        android:layout_height="wrap_content" android:background="@drawable/box_shape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:orientation="vertical">
+        android:background="@drawable/box_shape"
+        android:orientation="vertical"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/txtTitle"
@@ -23,12 +25,14 @@
             android:textColor="@color/black" />
     </LinearLayout>
 
-    <LinearLayout android:layout_above="@+id/btnOk"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/btnOk"
         android:layout_below="@+id/linearLayout1"
         android:layout_marginTop="20dp"
-        android:orientation="vertical" android:id="@+id/linearLayout2"
+        android:orientation="vertical"
         android:padding="10dp">
 
         <LinearLayout
@@ -36,44 +40,65 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/register_margin_top"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/register_label_width"
                 android:layout_height="wrap_content"
                 android:text="@string/login_email"
                 android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/ediEmail"
                 style="@style/register_edittext"
                 android:layout_width="match_parent"
                 android:textColor="@color/black" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/register_margin_top"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/register_label_width"
                 android:layout_height="wrap_content"
                 android:text="@string/login_pass"
                 android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/ediPassword"
                 style="@style/register_edittext"
                 android:layout_width="match_parent"
                 android:textColor="@color/black" />
         </LinearLayout>
-        <Button android:layout_gravity="center_horizontal" android:background="@drawable/box_shape"
-            android:layout_width="wrap_content" android:id="@+id/btnLogin" android:textColor="@color/black"
-            android:layout_marginTop="20dp" android:textAllCaps="false"
-            android:layout_height="35dp" android:text="@string/login_login" />
 
-        <TextView android:layout_marginTop="20dp" android:id="@+id/btnRegister"
-            android:layout_width="wrap_content" android:textColor="@color/black"
-            android:layout_height="wrap_content" android:text="@string/login_registration"/>
-        <TextView android:layout_marginTop="15dp" android:id="@+id/btnForgetPass"
-            android:layout_width="wrap_content" android:textColor="@color/black"
-            android:layout_height="wrap_content" android:text="@string/login_forget_pass"/>
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/box_shape"
+            android:text="@string/login_login"
+            android:textAllCaps="false"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/btnRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/login_registration"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/btnForgetPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/login_forget_pass"
+            android:textColor="@color/black" />
     </LinearLayout>
 
 </RelativeLayout>

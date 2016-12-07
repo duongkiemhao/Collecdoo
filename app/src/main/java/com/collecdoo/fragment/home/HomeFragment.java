@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.collecdoo.MyPreference;
 import com.collecdoo.R;
-
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.home.customer.CustomerHomeFragment;
 import com.collecdoo.fragment.home.driver.DriverHomeFragment;
@@ -31,32 +30,34 @@ import butterknife.Unbinder;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class HomeFragment extends Fragment implements View.OnClickListener,HomeNavigationListener{
+public class HomeFragment extends Fragment implements View.OnClickListener, HomeNavigationListener {
 
-    @BindView(R.id.txtTitle) TextView txtTitle;
-    @BindView(R.id.btnRequireRide) TextView btnRequireRide;
-    @BindView(R.id.btnShareTrip) TextView btnShareTrip;
+    @BindView(R.id.txtTitle)
+    TextView txtTitle;
+    @BindView(R.id.btnRequireRide)
+    TextView btnRequireRide;
+    @BindView(R.id.btnShareTrip)
+    TextView btnShareTrip;
 
 
     private Unbinder unbinder;
-
-    public static HomeFragment init(){
-        HomeFragment registerFragment=new HomeFragment();
-        Bundle bundle=new Bundle();
-
-        registerFragment.setArguments(bundle);
-        return registerFragment;
-    }
-
     private Context context;
 
     public HomeFragment() {
     }
 
+    public static HomeFragment init() {
+        HomeFragment registerFragment = new HomeFragment();
+        Bundle bundle = new Bundle();
+
+        registerFragment.setArguments(bundle);
+        return registerFragment;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -67,8 +68,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,HomeN
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.home_fragment, container, false);
-        unbinder=ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.home_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
         btnRequireRide.setOnClickListener(this);
         btnShareTrip.setOnClickListener(this);
 
@@ -82,10 +83,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener,HomeN
         //((HomeListener)getParentFragment()).hideNavigationBar();
         setColorSpan(txtTitle, 0, 9);
 
-        ((HomeListener)getParentFragment()).updateDriverActivity();
+        ((HomeListener) getParentFragment()).updateDriverActivity();
     }
 
-    private void setColorSpan(TextView textView,  int fromPos,int toPos){
+    private void setColorSpan(TextView textView, int fromPos, int toPos) {
         SpannableStringBuilder sb = new SpannableStringBuilder(textView.getText());
         ForegroundColorSpan fcs = new ForegroundColorSpan(Color.RED);
         sb.setSpan(fcs, fromPos, toPos, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -102,18 +103,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener,HomeN
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnRequireRide:
-                    getFragmentManager().beginTransaction().
-                            setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
-                            replace(R.id.fragment, CustomerHomeFragment.init(),
-                                    CustomerHomeFragment.class.getName()).
-                            commit();
+                getFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
+                        replace(R.id.fragment, CustomerHomeFragment.init(),
+                                CustomerHomeFragment.class.getName()).
+                        commit();
 
                 break;
             case R.id.btnShareTrip:
-                UserInfo userInfo= (UserInfo) MyPreference.getObject("userInfo", UserInfo.class);
-                if(userInfo.driver_type.equals("0"))
+                UserInfo userInfo = (UserInfo) MyPreference.getObject("userInfo", UserInfo.class);
+                if (userInfo.driver_type.equals("0"))
                     showDriverDialog();
                 else {
                     getFragmentManager().beginTransaction().
@@ -142,7 +143,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,HomeN
 
                         getFragmentManager().beginTransaction().
                                 setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
-                                replace(R.id.fragment, RegisterDriverFragment.init(true, (UserInfo) MyPreference.getObject("userInfo",UserInfo.class)), RegisterDriverFragment.class.getName()).
+                                replace(R.id.fragment, RegisterDriverFragment.init(true, (UserInfo) MyPreference.getObject("userInfo", UserInfo.class)), RegisterDriverFragment.class.getName()).
                                 commit();
 
                     }
@@ -153,7 +154,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,HomeN
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                       dialog.dismiss();
+                        dialog.dismiss();
                     }
                 });
 
@@ -191,7 +192,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,HomeN
     public void onNextClick() {
 
     }
-
 
 
 }

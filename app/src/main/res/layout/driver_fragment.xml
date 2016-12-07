@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="plan your drive here:"
+            android:text="@string/driver_home_title"
             android:textColor="@color/black" />
     </LinearLayout>
 
@@ -36,32 +36,35 @@
         android:padding="10dp">
 
         <Button
+            android:id="@+id/btnPlanSingleAdvance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/box_shape"
             android:gravity="left|center_vertical"
-            android:padding="10dp" android:id="@+id/btnPlanSingleAdvance"
-            android:text="plan single drive in advanve"
+            android:padding="10dp"
+            android:text="@string/driver_home_single"
             android:textAllCaps="false"
             android:textColor="@color/black" />
 
         <Button
+            android:id="@+id/btnPlanAdHoc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/box_shape"
             android:gravity="left|center_vertical"
-            android:padding="10dp" android:id="@+id/btnPlanAdHoc"
-            android:text="plan ad hoc drive for now"
+            android:padding="10dp"
+            android:text="@string/driver_home_adhoc"
             android:textAllCaps="false"
             android:textColor="@color/black" />
 
         <Button
+            android:id="@+id/btnPreriodic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/box_shape"
             android:gravity="left|center_vertical"
-            android:padding="10dp" android:id="@+id/btnPreriodic"
-            android:text="plan periodic drives in next 7 days"
+            android:padding="10dp"
+            android:text="@string/driver_home_periodic"
             android:textAllCaps="false"
             android:textColor="@color/black" />
 
@@ -76,18 +79,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left|center_vertical"
-                android:text="If you want to work from cetain time of the day,  you can plan your working time of this day here"
+                android:text="@string/driver_home_desc"
                 android:textAllCaps="false"
                 android:textColor="@color/black" />
 
             <Button
-                android:layout_width="wrap_content" android:paddingLeft="20dp"
-                android:paddingRight="20dp" android:layout_gravity="center_horizontal"
-                android:layout_height="35dp" android:layout_marginTop="10dp"
+                android:id="@+id/btnPlanWorkingTime"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/box_shape"
                 android:gravity="center"
-                android:text="Plan working time"
-                android:textAllCaps="false" android:id="@+id/btnPlanWorkingTime"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/driver_home_plan"
+                android:textAllCaps="false"
                 android:textColor="@color/black" />
         </LinearLayout>
     </LinearLayout>

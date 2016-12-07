@@ -23,7 +23,6 @@ import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.activity.HomeActivity;
 import com.collecdoo.config.Constant;
-
 import com.collecdoo.control.AsteriskPassword;
 import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.MyJsonObject;
@@ -44,37 +43,42 @@ import retrofit2.Response;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class LoginFragment extends Fragment implements View.OnClickListener,OnBackListener {
-    private final String TAG="--login--";
-    @BindView(R.id.txtTitle) TextView txtTitle;
+public class LoginFragment extends Fragment implements View.OnClickListener, OnBackListener {
+    private final String TAG = "--login--";
+    @BindView(R.id.txtTitle)
+    TextView txtTitle;
 
-    @BindView(R.id.ediEmail) EditText ediEmail;
+    @BindView(R.id.ediEmail)
+    EditText ediEmail;
 
-    @BindView(R.id.ediPassword) EditText ediPassword;
+    @BindView(R.id.ediPassword)
+    EditText ediPassword;
 
-    @BindView(R.id.btnLogin) Button btnLogin;
-    @BindView(R.id.btnForgetPass) TextView btnForgetPass;
-    @BindView(R.id.btnRegister) TextView btnRegister;
+    @BindView(R.id.btnLogin)
+    Button btnLogin;
+    @BindView(R.id.btnForgetPass)
+    TextView btnForgetPass;
+    @BindView(R.id.btnRegister)
+    TextView btnRegister;
 
     private Unbinder unbinder;
-
-    public static LoginFragment init(){
-        LoginFragment registerFragment=new LoginFragment();
-        Bundle bundle=new Bundle();
-
-        registerFragment.setArguments(bundle);
-        return registerFragment;
-    }
-
     private Context context;
 
     public LoginFragment() {
     }
 
+    public static LoginFragment init() {
+        LoginFragment registerFragment = new LoginFragment();
+        Bundle bundle = new Bundle();
+
+        registerFragment.setArguments(bundle);
+        return registerFragment;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -85,8 +89,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener,OnBa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.login_fragment, container, false);
-        unbinder=ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.login_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         btnForgetPass.setOnClickListener(this);
@@ -102,15 +106,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener,OnBa
 
         ediPassword
                 .setTransformationMethod(new AsteriskPassword());
-        UserInfo userInfo= UserHelper.getUserInfo();
-        if(userInfo!=null) {
+        UserInfo userInfo = UserHelper.getUserInfo();
+        if (userInfo != null) {
             ediEmail.setText(userInfo.email);
             ediPassword.setText("");
         }
 
     }
 
-    private void setColorSpan(TextView textView,  int fromPos,int toPos){
+    private void setColorSpan(TextView textView, int fromPos, int toPos) {
         SpannableStringBuilder sb = new SpannableStringBuilder(textView.getText());
         ForegroundColorSpan fcs = new ForegroundColorSpan(Color.RED);
         sb.setSpan(fcs, fromPos, toPos, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -126,11 +130,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener,OnBa
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnLogin:
                 //sendNotification("hello");
-                if(validate()){
-                    login(UIHelper.getStringFromEditText(ediEmail),UIHelper.getStringFromEditText(ediPassword));
+                if (validate()) {
+                    login(UIHelper.getStringFromEditText(ediEmail), UIHelper.getStringFromEditText(ediPassword));
 
 
                 }
@@ -149,15 +153,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener,OnBa
     }
 
 
-    private boolean validate(){
-        StringBuffer mesError=new StringBuffer();
-        if(!UIHelper.validateEmailAddress(ediEmail.getText().toString().trim()))
-        {
-            mesError.append(getString(R.string.email_invalid)+"\n");
+    private boolean validate() {
+        StringBuffer mesError = new StringBuffer();
+        if (!UIHelper.validateEmailAddress(ediEmail.getText().toString().trim())) {
+            mesError.append(getString(R.string.email_invalid) + "\n");
         }
 
 
-        if(!TextUtils.isEmpty(mesError.toString())) {
+        if (!TextUtils.isEmpty(mesError.toString())) {
             Utility.showMessage(context, mesError.toString());
             return false;
         }
@@ -173,43 +176,41 @@ public class LoginFragment extends Fragment implements View.OnClickListener,OnBa
     }
 
 
-    private void login(  String email,
-                                        String password){
+    private void login(String email,
+                       String password) {
 
         MyRetrofitService taskService = ServiceGenerator.createService(MyRetrofitService.class);
-        JsonObject jsonObject=new JsonObject();
-        jsonObject.addProperty("email",email);
-        jsonObject.addProperty("password",password);
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("email", email);
+        jsonObject.addProperty("password", password);
         Call<MyJsonObject<UserInfo>> call = taskService.login(jsonObject);
-        final SimpleProgressDialog simpleProgressDialog=new SimpleProgressDialog(context);
+        final SimpleProgressDialog simpleProgressDialog = new SimpleProgressDialog(context);
         simpleProgressDialog.showBox();
         call.enqueue(new Callback<MyJsonObject<UserInfo>>() {
 
             @Override
             public void onResponse(Call<MyJsonObject<UserInfo>> call, Response<MyJsonObject<UserInfo>> response) {
                 simpleProgressDialog.dismiss();
-                if(response.isSuccessful()){
-                    MyJsonObject responseInfo= response.body();
+                if (response.isSuccessful()) {
+                    MyJsonObject responseInfo = response.body();
 
-                    if(responseInfo.status.toLowerCase().equals("ok")) {
+                    if (responseInfo.status.toLowerCase().equals("ok")) {
 
-                        UserInfo userInfo= (UserInfo) responseInfo.data;
+                        UserInfo userInfo = (UserInfo) responseInfo.data;
 
-                        MyPreference.setObject("userInfo",userInfo);
+                        MyPreference.setObject("userInfo", userInfo);
 
                         startActivity(new Intent(context, HomeActivity.class));
                         getActivity().finish();
-                    }
-                    else Utility.showMessage(context,responseInfo.message);
-                }
-                else Utility.showMessage(context,response.message());
+                    } else Utility.showMessage(context, responseInfo.message);
+                } else Utility.showMessage(context, response.message());
             }
 
             @Override
             public void onFailure(Call<MyJsonObject<UserInfo>> call, Throwable t) {
                 simpleProgressDialog.dismiss();
-                Utility.showMessage(context,t.getMessage());
-                Log.d(Constant.DEBUG_TAG,"error"+t.getMessage());
+                Utility.showMessage(context, t.getMessage());
+                Log.d(Constant.DEBUG_TAG, "error" + t.getMessage());
             }
         });
 

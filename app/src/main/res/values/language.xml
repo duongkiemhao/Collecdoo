@@ -6,6 +6,11 @@
     <string name="main_title">Collecdoo enables easly\n ad hoc door2door transfer in your city</string>
     <string name="main_desc">Collecdoo reduces pollution and traffic jams in your city by sharing a ride.Sometime you can take someone with you on your ride or some time you can just ride as a passenger.</string>
     <string name="main_do_you_like">Do you like to use Collecdoo app</string>
+    <array name="main_login_type">
+        <item>as passenger?</item>
+        <item>as driver?</item>
+        <item>as professional driver?</item>
+    </array>
 
     <!--login-->
     <string name="login_title">Collecdoo login</string>
@@ -48,4 +53,102 @@
     <string name="home_sgare_trip">Share my trip</string>
     <string name="home_bottom">Any way our mother earth is happy!</string>
 
+    <!--customer-->
+    <string name="customer_home_title">You can require a drive</string>
+    <string name="customer_home_single">as single drive in advanve</string>
+    <string name="customer_home_adhoc">as ad hoc drive for now</string>
+    <string name="customer_home_periodic">as periodic drives in next 7 days</string>
+    <string name="customer_home_desc">If you or your parent have to deliver  parcel from A to B for less in every city where Collecdoo operates , you can order delivery here</string>
+    <string name="customer_home_delivery">Require delivery</string>
+
+    <string name="customer_single_from">From: Street, house no, city</string>
+    <string name="customer_single_to">To: Street, house no, city</string>
+    <string name="customer_single_nop">number of person</string>
+    <string name="customer_single_select_pickup">select pickup date &amp; time</string>
+
+    <string name="customer_delivery_sender_title">Sender address:</string>
+    <string name="customer_delivery_sender_name">First name &amp; name</string>
+    <string name="customer_delivery_sender_from">From: Street, house no, city</string>
+    <string name="customer_delivery_sender_phone">Telephone of sender</string>
+    <string name="customer_delivery_sender_address">Address option</string>
+    <string name="customer_delivery_sender_select_pickup">select pickup date &amp; time</string>
+    <string name="customer_delivery_sender_package">Package size:</string>
+    <string name="customer_delivery_sender_small">small (&lt;60cm)</string>
+    <string name="customer_delivery_sender_medium">medium (&lt;110cm)</string>
+    <string name="customer_delivery_sender_big">big (&lt;130cm)</string>
+
+    <string name="customer_delivery_receiver_title">Receiver address:</string>
+    <string name="customer_delivery_receiver_to">From: Street, house no, city</string>
+    <string name="customer_delivery_receiver_name">First name &amp; name</string>
+    <string name="customer_delivery_receiver_phone">Telephone of receiver</string>
+    <string name="customer_delivery_receiver_address">Address option</string>
+
+
+    <!--driver-->
+    <string name="driver_home_title">plan your drive here:</string>
+    <string name="driver_home_single">plan single drive in advanve</string>
+    <string name="driver_home_adhoc">plan ad hoc drive for now</string>
+    <string name="driver_home_periodic">plan periodic drives in next 7 days</string>
+    <string name="driver_home_desc">If you want to work from cetain time of the day,  you can plan your working time of this day here</string>
+    <string name="driver_home_plan">Plan working time</string>
+
+    <string name="driver_single_select_pickup">Select start date &amp; time</string>
+
+    <string name="driver_adhoc_from">From here</string>
+    <string name="driver_adhoc_to">To: Street, house no, city</string>
+
+    <string name="driver_adhoc_start_time">Start time</string>
+    <string name="driver_adhoc_send_me">send me passengers</string>
+
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="free_seat">Free seat</string>
+
+
+    <!--account-->
+    <string name="account_profile">Profil</string>
+    <string name="account_address">Address</string>
+    <string name="account_bank_acc">Bank account</string>
+    <string name="account_update">Update Collecdoo function</string>
+    <string name="account_language">Language</string>
+    <string name="account_logout">Logout</string>
+
+    <!--language-->
+    <string name="language_save">Save</string>
+
+    <!--list of drive-->
+    <string name="lod_select_time">select time frame:</string>
+    <string name="lod_search">Search</string>
+
+    <!--list of drive detail-->
+    <string name="lod_detail_detail">Detail</string>
+    <string name="lod_detail_from">From:</string>
+    <string name="lod_detail_to">To:</string>
+    <string name="lod_detail_pickup">Pickup:</string>
+    <string name="lod_detail_drop">Drop:</string>
+    <string name="lod_detail_cost">Cost:</string>
+    <string name="lod_detail_rating">Rating:</string>
+    <string name="lod_detail_note">Note:</string>
+    <string name="lod_detail_close">Close</string>
+
+    <!--pickup drop-->
+    <string name="pickup_drop_title_pickup">you are going to pickup</string>
+    <string name="pickup_drop_title_drop">you are going to drop</string>
+    <string name="pickup_drop_send_pickup">Send pickup info</string>
+    <string name="pickup_drop_send_drop">Send drop info</string>
+    <string name="pickup_drop_sos">SOS</string>
+    <string name="pickup_drop_dialog_message">Do you like to view next stop? Yes/No</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+
+
+    <!--pickup drop stop-->
+    <string name="pickup_drop_stop_title">Get signature</string>
+    <string name="pickup_drop_stop_neighbor">Neighbor</string>
+    <string name="pickup_drop_stop_neighbor_hint">Neighbor name</string>
+    <string name="pickup_drop_stop_signature">Confirm signature:</string>
+    <string name="pickup_drop_stop_clear">Clear</string>
+    <string name="pickup_drop_stop_cancel">Cancel</string>
+    <string name="pickup_drop_stop_confirm">Confirm</string>
 </resources>

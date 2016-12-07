@@ -28,7 +28,6 @@ import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.activity.HomeActivity;
 import com.collecdoo.config.Constant;
-
 import com.collecdoo.control.AsteriskPassword;
 import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.ResponseInfo;
@@ -56,50 +55,60 @@ import retrofit2.Response;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class RegisterFragment extends Fragment implements View.OnClickListener,OnBackListener,
-        DatePickerDialog.OnDateSetListener{
-    private final String TAG="--register--";
-    @BindView(R.id.txtTitle) TextView txtTitle;
-    @BindView(R.id.ediFirstName) EditText ediFirstName;
-    @BindView(R.id.ediName) EditText ediName;
-    @BindView(R.id.ediEmail) EditText ediEmail;
-    @BindView(R.id.ediPhone) EditText ediPhone;
-    @BindView(R.id.ediPassword) EditText ediPassword;
-    @BindView(R.id.ediConfirmPass) EditText ediConfirmPass;
-    @BindView(R.id.txtYearOfBirth) TextView txtYearOfBirth;
-    @BindView(R.id.btnOk) Button btnOk;
-    @BindView(R.id.rdgGender) RadioGroup rdgGender;
+public class RegisterFragment extends Fragment implements View.OnClickListener, OnBackListener,
+        DatePickerDialog.OnDateSetListener {
+    private final String TAG = "--register--";
+    @BindView(R.id.txtTitle)
+    TextView txtTitle;
+    @BindView(R.id.ediFirstName)
+    EditText ediFirstName;
+    @BindView(R.id.ediName)
+    EditText ediName;
+    @BindView(R.id.ediEmail)
+    EditText ediEmail;
+    @BindView(R.id.ediPhone)
+    EditText ediPhone;
+    @BindView(R.id.ediPassword)
+    EditText ediPassword;
+    @BindView(R.id.ediConfirmPass)
+    EditText ediConfirmPass;
+    @BindView(R.id.txtYearOfBirth)
+    TextView txtYearOfBirth;
+    @BindView(R.id.btnOk)
+    Button btnOk;
+    @BindView(R.id.rdgGender)
+    RadioGroup rdgGender;
     boolean isPassenger = false;
-    boolean isDriver=false;
-    boolean isProDriver=false;
+    boolean isDriver = false;
+    boolean isProDriver = false;
 
     //private int userType;
     private Unbinder unbinder;
-
-    public static RegisterFragment init(){
-        RegisterFragment registerFragment=new RegisterFragment();
-        Bundle bundle=new Bundle();
-
-        registerFragment.setArguments(bundle);
-        return registerFragment;
-    }
-    public static RegisterFragment init(UserInfo userInfo){
-        RegisterFragment registerFragment=new RegisterFragment();
-        Bundle bundle=new Bundle();
-        bundle.putParcelable("userInfo",userInfo);
-        registerFragment.setArguments(bundle);
-        return registerFragment;
-    }
-
     private Context context;
 
     public RegisterFragment() {
     }
 
+    public static RegisterFragment init() {
+        RegisterFragment registerFragment = new RegisterFragment();
+        Bundle bundle = new Bundle();
+
+        registerFragment.setArguments(bundle);
+        return registerFragment;
+    }
+
+    public static RegisterFragment init(UserInfo userInfo) {
+        RegisterFragment registerFragment = new RegisterFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("userInfo", userInfo);
+        registerFragment.setArguments(bundle);
+        return registerFragment;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -112,8 +121,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,O
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.register_fragment, container, false);
-        unbinder=ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.register_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
         btnOk.setOnClickListener(this);
 
         return view;
@@ -130,8 +139,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,O
                 .setTransformationMethod(new AsteriskPassword());
         txtYearOfBirth.setOnClickListener(this);
 
-        UserInfo userInfo=getArguments().getParcelable("userInfo");
-        if(userInfo!=null){
+        UserInfo userInfo = getArguments().getParcelable("userInfo");
+        if (userInfo != null) {
             ediEmail.setText(userInfo.getEmail());
             ediFirstName.setText(userInfo.getFirst_name());
             ediName.setText(userInfo.getLast_name());
@@ -140,8 +149,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,O
             ediConfirmPass.setText(userInfo.getPassword());
             SimpleDateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
             SimpleDateFormat toFormat = new SimpleDateFormat("MM/dd/yyyy");
-            if(!TextUtils.isEmpty(userInfo.birthday)){
-                Date date= null;
+            if (!TextUtils.isEmpty(userInfo.birthday)) {
+                Date date = null;
                 try {
                     date = fromFormat.parse(userInfo.birthday);
                     txtYearOfBirth.setText(toFormat.format(date));
@@ -151,15 +160,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,O
 
             }
 
-            if(TextUtils.isEmpty(userInfo.getGent()) || userInfo.getGent().equals("0") )
-                ((RadioButton)rdgGender.getChildAt(1)).setChecked(true);
-            else ((RadioButton)rdgGender.getChildAt(1)).setChecked(false);
+            if (TextUtils.isEmpty(userInfo.getGent()) || userInfo.getGent().equals("0"))
+                ((RadioButton) rdgGender.getChildAt(1)).setChecked(true);
+            else ((RadioButton) rdgGender.getChildAt(1)).setChecked(false);
 
 
         }
     }
 
-    private void setColorSpan(TextView textView,  int fromPos,int toPos){
+    private void setColorSpan(TextView textView, int fromPos, int toPos) {
         SpannableStringBuilder sb = new SpannableStringBuilder(textView.getText());
         ForegroundColorSpan fcs = new ForegroundColorSpan(Color.RED);
         sb.setSpan(fcs, fromPos, toPos, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -175,44 +184,44 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,O
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.txtYearOfBirth:
                 showDatePicker();
                 break;
             default:
-                if(validate()){
-                    List<Integer> userTypeList=MyPreference.getListObject(MainFragment.LIST_USER_TYPE,Integer.class);
+                if (validate()) {
+                    List<Integer> userTypeList = MyPreference.getListObject(MainFragment.LIST_USER_TYPE, Integer.class);
 
-                    if(userTypeList.contains(2))
-                        isProDriver=true;
-                     if(userTypeList.contains(1))
-                         isDriver=true;
-                    if(userTypeList.contains(0))
-                        isPassenger=true;
-                    String dob="";
+                    if (userTypeList.contains(2))
+                        isProDriver = true;
+                    if (userTypeList.contains(1))
+                        isDriver = true;
+                    if (userTypeList.contains(0))
+                        isPassenger = true;
+                    String dob = "";
                     SimpleDateFormat fromFormat = new SimpleDateFormat("MM/dd/yyyy");
                     SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 
                     try {
-                        Date     date=fromFormat.parse( txtYearOfBirth.getText().toString());
-                        dob=toFormat.format(date);
+                        Date date = fromFormat.parse(txtYearOfBirth.getText().toString());
+                        dob = toFormat.format(date);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    UserInfo userInfo=new UserInfo(UIHelper.getStringFromEditText(ediFirstName),
+                    UserInfo userInfo = new UserInfo(UIHelper.getStringFromEditText(ediFirstName),
                             UIHelper.getStringFromEditText(ediName),
                             UIHelper.getStringFromEditText(ediEmail),
                             UIHelper.getStringFromEditText(ediPassword),
                             UIHelper.getStringFromEditText(ediPhone),
                             dob,
-                            (rdgGender.getCheckedRadioButtonId()==R.id.rdbMan)?"1":"0",
-                            isPassenger?"1":"0",
-                            isDriver?"1":"0",
-                            isProDriver?"1":"0","","","","","","","",
+                            (rdgGender.getCheckedRadioButtonId() == R.id.rdbMan) ? "1" : "0",
+                            isPassenger ? "1" : "0",
+                            isDriver ? "1" : "0",
+                            isProDriver ? "1" : "0", "", "", "", "", "", "", "",
                             MyPreference.getString(QuickstartPreferences.TOKEN_STRING));
                     //MyPreference.setObject("userInfo",userInfo);
 
-                        register(userInfo);
+                    register(userInfo);
 
 
                 }
@@ -222,23 +231,21 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,O
     }
 
 
-    private void showDatePicker()
-    {
+    private void showDatePicker() {
 
-        Calendar calendar=Calendar.getInstance();
-        String birthDay=txtYearOfBirth.getText().toString();
-        if(!TextUtils.isEmpty(birthDay)) {
+        Calendar calendar = Calendar.getInstance();
+        String birthDay = txtYearOfBirth.getText().toString();
+        if (!TextUtils.isEmpty(birthDay)) {
             try {
-                Date date=new SimpleDateFormat("MM/dd/yyyy").parse(birthDay);
+                Date date = new SimpleDateFormat("MM/dd/yyyy").parse(birthDay);
                 calendar.setTime(date);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-        }
-        else calendar.setTime(new Date());
+        } else calendar.setTime(new Date());
 
         final DatePickerDialog datePickerDialog = new DatePickerDialog(
-                context, android.R.style.Theme_Holo_Light_Dialog_MinWidth,this, calendar.get(Calendar.YEAR),
+                context, android.R.style.Theme_Holo_Light_Dialog_MinWidth, this, calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DATE));
         datePickerDialog.getDatePicker().setCalendarViewShown(false);
@@ -247,32 +254,31 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,O
         datePickerDialog.show();
     }
 
-    private boolean validate(){
-        StringBuffer mesError=new StringBuffer();
-        if(!UIHelper.validateEmailAddress(ediEmail.getText().toString().trim()))
-        {
-            mesError.append(getString(R.string.email_invalid)+"\n");
+    private boolean validate() {
+        StringBuffer mesError = new StringBuffer();
+        if (!UIHelper.validateEmailAddress(ediEmail.getText().toString().trim())) {
+            mesError.append(getString(R.string.email_invalid) + "\n");
         }
-        if(TextUtils.isEmpty(UIHelper.getStringFromEditText(ediPassword))
+        if (TextUtils.isEmpty(UIHelper.getStringFromEditText(ediPassword))
                 || TextUtils.isEmpty(UIHelper.getStringFromEditText(ediConfirmPass))
-                || !ediPassword.getText().toString().trim().equals(ediConfirmPass.getText().toString().trim())){
+                || !ediPassword.getText().toString().trim().equals(ediConfirmPass.getText().toString().trim())) {
             mesError.append("Password in invalid");
         }
 
-        if(!TextUtils.isEmpty(mesError.toString())) {
+        if (!TextUtils.isEmpty(mesError.toString())) {
             Utility.showMessage(context, mesError.toString());
             return false;
         }
         try {
-            Date date=new SimpleDateFormat("MM/dd/yyyy").parse(txtYearOfBirth.getText().toString());
-            if(DateHelper.compare2DatePart(date,new Date())>=0) {
+            Date date = new SimpleDateFormat("MM/dd/yyyy").parse(txtYearOfBirth.getText().toString());
+            if (DateHelper.compare2DatePart(date, new Date()) >= 0) {
                 Utility.showMessage(context, "Please enter a valid birthday");
                 return false;
             }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if(!TextUtils.isEmpty(mesError.toString())) {
+        if (!TextUtils.isEmpty(mesError.toString())) {
             Utility.showMessage(context, mesError.toString());
             return false;
         }
@@ -289,60 +295,57 @@ public class RegisterFragment extends Fragment implements View.OnClickListener,O
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        txtYearOfBirth.setText(formatCalendarOutput(monthOfYear+1)+"/"+formatCalendarOutput(dayOfMonth)+"/"+year);
+        txtYearOfBirth.setText(formatCalendarOutput(monthOfYear + 1) + "/" + formatCalendarOutput(dayOfMonth) + "/" + year);
     }
 
-    private String formatCalendarOutput(int value){
-        if(value<10)
-            return "0"+value;
-        else return value+"";
+    private String formatCalendarOutput(int value) {
+        if (value < 10)
+            return "0" + value;
+        else return value + "";
     }
 
-    private void register( UserInfo userInfo){
-        Log.d(TAG,new Gson().toJson(userInfo).toString());
-            MyRetrofitService taskService = ServiceGenerator.createService(MyRetrofitService.class);
+    private void register(UserInfo userInfo) {
+        Log.d(TAG, new Gson().toJson(userInfo).toString());
+        MyRetrofitService taskService = ServiceGenerator.createService(MyRetrofitService.class);
 
 
         Call<ResponseInfo> call = taskService.register(userInfo);
-        final SimpleProgressDialog simpleProgressDialog=new SimpleProgressDialog(context);
+        final SimpleProgressDialog simpleProgressDialog = new SimpleProgressDialog(context);
         simpleProgressDialog.showBox();
-            call.enqueue(new Callback<ResponseInfo>() {
+        call.enqueue(new Callback<ResponseInfo>() {
 
-                @Override
-                public void onResponse(Call<ResponseInfo> call, Response<ResponseInfo> response) {
-                    simpleProgressDialog.dismiss();
-                    if(response.isSuccessful()){
-                        ResponseInfo responseInfo= response.body();
-                        Log.d(TAG,response.message());
+            @Override
+            public void onResponse(Call<ResponseInfo> call, Response<ResponseInfo> response) {
+                simpleProgressDialog.dismiss();
+                if (response.isSuccessful()) {
+                    ResponseInfo responseInfo = response.body();
+                    Log.d(TAG, response.message());
 
-                        if(responseInfo.status.toLowerCase().equals("ok")) {
-                            UserInfo userInfo= new Gson().fromJson( responseInfo.data,UserInfo.class);
+                    if (responseInfo.status.toLowerCase().equals("ok")) {
+                        UserInfo userInfo = new Gson().fromJson(responseInfo.data, UserInfo.class);
 
-                            if(isDriver || isProDriver) {
-                                getFragmentManager().beginTransaction().
-                                        setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
-                                        replace(R.id.fragment, RegisterDriverFragment.init(false,userInfo), RegisterDriverFragment.class.getName()).commit();
+                        if (isDriver || isProDriver) {
+                            getFragmentManager().beginTransaction().
+                                    setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
+                                    replace(R.id.fragment, RegisterDriverFragment.init(false, userInfo), RegisterDriverFragment.class.getName()).commit();
 
-                            }
-                            else{
-                                MyPreference.setObject("userInfo",userInfo);
-                                startActivity(new Intent(context, HomeActivity.class));
-                                getActivity().finish();
-                            }
+                        } else {
+                            MyPreference.setObject("userInfo", userInfo);
+                            startActivity(new Intent(context, HomeActivity.class));
+                            getActivity().finish();
                         }
-                        else Utility.showMessage(context,responseInfo.message);
+                    } else Utility.showMessage(context, responseInfo.message);
 
-                    }
-                    else Utility.showMessage(context,response.message());
-                }
+                } else Utility.showMessage(context, response.message());
+            }
 
-                @Override
-                public void onFailure(Call<ResponseInfo> call, Throwable t) {
-                    simpleProgressDialog.dismiss();
-                    Utility.showMessage(context,t.getMessage());
-                    Log.d(Constant.DEBUG_TAG,"error"+t.getMessage());
-                }
-            });
+            @Override
+            public void onFailure(Call<ResponseInfo> call, Throwable t) {
+                simpleProgressDialog.dismiss();
+                Utility.showMessage(context, t.getMessage());
+                Log.d(Constant.DEBUG_TAG, "error" + t.getMessage());
+            }
+        });
 
     }
 

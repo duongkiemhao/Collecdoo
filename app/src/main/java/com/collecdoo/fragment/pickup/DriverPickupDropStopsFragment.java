@@ -27,27 +27,26 @@ import butterknife.Unbinder;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class DriverPickupDropStopsFragment extends Fragment implements View.OnClickListener{
+public class DriverPickupDropStopsFragment extends Fragment implements View.OnClickListener {
 
-    @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
     private StopsAdapter stopsAdapter;
     private Unbinder unbinder;
+    private Context context;
 
-    public static DriverPickupDropStopsFragment init(List<PathOfRouteInfo> pathOfRouteInfoList){
-        DriverPickupDropStopsFragment registerFragment=new DriverPickupDropStopsFragment();
-        Bundle bundle=new Bundle();
+    public static DriverPickupDropStopsFragment init(List<PathOfRouteInfo> pathOfRouteInfoList) {
+        DriverPickupDropStopsFragment registerFragment = new DriverPickupDropStopsFragment();
+        Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) pathOfRouteInfoList);
         registerFragment.setArguments(bundle);
         return registerFragment;
     }
 
-    private Context context;
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -59,8 +58,8 @@ public class DriverPickupDropStopsFragment extends Fragment implements View.OnCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.driver_pickup_drop_stops_fragment, container, false);
-        unbinder=ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.driver_pickup_drop_stops_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
 
         return view;
     }
@@ -68,21 +67,21 @@ public class DriverPickupDropStopsFragment extends Fragment implements View.OnCl
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(Constant.DEBUG_TAG,"in stops");
+        Log.d(Constant.DEBUG_TAG, "in stops");
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        stopsAdapter=new StopsAdapter(context);
+        stopsAdapter = new StopsAdapter(context);
         recyclerView.setAdapter(stopsAdapter);
 
         loadData();
 
     }
 
-    private void loadData(){
-        List<PathOfRouteInfo> pathOfRouteInfoList=getArguments().getParcelableArrayList("list");
+    private void loadData() {
+        List<PathOfRouteInfo> pathOfRouteInfoList = getArguments().getParcelableArrayList("list");
 
         stopsAdapter.setList(pathOfRouteInfoList);
     }
@@ -95,7 +94,7 @@ public class DriverPickupDropStopsFragment extends Fragment implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnProfil:
 
                 break;
@@ -111,8 +110,6 @@ public class DriverPickupDropStopsFragment extends Fragment implements View.OnCl
 //                replace(R.id.fragment, RegisterDriverPhotoFragment.init(), ConstantTabTag.REGISTER_DRIVER_PHOTO).
 //                commit();
 //    }
-
-
 
 
     class StopsAdapter extends RecyclerView.Adapter<StopsAdapter.MyViewHolder> {
@@ -148,11 +145,11 @@ public class DriverPickupDropStopsFragment extends Fragment implements View.OnCl
 //                    dialog.show(getFragmentManager(),"listOfDriveDetail");
 //                }
 //            });
-            PathOfRouteInfo pathOfRouteInfo=list.get(pos);
+            PathOfRouteInfo pathOfRouteInfo = list.get(pos);
             myViewHolder.txtName.setText(pathOfRouteInfo.customer_name);
             myViewHolder.txtAddress.setText(pathOfRouteInfo.destinationInfo);
             myViewHolder.txtMobile.setText(pathOfRouteInfo.telephone);
-            myViewHolder.imaPin.setImageResource(pathOfRouteInfo.is_delivery.equals("0")?R.drawable.ico_pin_from:R.drawable.ico_pin_to);
+            myViewHolder.imaPin.setImageResource(pathOfRouteInfo.is_delivery.equals("0") ? R.drawable.ico_pin_from : R.drawable.ico_pin_to);
         }
 
         @Override
@@ -162,10 +159,18 @@ public class DriverPickupDropStopsFragment extends Fragment implements View.OnCl
 
         class MyViewHolder extends RecyclerView.ViewHolder {
 
-            public @BindView(R.id.txtName) TextView txtName;
-            public @BindView(R.id.txtMobile) TextView txtMobile;
-            public @BindView(R.id.txtAddress) TextView txtAddress;
-            public @BindView(R.id.imaPin) ImageView imaPin;
+            public
+            @BindView(R.id.txtName)
+            TextView txtName;
+            public
+            @BindView(R.id.txtMobile)
+            TextView txtMobile;
+            public
+            @BindView(R.id.txtAddress)
+            TextView txtAddress;
+            public
+            @BindView(R.id.imaPin)
+            ImageView imaPin;
 
 
             public MyViewHolder(View itemView) {
@@ -178,7 +183,7 @@ public class DriverPickupDropStopsFragment extends Fragment implements View.OnCl
         }
     }
 
-    class StopsInfo{
+    class StopsInfo {
         public String name;
         public String mobile;
         public String address;

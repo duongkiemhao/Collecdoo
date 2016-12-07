@@ -8,7 +8,6 @@ import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -35,7 +34,6 @@ import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
-
 import com.collecdoo.control.InstantAutoComplete;
 import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.DeliveryInfo;
@@ -77,43 +75,43 @@ import retrofit2.Callback;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CustomerDelivery2Fragment extends BaseFragment implements View.OnClickListener,OnBackListener,
-        OnMapReadyCallback ,HomeNavigationListener {
-    @BindView(R.id.ediFirstName) EditText ediFirstName;
+public class CustomerDelivery2Fragment extends BaseFragment implements View.OnClickListener, OnBackListener,
+        OnMapReadyCallback, HomeNavigationListener {
+    private final String TAG = "--delive step2--";
+    private final int PLACES = 0;
+    private final int PLACES_DETAILS = 1;
+    @BindView(R.id.ediFirstName)
+    EditText ediFirstName;
     @BindView(R.id.txtTo)
     InstantAutoComplete txtTo;
-    @BindView(R.id.ediTel) EditText ediTel;
-    @BindView(R.id.ediAddress) EditText ediAddress;
-    private final String TAG="--delive step2--";
-    @BindView(R.id.btnOk) Button btnOk;
+    @BindView(R.id.ediTel)
+    EditText ediTel;
+    @BindView(R.id.ediAddress)
+    EditText ediAddress;
+    @BindView(R.id.btnOk)
+    Button btnOk;
     private DeliveryInfo deliveryInfo;
-
     private GoogleMap googleMap;
     private LatLng endLat;
     private ArrayList<LatLng> markerPoints;
-
-    private final int PLACES=0;
-    private final int PLACES_DETAILS=1;
     private String browserKey = "AIzaSyBwRYVxhnE8LGKvve6Mq75ke0dkaVp39hQ";
 
     private Unbinder unbinder;
+    private Context context;
 
-    public static CustomerDelivery2Fragment init(DeliveryInfo deliveryInfo){
-        CustomerDelivery2Fragment registerFragment=new CustomerDelivery2Fragment();
-        Bundle bundle=new Bundle();
-        bundle.putParcelable("deliveryInfo",deliveryInfo);
+    public static CustomerDelivery2Fragment init(DeliveryInfo deliveryInfo) {
+        CustomerDelivery2Fragment registerFragment = new CustomerDelivery2Fragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("deliveryInfo", deliveryInfo);
         registerFragment.setArguments(bundle);
 
         return registerFragment;
     }
 
-    private Context context;
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -124,8 +122,8 @@ public class CustomerDelivery2Fragment extends BaseFragment implements View.OnCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.customer_delivery_step2_fragment, container, false);
-        unbinder=ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.customer_delivery_step2_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
         btnOk.setOnClickListener(this);
 
         return view;
@@ -136,17 +134,17 @@ public class CustomerDelivery2Fragment extends BaseFragment implements View.OnCl
         super.onViewCreated(view, savedInstanceState);
 
 
-        SupportMapFragment supportMapFragment=SupportMapFragment.newInstance();
+        SupportMapFragment supportMapFragment = SupportMapFragment.newInstance();
         supportMapFragment.getMapAsync(this);
-        getChildFragmentManager().beginTransaction().replace(R.id.fragment,supportMapFragment,"map").commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.fragment, supportMapFragment, "map").commit();
 
         // Getting a reference to the AutoCompleteTextView
         setupAutoCompleteTextView(txtTo);
-        deliveryInfo=getArguments().getParcelable("deliveryInfo");
+        deliveryInfo = getArguments().getParcelable("deliveryInfo");
         txtTo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                TextToSpeedManager.startTTS(CustomerDelivery2Fragment.this,txtTo,TO_REQUEST_CODE);
+                TextToSpeedManager.startTTS(CustomerDelivery2Fragment.this, txtTo, TO_REQUEST_CODE);
                 return false;
             }
         });
@@ -167,11 +165,11 @@ public class CustomerDelivery2Fragment extends BaseFragment implements View.OnCl
         }
     }
 
-    private void setupAutoCompleteTextView(final AutoCompleteTextView autoCompleteTextView){
+    private void setupAutoCompleteTextView(final AutoCompleteTextView autoCompleteTextView) {
         autoCompleteTextView.setThreshold(1);
         Point pointSize = new Point();
 
-        ((AppCompatActivity)context).getWindowManager().getDefaultDisplay().getSize(pointSize);
+        ((AppCompatActivity) context).getWindowManager().getDefaultDisplay().getSize(pointSize);
 
         autoCompleteTextView.setDropDownWidth(pointSize.x);
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
@@ -201,16 +199,15 @@ public class CustomerDelivery2Fragment extends BaseFragment implements View.OnCl
                 HashMap<String, String> hm = new HashMap<String, String>();
                 try {
                     hm = (HashMap<String, String>) adapter.getItem(index);
-                }
-                catch (Exception exp){
-                    LinkedTreeMap<String,String> tmap= (LinkedTreeMap<String,String>) adapter.getItem(index);
-                    for ( String key : tmap.keySet() ) {
-                        hm.put(key,tmap.get(key));
+                } catch (Exception exp) {
+                    LinkedTreeMap<String, String> tmap = (LinkedTreeMap<String, String>) adapter.getItem(index);
+                    for (String key : tmap.keySet()) {
+                        hm.put(key, tmap.get(key));
                     }
                 }
-                HashSet<HashMap<String,String>> hashSet= (HashSet<HashMap<String, String>>) MyPreference.getObjectHashsetMap(Constant.PRE_LIST_SUGGESTION,HashSet.class);
+                HashSet<HashMap<String, String>> hashSet = (HashSet<HashMap<String, String>>) MyPreference.getObjectHashsetMap(Constant.PRE_LIST_SUGGESTION, HashSet.class);
                 hashSet.add(hm);
-                MyPreference.setObject(Constant.PRE_LIST_SUGGESTION,hashSet );
+                MyPreference.setObject(Constant.PRE_LIST_SUGGESTION, hashSet);
 
                 autoCompleteTextView.setText(hm.get("description"));
                 String url = getPlaceDetailsUrl(hm.get("reference"));
@@ -228,7 +225,7 @@ public class CustomerDelivery2Fragment extends BaseFragment implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.imaSearch:
 
                 break;
@@ -245,15 +242,15 @@ public class CustomerDelivery2Fragment extends BaseFragment implements View.OnCl
 
                 break;
             case R.id.btnOk:
-                if(endLat==null || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtTo)))
+                if (endLat == null || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtTo)))
                     return;
                 deliveryInfo.setDropInfo(txtTo.getText().toString());
-                deliveryInfo.setLat2(endLat.latitude+"");
-                deliveryInfo.setLon2(endLat.longitude+"");
+                deliveryInfo.setLat2(endLat.latitude + "");
+                deliveryInfo.setLon2(endLat.longitude + "");
                 deliveryInfo.setEstimatedDistance(Utility.calculationByDistance(
                         new LatLng(Double.parseDouble(deliveryInfo.getLat1()),
                                 Double.parseDouble(deliveryInfo.getLon1())),
-                        endLat)+"");
+                        endLat) + "");
                 deliveryBooking(deliveryInfo);
                 break;
         }
@@ -271,45 +268,42 @@ public class CustomerDelivery2Fragment extends BaseFragment implements View.OnCl
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        this.googleMap=googleMap;
+        this.googleMap = googleMap;
         this.googleMap.getUiSettings().setZoomControlsEnabled(true);
-        this.googleMap.setPadding(0,0,0, (int) Utility.convertDPtoPIXEL(TypedValue.COMPLEX_UNIT_DIP,40));
-        markerPoints=new ArrayList<>();
+        this.googleMap.setPadding(0, 0, 0, (int) Utility.convertDPtoPIXEL(TypedValue.COMPLEX_UNIT_DIP, 40));
+        markerPoints = new ArrayList<>();
 //        endLat=new LatLng(43.6533103,-79.3827675);
 //        endLat=new LatLng(45.5017123,-73.5672184);
 
     }
 
 
-
-    private void deliveryBooking(DeliveryInfo deliveryInfo){
-        Log.d(TAG,deliveryInfo.toString());
+    private void deliveryBooking(DeliveryInfo deliveryInfo) {
+        Log.d(TAG, deliveryInfo.toString());
         MyRetrofitService taskService = ServiceGenerator.createService(MyRetrofitService.class);
 
         Call<ResponseInfo> call = taskService.deliveryBooking(deliveryInfo);
-        final SimpleProgressDialog simpleProgressDialog=new SimpleProgressDialog(context);
+        final SimpleProgressDialog simpleProgressDialog = new SimpleProgressDialog(context);
         simpleProgressDialog.showBox();
         call.enqueue(new Callback<ResponseInfo>() {
 
             @Override
             public void onResponse(Call<ResponseInfo> call, retrofit2.Response<ResponseInfo> response) {
                 simpleProgressDialog.dismiss();
-                if(response.isSuccessful()){
-                    ResponseInfo deliveryWrapperInfo= response.body();
-                    Log.d(TAG,deliveryWrapperInfo.toString());
-                    if(deliveryWrapperInfo.status.toLowerCase().equals("ok")) {
+                if (response.isSuccessful()) {
+                    ResponseInfo deliveryWrapperInfo = response.body();
+                    Log.d(TAG, deliveryWrapperInfo.toString());
+                    if (deliveryWrapperInfo.status.toLowerCase().equals("ok")) {
                         showNextDialog();
-                    }
-                    else Utility.showMessage(context,deliveryWrapperInfo.message);
-                }
-                else Utility.showMessage(context,response.message());
+                    } else Utility.showMessage(context, deliveryWrapperInfo.message);
+                } else Utility.showMessage(context, response.message());
             }
 
             @Override
             public void onFailure(Call<ResponseInfo> call, Throwable t) {
                 simpleProgressDialog.dismiss();
-                Utility.showMessage(context,t.getMessage());
-                Log.d(Constant.DEBUG_TAG,"error"+t.getMessage());
+                Utility.showMessage(context, t.getMessage());
+                Log.d(Constant.DEBUG_TAG, "error" + t.getMessage());
             }
         });
 
@@ -350,21 +344,19 @@ public class CustomerDelivery2Fragment extends BaseFragment implements View.OnCl
     }
 
 
-
     @OnClick(R.id.imaQuestion)
-    void onQuesionClick(){
+    void onQuesionClick() {
 
         onProcessQuestionClick();
     }
 
 
-    private void onProcessQuestionClick(){
-        HashSet<HashMap<String,String>> lHMFrom= (HashSet<HashMap<String, String>>) MyPreference.getObject(Constant.PRE_LIST_SUGGESTION,HashSet.class);
-        if(lHMFrom!=null)
-        {
-            String[] from = new String[] { "description"};
-            int[] to = new int[] { android.R.id.text1 };
-            List<HashMap<String, String>> hashMapList=new ArrayList<HashMap<String, String>>(lHMFrom);
+    private void onProcessQuestionClick() {
+        HashSet<HashMap<String, String>> lHMFrom = (HashSet<HashMap<String, String>>) MyPreference.getObject(Constant.PRE_LIST_SUGGESTION, HashSet.class);
+        if (lHMFrom != null) {
+            String[] from = new String[]{"description"};
+            int[] to = new int[]{android.R.id.text1};
+            List<HashMap<String, String>> hashMapList = new ArrayList<HashMap<String, String>>(lHMFrom);
             SimpleAdapter adapter = new SimpleAdapter(context, hashMapList, android.R.layout.simple_list_item_1, from, to);
 
 
@@ -542,25 +534,25 @@ public class CustomerDelivery2Fragment extends BaseFragment implements View.OnCl
 //    }
 
     //-------google place----------
-    private String getPlaceDetailsUrl(String ref){
+    private String getPlaceDetailsUrl(String ref) {
 
         // Obtain browser key from https://code.google.com/apis/console
         String key = "key=AIzaSyBwRYVxhnE8LGKvve6Mq75ke0dkaVp39hQ";
 
         // reference of place
-        String reference = "reference="+ref;
+        String reference = "reference=" + ref;
 
         // Sensor enabled
         String sensor = "sensor=false";
 
         // Building the parameters to the web service
-        String parameters = reference+"&"+sensor+"&"+key;
+        String parameters = reference + "&" + sensor + "&" + key;
 
         // Output format
         String output = "json";
 
         // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/place/details/"+output+"?"+parameters;
+        String url = "https://maps.googleapis.com/maps/api/place/details/" + output + "?" + parameters;
 
         return url;
     }
@@ -597,86 +589,6 @@ public class CustomerDelivery2Fragment extends BaseFragment implements View.OnCl
                 setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
                 replace(R.id.fragment, CustomerHomeFragment.init(), CustomerHomeFragment.class.getName()).
                 commit();
-    }
-
-    /** A class to parse the Google Places in JSON format */
-    private class ParserPlaceTask extends AsyncTask<String, Integer, List<HashMap<String,String>>>{
-
-        int parserType = 0;
-
-        public ParserPlaceTask(int type){
-            this.parserType = type;
-        }
-
-        @Override
-        protected List<HashMap<String, String>> doInBackground(String... jsonData) {
-
-            JSONObject jObject;
-            List<HashMap<String, String>> list = null;
-
-            try{
-                jObject = new JSONObject(jsonData[0]);
-                Log.d("ParserPlaceTask","---ParserPlaceTask---"+jObject.toString());
-
-                switch(parserType){
-                    case PLACES :
-                        PlaceJSONParser placeJsonParser = new PlaceJSONParser();
-                        // Getting the parsed data as a List construct
-                        list = placeJsonParser.parse(jObject);
-                        break;
-                    case PLACES_DETAILS :
-                        PlaceDetailsJSONParser placeDetailsJsonParser = new PlaceDetailsJSONParser();
-                        // Getting the parsed data as a List construct
-                        list = placeDetailsJsonParser.parse(jObject);
-                }
-
-            }catch(Exception e){
-                Log.d("Exception",e.toString());
-            }
-            return list;
-        }
-
-        @Override
-        protected void onPostExecute(List<HashMap<String, String>> result) {
-
-            switch(parserType){
-                case PLACES :
-                    String[] from = new String[] { "description"};
-                    int[] to = new int[] { android.R.id.text1 };
-
-                    SimpleAdapter adapter = new SimpleAdapter(context, result, android.R.layout.simple_list_item_1, from, to);
-
-
-                    txtTo.setAdapter(adapter);
-
-                    adapter.notifyDataSetChanged();
-                    break;
-                case PLACES_DETAILS :
-                    HashMap<String, String> hm = result.get(0);
-
-                    // Getting latitude from the parsed data
-                    double latitude = Double.parseDouble(hm.get("lat"));
-
-                    // Getting longitude from the parsed data
-                    double longitude = Double.parseDouble(hm.get("lng"));
-
-                    // Getting reference to the SupportMapFragment of the activity_main.xml
-
-
-                        endLat = new LatLng(latitude, longitude);
-                    MarkerOptions markerStart = new MarkerOptions();
-                    markerStart.icon(BitmapDescriptorFactory.fromResource(R.drawable.ico_pin_from));
-                    markerStart.position(endLat);
-                    markerStart.title(txtTo.getText().toString().trim());
-                    googleMap.addMarker(markerStart);
-                    CameraUpdate cameraPosition = CameraUpdateFactory.newLatLng(endLat);
-                    CameraUpdate cameraZoom = CameraUpdateFactory.zoomBy(5);
-
-                    googleMap.moveCamera(cameraPosition);
-                    googleMap.animateCamera(cameraZoom);
-                    break;
-            }
-        }
     }
 
     public void autoCompleteTask(String place) {
@@ -730,6 +642,88 @@ public class CustomerDelivery2Fragment extends BaseFragment implements View.OnCl
             }
         });
         MyApplicationContext.getInstance().addToRequestQueue(jsonObjReq, "jreq");
+    }
+
+    /**
+     * A class to parse the Google Places in JSON format
+     */
+    private class ParserPlaceTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> {
+
+        int parserType = 0;
+
+        public ParserPlaceTask(int type) {
+            this.parserType = type;
+        }
+
+        @Override
+        protected List<HashMap<String, String>> doInBackground(String... jsonData) {
+
+            JSONObject jObject;
+            List<HashMap<String, String>> list = null;
+
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                Log.d("ParserPlaceTask", "---ParserPlaceTask---" + jObject.toString());
+
+                switch (parserType) {
+                    case PLACES:
+                        PlaceJSONParser placeJsonParser = new PlaceJSONParser();
+                        // Getting the parsed data as a List construct
+                        list = placeJsonParser.parse(jObject);
+                        break;
+                    case PLACES_DETAILS:
+                        PlaceDetailsJSONParser placeDetailsJsonParser = new PlaceDetailsJSONParser();
+                        // Getting the parsed data as a List construct
+                        list = placeDetailsJsonParser.parse(jObject);
+                }
+
+            } catch (Exception e) {
+                Log.d("Exception", e.toString());
+            }
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(List<HashMap<String, String>> result) {
+
+            switch (parserType) {
+                case PLACES:
+                    String[] from = new String[]{"description"};
+                    int[] to = new int[]{android.R.id.text1};
+
+                    SimpleAdapter adapter = new SimpleAdapter(context, result, android.R.layout.simple_list_item_1, from, to);
+
+
+                    txtTo.setAdapter(adapter);
+
+                    adapter.notifyDataSetChanged();
+                    break;
+                case PLACES_DETAILS:
+                    HashMap<String, String> hm = result.get(0);
+
+                    // Getting latitude from the parsed data
+                    double latitude = Double.parseDouble(hm.get("lat"));
+
+                    // Getting longitude from the parsed data
+                    double longitude = Double.parseDouble(hm.get("lng"));
+
+                    // Getting reference to the SupportMapFragment of the activity_main.xml
+
+
+                    endLat = new LatLng(latitude, longitude);
+                    MarkerOptions markerStart = new MarkerOptions();
+                    markerStart.icon(BitmapDescriptorFactory.fromResource(R.drawable.ico_pin_from));
+                    markerStart.position(endLat);
+                    markerStart.title(txtTo.getText().toString().trim());
+                    googleMap.addMarker(markerStart);
+                    CameraUpdate cameraPosition = CameraUpdateFactory.newLatLng(endLat);
+                    CameraUpdate cameraZoom = CameraUpdateFactory.zoomBy(5);
+
+                    googleMap.moveCamera(cameraPosition);
+                    googleMap.animateCamera(cameraZoom);
+                    break;
+            }
+        }
     }
 
 

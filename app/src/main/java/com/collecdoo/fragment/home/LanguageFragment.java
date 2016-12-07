@@ -32,24 +32,38 @@ import butterknife.Unbinder;
  * Created by kiemhao on 12/2/16.
  */
 
-public class LanguageFragment extends Fragment implements OnBackListener,HomeNavigationListener {
+public class LanguageFragment extends Fragment implements OnBackListener, HomeNavigationListener {
 
+    public static String IS_CONFIG_CHANGED = "isConfigChanged";
+    public static String LANGUAGE = "language";
+    public static String LANGUAGE_DE = "de";
+    public static String LANGUAGE_EN = "en";
     @BindView(R.id.radio_group)
     RadioGroup radioGroup;
     private Context context;
     private Unbinder unbinder;
 
-    public static String IS_CONFIG_CHANGED="isConfigChanged";
-    public static String LANGUAGE="language";
-    public static String LANGUAGE_DE="de";
-    public static String LANGUAGE_EN="en";
+    public static void setLanguageToActitity(Activity actitity) {
+        Locale myLocale = new Locale(MyPreference.getString("language"));
+        Resources res = actitity.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+    }
 
+    public static void setDefaultLanguage(Activity activity) {
+        setLanguageToActitity(activity);
+    }
 
+    public static boolean isLanguageEn(Context context) {
+        return MyPreference.getString(LANGUAGE).equals(LANGUAGE_EN) ? true : false;
+    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -60,8 +74,8 @@ public class LanguageFragment extends Fragment implements OnBackListener,HomeNav
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.language_fragment,null);
-        unbinder= ButterKnife.bind(this,view);
+        View view = inflater.inflate(R.layout.language_fragment, null);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -69,10 +83,9 @@ public class LanguageFragment extends Fragment implements OnBackListener,HomeNav
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if(MyPreference.getString(LANGUAGE).equals(LANGUAGE_DE)){
-            ((RadioButton)radioGroup.getChildAt(1)).setChecked(true);
-        }
-        else ((RadioButton)radioGroup.getChildAt(0)).setChecked(true);
+        if (MyPreference.getString(LANGUAGE).equals(LANGUAGE_DE)) {
+            ((RadioButton) radioGroup.getChildAt(1)).setChecked(true);
+        } else ((RadioButton) radioGroup.getChildAt(0)).setChecked(true);
     }
 
     @Override
@@ -93,8 +106,8 @@ public class LanguageFragment extends Fragment implements OnBackListener,HomeNav
     }
 
     @OnClick(R.id.btnSave)
-    void save(){
-        switch (radioGroup.getCheckedRadioButtonId()){
+    void save() {
+        switch (radioGroup.getCheckedRadioButtonId()) {
             case R.id.rb_de:
                 setLocale(LANGUAGE_DE);
                 break;
@@ -105,7 +118,7 @@ public class LanguageFragment extends Fragment implements OnBackListener,HomeNav
     }
 
     private void setLocale(String lang) {
-        if(lang.equals(MyPreference.getString(LANGUAGE)))
+        if (lang.equals(MyPreference.getString(LANGUAGE)))
             return;
         Locale myLocale = new Locale(lang);
         Resources res = getResources();
@@ -113,9 +126,9 @@ public class LanguageFragment extends Fragment implements OnBackListener,HomeNav
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
-        MyPreference.setString(LANGUAGE,lang);
+        MyPreference.setString(LANGUAGE, lang);
         Intent refresh = new Intent(context, HomeActivity.class);
-        refresh.putExtra(IS_CONFIG_CHANGED,true);
+        refresh.putExtra(IS_CONFIG_CHANGED, true);
         startActivity(refresh);
     }
 
@@ -147,22 +160,5 @@ public class LanguageFragment extends Fragment implements OnBackListener,HomeNav
     @Override
     public void onNextClick() {
 
-    }
-
-    public static void setLanguageToActitity(Activity actitity){
-        Locale myLocale = new Locale(MyPreference.getString("language"));
-        Resources res = actitity.getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
-    }
-
-    public static void setDefaultLanguage(Activity activity){
-        setLanguageToActitity(activity);
-    }
-
-    public static boolean isLanguageEn(Context context){
-        return MyPreference.getString(LANGUAGE).equals(LANGUAGE_EN)?true:false;
     }
 }

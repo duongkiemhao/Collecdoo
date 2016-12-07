@@ -19,7 +19,6 @@ import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
-
 import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.ShareTimeInfo;
@@ -44,35 +43,67 @@ import retrofit2.Callback;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class DriverWorkingTimeFragment extends Fragment implements View.OnClickListener,OnBackListener,
+public class DriverWorkingTimeFragment extends Fragment implements View.OnClickListener, OnBackListener,
         HomeNavigationListener {
 
-    @BindView(R.id.txtDatePickerFrom) TextView txtDatePickerFrom;
-    @BindView(R.id.txtDatePickerTo) TextView txtDatePickerTo;
-    @BindView(R.id.btnDateTimePickerFrom) TextView btnDateTimePickerFrom;
-    @BindView(R.id.btnDateTimePickerTo) TextView btnDateTimePickerTo;
-    @BindView(R.id.ediFreeSeat) EditText ediFreeSeat;
-    private final String TAG="--driver next7day--";
-    @BindView(R.id.btnOk) Button btnOk;
+    private final String TAG = "--driver next7day--";
+    @BindView(R.id.txtDatePickerFrom)
+    TextView txtDatePickerFrom;
+    @BindView(R.id.txtDatePickerTo)
+    TextView txtDatePickerTo;
+    @BindView(R.id.btnDateTimePickerFrom)
+    TextView btnDateTimePickerFrom;
+    @BindView(R.id.btnDateTimePickerTo)
+    TextView btnDateTimePickerTo;
+    @BindView(R.id.ediFreeSeat)
+    EditText ediFreeSeat;
+    @BindView(R.id.btnOk)
+    Button btnOk;
 
 
     private Unbinder unbinder;
+    private Context context;
+    private SlideDateTimeListener fromListener = new SlideDateTimeListener() {
 
-    public static DriverWorkingTimeFragment init(){
-        DriverWorkingTimeFragment registerFragment=new DriverWorkingTimeFragment();
-        Bundle bundle=new Bundle();
+        @Override
+        public void onDateTimeSet(Date date) {
+            SimpleDateFormat mFormatter = new SimpleDateFormat("MMM dd yyyy HH:mm");
+            txtDatePickerFrom.setText(mFormatter.format(date));
+        }
+
+        // Optional cancel listener
+        @Override
+        public void onDateTimeCancel() {
+
+        }
+    };
+    private SlideDateTimeListener toListener = new SlideDateTimeListener() {
+
+        @Override
+        public void onDateTimeSet(Date date) {
+            SimpleDateFormat mFormatter = new SimpleDateFormat("MMM dd yyyy HH:mm");
+            txtDatePickerTo.setText(mFormatter.format(date));
+        }
+
+        // Optional cancel listener
+        @Override
+        public void onDateTimeCancel() {
+
+        }
+    };
+
+    public static DriverWorkingTimeFragment init() {
+        DriverWorkingTimeFragment registerFragment = new DriverWorkingTimeFragment();
+        Bundle bundle = new Bundle();
 
         registerFragment.setArguments(bundle);
         return registerFragment;
     }
 
-    private Context context;
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -83,8 +114,8 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.driver_working_time_fragment, container, false);
-        unbinder=ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.driver_working_time_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
 
         btnDateTimePickerFrom.setOnClickListener(this);
         btnDateTimePickerTo.setOnClickListener(this);
@@ -98,7 +129,6 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
 
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -107,7 +137,7 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.btnDateTimePickerFrom:
                 showDatePicker(true);
@@ -116,10 +146,10 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
                 showDatePicker(false);
                 break;
             case R.id.btnOk:
-                if(!validate())
+                if (!validate())
                     return;
-                UserInfo userInfo= (UserInfo) MyPreference.getObject("userInfo",UserInfo.class);
-                ShareTimeInfo shareInfo=new ShareTimeInfo();
+                UserInfo userInfo = (UserInfo) MyPreference.getObject("userInfo", UserInfo.class);
+                ShareTimeInfo shareInfo = new ShareTimeInfo();
                 shareInfo.setUserId(userInfo.user_id);
 
 
@@ -136,9 +166,9 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
                 SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
                 try {
-                    Date fromDate=fromFormat.parse( txtDatePickerFrom.getText().toString());
+                    Date fromDate = fromFormat.parse(txtDatePickerFrom.getText().toString());
                     shareInfo.setFromTime(toFormat.format(fromDate));
-                    Date toDate=fromFormat.parse( txtDatePickerTo.getText().toString());
+                    Date toDate = fromFormat.parse(txtDatePickerTo.getText().toString());
                     shareInfo.setToTime(toFormat.format(toDate));
 
                 } catch (ParseException e) {
@@ -152,18 +182,18 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
 
     }
 
-    private boolean validate(){
-        if(TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePickerFrom))
+    private boolean validate() {
+        if (TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePickerFrom))
                 || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePickerTo))
                 || TextUtils.isEmpty(UIHelper.getStringFromEditText(ediFreeSeat)))
             return false;
         try {
             SimpleDateFormat fromFormat = new SimpleDateFormat("MMM dd yyyy HH:mm");
             SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            Date fromDate=fromFormat.parse( txtDatePickerFrom.getText().toString());
-            Date toDate=fromFormat.parse( txtDatePickerTo.getText().toString());
-            if(fromDate.compareTo(new Date())<=0
-                    || toDate.compareTo(new Date())<=0)
+            Date fromDate = fromFormat.parse(txtDatePickerFrom.getText().toString());
+            Date toDate = fromFormat.parse(txtDatePickerTo.getText().toString());
+            if (fromDate.compareTo(new Date()) <= 0
+                    || toDate.compareTo(new Date()) <= 0)
                 return false;
         } catch (ParseException e) {
             e.printStackTrace();
@@ -173,34 +203,32 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
         return true;
     }
 
-    private void shareDrive(ShareTimeInfo shareInfo){
-        Log.d(TAG,shareInfo.toString());
+    private void shareDrive(ShareTimeInfo shareInfo) {
+        Log.d(TAG, shareInfo.toString());
         MyRetrofitService taskService = ServiceGenerator.createService(MyRetrofitService.class);
 
         Call<ResponseInfo> call = taskService.shareTime(shareInfo);
-        final SimpleProgressDialog simpleProgressDialog=new SimpleProgressDialog(context);
+        final SimpleProgressDialog simpleProgressDialog = new SimpleProgressDialog(context);
         simpleProgressDialog.showBox();
         call.enqueue(new Callback<ResponseInfo>() {
 
             @Override
             public void onResponse(Call<ResponseInfo> call, retrofit2.Response<ResponseInfo> response) {
                 simpleProgressDialog.dismiss();
-                if(response.isSuccessful()){
-                    ResponseInfo shareWrapperInfo= response.body();
-                    Log.d(TAG,shareWrapperInfo.toString());
-                    if(shareWrapperInfo.status.toLowerCase().equals("ok")) {
+                if (response.isSuccessful()) {
+                    ResponseInfo shareWrapperInfo = response.body();
+                    Log.d(TAG, shareWrapperInfo.toString());
+                    if (shareWrapperInfo.status.toLowerCase().equals("ok")) {
                         showNextDialog();
-                    }
-                    else Utility.showMessage(context,shareWrapperInfo.message);
-                }
-                else Utility.showMessage(context,response.message());
+                    } else Utility.showMessage(context, shareWrapperInfo.message);
+                } else Utility.showMessage(context, response.message());
             }
 
             @Override
             public void onFailure(Call<ResponseInfo> call, Throwable t) {
                 simpleProgressDialog.dismiss();
-                Utility.showMessage(context,t.getMessage());
-                Log.d(Constant.DEBUG_TAG,"error"+t.getMessage());
+                Utility.showMessage(context, t.getMessage());
+                Log.d(Constant.DEBUG_TAG, "error" + t.getMessage());
             }
         });
 
@@ -241,17 +269,16 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
         dialog.show();
     }
 
-    private void showDatePicker(boolean isFrom)
-    {
+    private void showDatePicker(boolean isFrom) {
         SimpleDateFormat mFormatter = new SimpleDateFormat("MMM dd yyyy HH:mm");
-        Date date=new Date();
+        Date date = new Date();
         try {
-            date=mFormatter.parse( (isFrom?txtDatePickerFrom:txtDatePickerTo).getText().toString());
+            date = mFormatter.parse((isFrom ? txtDatePickerFrom : txtDatePickerTo).getText().toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        SlideDateTimePicker slideDateTimePicker=new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
-                .setListener(isFrom?fromListener:toListener)
+        SlideDateTimePicker slideDateTimePicker = new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
+                .setListener(isFrom ? fromListener : toListener)
                 .setInitialDate(date)
                 .setMinDate(new Date())
 
@@ -261,39 +288,6 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
 
     }
 
-    private SlideDateTimeListener fromListener = new SlideDateTimeListener() {
-
-        @Override
-        public void onDateTimeSet(Date date)
-        {
-            SimpleDateFormat mFormatter = new SimpleDateFormat("MMM dd yyyy HH:mm");
-            txtDatePickerFrom.setText(mFormatter.format(date));
-        }
-
-        // Optional cancel listener
-        @Override
-        public void onDateTimeCancel()
-        {
-
-        }
-    };
-
-    private SlideDateTimeListener toListener = new SlideDateTimeListener() {
-
-        @Override
-        public void onDateTimeSet(Date date)
-        {
-            SimpleDateFormat mFormatter = new SimpleDateFormat("MMM dd yyyy HH:mm");
-            txtDatePickerTo.setText(mFormatter.format(date));
-        }
-
-        // Optional cancel listener
-        @Override
-        public void onDateTimeCancel()
-        {
-
-        }
-    };
     @Override
     public void onBackPress() {
         getFragmentManager().beginTransaction().
@@ -303,11 +297,10 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
     }
 
 
-
-    private String formatCalendarOutput(int value){
-        if(value<10)
-            return "0"+value;
-        else return value+"";
+    private String formatCalendarOutput(int value) {
+        if (value < 10)
+            return "0" + value;
+        else return value + "";
     }
 
     @Override
@@ -338,11 +331,9 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onNextClick() {
-        if(validate())
-        showNextDialog();
+        if (validate())
+            showNextDialog();
     }
-
-
 
 
 }

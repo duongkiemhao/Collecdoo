@@ -15,7 +15,7 @@
     <string name="mobile_invalid">Invalid mobile number</string>
 
     <string name="facebook_app_id">482203371984439</string>
-    
+
     <drawable name="list_of_drives">#00b159</drawable>
     <drawable name="account">#f21d2b</drawable>
     <drawable name="drive_rating">#ff7d3b</drawable>

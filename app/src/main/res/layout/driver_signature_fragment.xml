@@ -1,9 +1,8 @@
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -28,7 +27,7 @@
             android:background="@drawable/box_shape"
             android:gravity="left|center_vertical"
             android:padding="5dp"
-            android:text="Get signature"
+            android:text="@string/pickup_drop_stop_title"
             android:textColor="@color/black" />
 
         <RelativeLayout
@@ -128,33 +127,37 @@
             android:orientation="horizontal">
 
             <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/checkbox" android:background="@drawable/main_lv_checkbox_selector"
+                android:id="@+id/checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
-                android:button="@null"
-                android:layout_marginTop="3dp" />
+                android:layout_marginTop="3dp"
+                android:background="@drawable/main_lv_checkbox_selector"
+                android:button="@null" />
 
             <TextView
-                android:layout_width="120dp" android:layout_marginLeft="10dp"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/box_shape"
                 android:gravity="left|center_vertical"
                 android:padding="5dp"
-                android:text="Neighbor"
+                android:text="@string/pickup_drop_stop_neighbor"
                 android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/txtNeighborName"
+                style="@style/register_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"  style="@style/register_edittext"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/box_shape"
                 android:gravity="left|center_vertical"
+                android:hint="@string/pickup_drop_stop_neighbor_hint"
                 android:padding="5dp"
-                android:hint="Neighbor name"
                 android:textColor="@color/black" />
         </LinearLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -163,37 +166,63 @@
             android:layout_marginTop="5dp">
 
             <TextView
-                android:layout_width="150dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:background="@drawable/box_shape"
-                android:gravity="left|center_vertical" android:layout_centerVertical="true"
+                android:gravity="left|center_vertical"
                 android:padding="5dp"
-                android:text="Confirm signature:"
+                android:text="@string/pickup_drop_stop_signature"
                 android:textColor="@color/black" />
 
             <Button
-                android:layout_width="wrap_content" android:textColor="@color/black" android:background="@drawable/box_shape"
-                android:layout_height="30dp" android:layout_alignParentRight="true"
-                android:text="Clear" android:id="@+id/btnClear"/>
+                android:id="@+id/btnClear"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/box_shape"
+                android:text="@string/pickup_drop_stop_clear"
+                android:textColor="@color/black" />
         </RelativeLayout>
+
         <com.github.gcacace.signaturepad.views.SignaturePad
-            android:id="@+id/signature_pad" android:background="@drawable/box_shape"
-            android:layout_width="match_parent" android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp" android:layout_marginLeft="5dp" android:layout_marginRight="5dp"
-            android:layout_height="0dp" android:layout_weight="1"
+            android:id="@+id/signature_pad"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/box_shape"
             app:penColor="@android:color/black"
 
             />
+
         <RelativeLayout
-            android:layout_width="match_parent" android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp" android:layout_marginBottom="55dp"
-            android:layout_height="wrap_content" android:orientation="horizontal">
-            <Button android:background="@drawable/box_shape" android:id="@+id/btnCancel"
-                android:layout_width="wrap_content" android:textColor="@color/black"
-                android:layout_height="35dp" android:text="Cancel" />
-            <Button android:background="@drawable/box_shape" android:layout_alignParentRight="true"
-                android:layout_width="wrap_content" android:textColor="@color/black"
-                android:layout_height="35dp" android:text="Confirm" android:id="@+id/btnConfirm" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="55dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:background="@drawable/box_shape"
+                android:text="@string/pickup_drop_stop_cancel"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/btnConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/box_shape"
+                android:text="@string/pickup_drop_stop_confirm"
+                android:textColor="@color/black" />
 
         </RelativeLayout>
 

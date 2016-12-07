@@ -66,59 +66,65 @@ import retrofit2.Response;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class RegisterDriverPhotoFragment extends Fragment implements View.OnClickListener,OnBackListener {
-    private final String TAG="--register driver--";
+public class RegisterDriverPhotoFragment extends Fragment implements View.OnClickListener, OnBackListener {
+    private final String TAG = "--register driver--";
 
-    @BindView(R.id.txtTitle) TextView txtTitle;
-    @BindView(R.id.txtDesc) TextView txtDesc;
-    @BindView(R.id.txtPicture) TextView txtPicture;
-    @BindView(R.id.txtDriveLicense) TextView txtDriveLicense;
-    @BindView(R.id.txtBusinessRegis) TextView txtBusinessRegis;
-    @BindView(R.id.checkbox) CheckBox checkBox;
-    @BindView(R.id.btnOk) Button btnOk;
-    @BindView(R.id.txtPolicy) TextView txtPolicy;
+    @BindView(R.id.txtTitle)
+    TextView txtTitle;
+    @BindView(R.id.txtDesc)
+    TextView txtDesc;
+    @BindView(R.id.txtPicture)
+    TextView txtPicture;
+    @BindView(R.id.txtDriveLicense)
+    TextView txtDriveLicense;
+    @BindView(R.id.txtBusinessRegis)
+    TextView txtBusinessRegis;
+    @BindView(R.id.checkbox)
+    CheckBox checkBox;
+    @BindView(R.id.btnOk)
+    Button btnOk;
+    @BindView(R.id.txtPolicy)
+    TextView txtPolicy;
     private UserInfo userInfo;
     private String strAvatar;
-    private boolean wasPassenger ;
-
+    private boolean wasPassenger;
 
 
     private Unbinder unbinder;
     private Uri cameraOutputFileUri;
-
-    public static RegisterDriverPhotoFragment init(UserInfo userInfo,boolean wasPassenger){
-        RegisterDriverPhotoFragment registerDriverFragment=new RegisterDriverPhotoFragment();
-        Bundle bundle=new Bundle();
-        bundle.putParcelable("userInfo",userInfo);
-        bundle.putBoolean("wasPassenger",wasPassenger);
-        registerDriverFragment.setArguments(bundle);
-        return registerDriverFragment;
-    }
-
     private Context context;
 
     public RegisterDriverPhotoFragment() {
     }
 
+    public static RegisterDriverPhotoFragment init(UserInfo userInfo, boolean wasPassenger) {
+        RegisterDriverPhotoFragment registerDriverFragment = new RegisterDriverPhotoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("userInfo", userInfo);
+        bundle.putBoolean("wasPassenger", wasPassenger);
+        registerDriverFragment.setArguments(bundle);
+        return registerDriverFragment;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userInfo= getArguments().getParcelable("userInfo");
-        wasPassenger =getArguments().getBoolean("wasPassenger");
+        userInfo = getArguments().getParcelable("userInfo");
+        wasPassenger = getArguments().getBoolean("wasPassenger");
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.register_driver_photo_fragment, container, false);
-        unbinder=ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.register_driver_photo_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
         btnOk.setOnClickListener(this);
         txtPicture.setOnClickListener(this);
         txtDriveLicense.setOnClickListener(this);
@@ -132,48 +138,49 @@ public class RegisterDriverPhotoFragment extends Fragment implements View.OnClic
         super.onViewCreated(view, savedInstanceState);
         setColorSpan(txtTitle, 0, 9);
         setColorSpan(txtDesc, txtDesc.getText().toString().length() - 10, txtDesc.getText().toString().length());
-        if(getParentFragment() instanceof  HomeListener)
-        ((HomeListener)getParentFragment()).hideNavigationBar();
+        if (getParentFragment() instanceof HomeListener)
+            ((HomeListener) getParentFragment()).hideNavigationBar();
 
 
     }
 
-    private void setColorSpan(TextView textView,  int fromPos,int toPos){
+    private void setColorSpan(TextView textView, int fromPos, int toPos) {
         SpannableStringBuilder sb = new SpannableStringBuilder(textView.getText());
         ForegroundColorSpan fcs = new ForegroundColorSpan(Color.RED);
         sb.setSpan(fcs, fromPos, toPos, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         textView.setText(sb);
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        if(getParentFragment() instanceof HomeListener)
-            ((HomeListener)getParentFragment()).showNavigationBar();
+        if (getParentFragment() instanceof HomeListener)
+            ((HomeListener) getParentFragment()).showNavigationBar();
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.txtPicture:
 
-                showDialogDelete(1,UIHelper.getStringFromTextView(txtPicture));
+                showDialogDelete(1, UIHelper.getStringFromTextView(txtPicture));
                 break;
             case R.id.txtDriveLicense:
-                showDialogDelete(2,UIHelper.getStringFromTextView(txtDriveLicense));
+                showDialogDelete(2, UIHelper.getStringFromTextView(txtDriveLicense));
                 break;
             case R.id.txtBusinessRegis:
-                showDialogDelete(3,UIHelper.getStringFromTextView(txtBusinessRegis));
+                showDialogDelete(3, UIHelper.getStringFromTextView(txtBusinessRegis));
                 break;
             case R.id.txtPolicy:
                 checkBox.performClick();
                 break;
             default:
-                if(validate()){
-                    userInfo.image_file_path=(strAvatar==null?"":strAvatar);
+                if (validate()) {
+                    userInfo.image_file_path = (strAvatar == null ? "" : strAvatar);
                     //register(userInfo);
-                    userInfo.driver_type="1";
+                    userInfo.driver_type = "1";
                     upgradeDriver(userInfo);
                     //MyPreference.setObject("userInfo",userInfo);
 
@@ -184,52 +191,49 @@ public class RegisterDriverPhotoFragment extends Fragment implements View.OnClic
     }
 
 
-
-
-    private void upgradeDriver( UserInfo userInfo){
-        Log.d(TAG,new Gson().toJson(userInfo));
+    private void upgradeDriver(UserInfo userInfo) {
+        Log.d(TAG, new Gson().toJson(userInfo));
         MyRetrofitService taskService = ServiceGenerator.createService(MyRetrofitService.class);
         Call<ResponseInfo> call = taskService.updateDriver(userInfo);
-        final SimpleProgressDialog simpleProgressDialog=new SimpleProgressDialog(context);
+        final SimpleProgressDialog simpleProgressDialog = new SimpleProgressDialog(context);
         simpleProgressDialog.showBox();
         call.enqueue(new Callback<ResponseInfo>() {
 
             @Override
             public void onResponse(Call<ResponseInfo> call, Response<ResponseInfo> response) {
                 simpleProgressDialog.dismiss();
-                if(response.isSuccessful()){
-                    UserInfo userInfo= new Gson().fromJson( response.body().data,UserInfo.class);
-                    MyPreference.setObject("userInfo",userInfo);
-                    if(wasPassenger)
+                if (response.isSuccessful()) {
+                    UserInfo userInfo = new Gson().fromJson(response.body().data, UserInfo.class);
+                    MyPreference.setObject("userInfo", userInfo);
+                    if (wasPassenger)
                         getFragmentManager().beginTransaction().
-                            setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
-                            replace(R.id.fragment, HomeFragment.init(),HomeFragment.class.getName()).
-                            commit();
-                    else{
+                                setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
+                                replace(R.id.fragment, HomeFragment.init(), HomeFragment.class.getName()).
+                                commit();
+                    else {
 
                         startActivity(new Intent(context, HomeActivity.class));
                         getActivity().finish();
                     }
-                }
-                else Utility.showMessage(context,response.message());
+                } else Utility.showMessage(context, response.message());
             }
 
             @Override
             public void onFailure(Call<ResponseInfo> call, Throwable t) {
                 simpleProgressDialog.dismiss();
-                Utility.showMessage(context,t.getMessage());
-                Log.d(Constant.DEBUG_TAG,"error"+t.getMessage());
+                Utility.showMessage(context, t.getMessage());
+                Log.d(Constant.DEBUG_TAG, "error" + t.getMessage());
             }
         });
 
     }
 
-    private boolean validate(){
-        StringBuffer mesError=new StringBuffer();
-        if(!checkBox.isChecked()){
+    private boolean validate() {
+        StringBuffer mesError = new StringBuffer();
+        if (!checkBox.isChecked()) {
             return false;
         }
-        if(!TextUtils.isEmpty(mesError.toString())) {
+        if (!TextUtils.isEmpty(mesError.toString())) {
             Utility.showMessage(context, mesError.toString());
             return false;
         }
@@ -240,10 +244,9 @@ public class RegisterDriverPhotoFragment extends Fragment implements View.OnClic
     public void onBackPress() {
         getFragmentManager().beginTransaction().
                 setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
-                replace(R.id.fragment, RegisterDriverFragment.init(getArguments().getBoolean("wasPassenger"),userInfo),RegisterDriverFragment.class.getName()).
+                replace(R.id.fragment, RegisterDriverFragment.init(getArguments().getBoolean("wasPassenger"), userInfo), RegisterDriverFragment.class.getName()).
                 commit();
     }
-
 
 
     private void openImageIntent(int uploadIndex) {
@@ -281,7 +284,7 @@ public class RegisterDriverPhotoFragment extends Fragment implements View.OnClic
 
         // Add the camera options.
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
-                cameraIntents.toArray(new Parcelable[] {}));
+                cameraIntents.toArray(new Parcelable[]{}));
 
         startActivityForResult(chooserIntent, uploadIndex);
     }
@@ -290,82 +293,78 @@ public class RegisterDriverPhotoFragment extends Fragment implements View.OnClic
     public void onActivityResult(final int requestCode, int resultCode, Intent data) {
 
 
-            if (resultCode == AppCompatActivity.RESULT_OK) {
+        if (resultCode == AppCompatActivity.RESULT_OK) {
 
-                if (resultCode == Activity.RESULT_OK) {
-                    final boolean isCamera;
-                    if (data == null) {
-                        isCamera = true;
+            if (resultCode == Activity.RESULT_OK) {
+                final boolean isCamera;
+                if (data == null) {
+                    isCamera = true;
+                } else {
+                    final String action = data.getAction();
+                    if (action == null) {
+                        isCamera = false;
                     } else {
-                        final String action = data.getAction();
-                        if (action == null) {
-                            isCamera = false;
-                        } else {
-                            isCamera = action
-                                    .equals(MediaStore.ACTION_IMAGE_CAPTURE);
-                        }
+                        isCamera = action
+                                .equals(MediaStore.ACTION_IMAGE_CAPTURE);
                     }
-                    Uri selectedImageUri;
-                    if (isCamera) {
-                        selectedImageUri = cameraOutputFileUri;
+                }
+                Uri selectedImageUri;
+                if (isCamera) {
+                    selectedImageUri = cameraOutputFileUri;
 
-                    } else {
-                        selectedImageUri = data == null ? null : data.getData();
+                } else {
+                    selectedImageUri = data == null ? null : data.getData();
 
-                    }
+                }
+                try {
+                    Bitmap bitmap = decodeUri(
+                            selectedImageUri);
+
+                    String strPhoto = null;
                     try {
-                        Bitmap bitmap = decodeUri(
-                                selectedImageUri);
-
-                        String strPhoto = null;
-                        try {
-                            strPhoto = URLEncoder.encode(
-                                    encodeBitmapBase64(bitmap), "utf-8");
-                            Log.d(Constant.DEBUG_TAG,strPhoto);
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
-                        switch (requestCode) {
-                            case 1:
-                                txtPicture.setText("uploaded");
-                                strAvatar=strPhoto;
-                                break;
-                            case 2:
-                                txtDriveLicense.setText("uploaded");
-                                //strDriverLicense=strPhoto;
-                                break;
-                            case 3:
-                                txtBusinessRegis.setText("uploaded");
-                                //strBusiness=strPhoto;
-                                break;
-                        }
-                    } catch (IOException e) {
+                        strPhoto = URLEncoder.encode(
+                                encodeBitmapBase64(bitmap), "utf-8");
+                        Log.d(Constant.DEBUG_TAG, strPhoto);
+                    } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
-
-
+                    switch (requestCode) {
+                        case 1:
+                            txtPicture.setText("uploaded");
+                            strAvatar = strPhoto;
+                            break;
+                        case 2:
+                            txtDriveLicense.setText("uploaded");
+                            //strDriverLicense=strPhoto;
+                            break;
+                        case 3:
+                            txtBusinessRegis.setText("uploaded");
+                            //strBusiness=strPhoto;
+                            break;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
 
             }
         }
     }
 
-    private void showDialogDelete(final int uploadIndex,String fileText)
-    {
-        if(TextUtils.isEmpty(fileText)){
+    private void showDialogDelete(final int uploadIndex, String fileText) {
+        if (TextUtils.isEmpty(fileText)) {
             openImageIntent(uploadIndex);
-        }
-        else{
+        } else {
             final CharSequence[] items = {"Change picture", "Remove"};
 
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle("Please choose");
             builder.setItems(items, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int item) {
-                    if(item==0)
+                    if (item == 0)
                         openImageIntent(uploadIndex);
                     else {
-                        switch (uploadIndex){
+                        switch (uploadIndex) {
                             case 1:
                                 txtPicture.setText("");
                                 break;

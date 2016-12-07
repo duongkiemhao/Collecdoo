@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.collecdoo.R;
-
 import com.collecdoo.fragment.home.HomeFragment;
 import com.collecdoo.interfaces.HomeNavigationListener;
 import com.collecdoo.interfaces.OnBackListener;
@@ -20,31 +19,34 @@ import butterknife.Unbinder;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class DriverHomeFragment extends Fragment implements View.OnClickListener ,HomeNavigationListener,OnBackListener {
-    @BindView(R.id.btnPlanSingleAdvance) View btnPlanSingleAdvance;
-    @BindView(R.id.btnPlanAdHoc) View btnPlanAdHoc;
-    @BindView(R.id.btnPreriodic) View btnPreriodic;
-    @BindView(R.id.btnPlanWorkingTime) View btnPlanWorkingTime;
+public class DriverHomeFragment extends Fragment implements View.OnClickListener, HomeNavigationListener, OnBackListener {
     private final String TAG = "--Driver home--";
+    @BindView(R.id.btnPlanSingleAdvance)
+    View btnPlanSingleAdvance;
+    @BindView(R.id.btnPlanAdHoc)
+    View btnPlanAdHoc;
+    @BindView(R.id.btnPreriodic)
+    View btnPreriodic;
+    @BindView(R.id.btnPlanWorkingTime)
+    View btnPlanWorkingTime;
     private Unbinder unbinder;
-
-    public static DriverHomeFragment init(){
-        DriverHomeFragment registerFragment=new DriverHomeFragment();
-        Bundle bundle=new Bundle();
-
-        registerFragment.setArguments(bundle);
-        return registerFragment;
-    }
-
     private Context context;
 
     public DriverHomeFragment() {
     }
 
+    public static DriverHomeFragment init() {
+        DriverHomeFragment registerFragment = new DriverHomeFragment();
+        Bundle bundle = new Bundle();
+
+        registerFragment.setArguments(bundle);
+        return registerFragment;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -55,8 +57,8 @@ public class DriverHomeFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.driver_fragment, container, false);
-        unbinder=ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.driver_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
         btnPlanSingleAdvance.setOnClickListener(this);
         btnPlanAdHoc.setOnClickListener(this);
         btnPreriodic.setOnClickListener(this);
@@ -80,13 +82,13 @@ public class DriverHomeFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnPlanSingleAdvance:
 
-                    getFragmentManager().beginTransaction().
-                            setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
-                            replace(R.id.fragment, DriverSingleDriveFragment.init(0), DriverSingleDriveFragment.class.getName()).
-                            commit();
+                getFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
+                        replace(R.id.fragment, DriverSingleDriveFragment.init(0), DriverSingleDriveFragment.class.getName()).
+                        commit();
 
                 break;
             case R.id.btnPlanAdHoc:
@@ -150,7 +152,7 @@ public class DriverHomeFragment extends Fragment implements View.OnClickListener
     public void onBackPress() {
         getFragmentManager().beginTransaction().
                 setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
-                replace(R.id.fragment, HomeFragment.init(),HomeFragment.class.getName()).
+                replace(R.id.fragment, HomeFragment.init(), HomeFragment.class.getName()).
                 commit();
     }
 

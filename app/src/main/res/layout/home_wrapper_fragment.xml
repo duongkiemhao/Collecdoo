@@ -8,13 +8,15 @@
         android:layout_height="match_parent" />
 
     <LinearLayout
+        android:id="@+id/navigationBar"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_alignParentBottom="true"
-        android:layout_margin="5dp" android:id="@+id/navigationBar"
+        android:layout_margin="5dp"
         android:background="@drawable/box_radious_shape"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="5dp" android:gravity="center_vertical"
+        android:padding="5dp"
         android:weightSum="6">
 
         <ImageView
@@ -25,9 +27,10 @@
             android:src="@drawable/ico_back" />
 
         <LinearLayout
-            android:layout_width="0dp" android:gravity="center"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/btnListDrive"
@@ -37,9 +40,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp" android:gravity="center"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/btnAccount"
@@ -49,9 +53,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="0dp" android:gravity="center"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:gravity="center">
 
             <Button
                 android:id="@+id/btnDriveRating"

@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
+import com.collecdoo.config.Config;
 import com.collecdoo.config.Constant;
 import com.collecdoo.dto.PathOfRouteInfo;
 import com.collecdoo.dto.ResponseInfo;
@@ -54,8 +55,9 @@ import retrofit2.Response;
  * A placeholder fragment containing a simple view.
  */
 public class DriverPickupDropFragment extends Fragment implements View.OnClickListener, OnBackListener,
-        HomeNavigationListener, OnMapReadyCallback{
+        HomeNavigationListener, OnMapReadyCallback {
 
+    public final int CALL_PERMISSION_REQUEST_CODE = 1;
     @BindView(R.id.txtTitle)
     TextView txtTitle;
     @BindView(R.id.txtMobile)
@@ -70,15 +72,12 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
     TextView btnSos;
     @BindView(R.id.txtPickupTitle)
     TextView txtPickupTitle;
-
     private GoogleMap googleMap;
-
     private boolean isPickup;
     private Unbinder unbinder;
     private Context context;
     private List<PathOfRouteInfo> pathOfRouteInfoList;
     private int viewIndex;
-    public final int CALL_PERMISSION_REQUEST_CODE=1;
 
     public static DriverPickupDropFragment init(boolean isPickup, ArrayList<Parcelable> pathOfRouteInfoList, int viewIndex) {
         DriverPickupDropFragment registerFragment = new DriverPickupDropFragment();
@@ -99,7 +98,7 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pathOfRouteInfoList=getArguments().getParcelableArrayList("list");
+        pathOfRouteInfoList = getArguments().getParcelableArrayList("list");
         isPickup = getArguments().getBoolean("isPickup");
         viewIndex = getArguments().getInt("viewIndex");
 
@@ -130,16 +129,15 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
         getChildFragmentManager().beginTransaction().replace(R.id.fragment, supportMapFragment, "map").commit();
 
 
-
     }
 
     private void setUIPickup() {
         if (isPickup) {
-            txtTitle.setText("you are going to pickup");
-            txtPickupTitle.setText("Send pickup info");
+            txtTitle.setText(getResources().getString(R.string.pickup_drop_title_pickup));
+            txtPickupTitle.setText(getResources().getString(R.string.pickup_drop_send_pickup));
         } else {
-            txtTitle.setText("you are going to drop");
-            txtPickupTitle.setText("Send drop info");
+            txtTitle.setText(getResources().getString(R.string.pickup_drop_title_drop));
+            txtPickupTitle.setText(getResources().getString(R.string.pickup_drop_send_drop));
         }
     }
 
@@ -159,13 +157,12 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
                 if (ContextCompat.checkSelfPermission(context,
                         Manifest.permission.CALL_PHONE)
                         != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(getActivity(),
-                                new String[]{Manifest.permission.CALL_PHONE},
-                                CALL_PERMISSION_REQUEST_CODE);
-                }
-                else{
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.CALL_PHONE},
+                            CALL_PERMISSION_REQUEST_CODE);
+                } else {
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:00491717522012"));
+                    callIntent.setData(Uri.parse("tel:"+Config.PHONE_NO));
                     startActivity(callIntent);
                 }
 
@@ -192,7 +189,7 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     Intent callIntent = new Intent(Intent.ACTION_CALL);
-                    callIntent.setData(Uri.parse("tel:00491717522012"));
+                    callIntent.setData(Uri.parse("tel:"+ Config.PHONE_NO));
 
                     startActivity(callIntent);
                 } else {
@@ -210,7 +207,7 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
         getFragmentManager().beginTransaction().
                 setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
                 replace(R.id.fragment, DriverHomeFragment.init(),
-                       DriverHomeFragment.class.getName()).
+                        DriverHomeFragment.class.getName()).
                 commit();
     }
 
@@ -235,7 +232,7 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
     @Override
     public void onButton2() {
 
-        if(isPickup)
+        if (isPickup)
             return;
         if (getFragmentManager().findFragmentByTag(DriverSignatureFragment.class.getName()) == null) {
             getFragmentManager().beginTransaction()
@@ -247,17 +244,17 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
     @Override
     public void onButton3() {
 
-            if (getChildFragmentManager().findFragmentByTag(DriverPickupDropStopsFragment.class.getName()) == null)
-                getChildFragmentManager().beginTransaction()
-                        .add(R.id.fragment, DriverPickupDropStopsFragment.init(pathOfRouteInfoList), DriverPickupDropStopsFragment.class.getName()).commit();
+        if (getChildFragmentManager().findFragmentByTag(DriverPickupDropStopsFragment.class.getName()) == null)
+            getChildFragmentManager().beginTransaction()
+                    .add(R.id.fragment, DriverPickupDropStopsFragment.init(pathOfRouteInfoList), DriverPickupDropStopsFragment.class.getName()).commit();
 
     }
 
     @Override
     public void onMapClick() {
-        if(getChildFragmentManager().findFragmentByTag(DriverPickupDropStopsFragment.class.getName())!=null)
-        getChildFragmentManager().beginTransaction()
-                .remove(getChildFragmentManager().findFragmentByTag(DriverPickupDropStopsFragment.class.getName())).commit();
+        if (getChildFragmentManager().findFragmentByTag(DriverPickupDropStopsFragment.class.getName()) != null)
+            getChildFragmentManager().beginTransaction()
+                    .remove(getChildFragmentManager().findFragmentByTag(DriverPickupDropStopsFragment.class.getName())).commit();
     }
 
     @Override
@@ -269,14 +266,14 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
     private void showNextDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(getString(R.string.app_name));
-        builder.setMessage("Do you like to view next stop? Yes/No");
+        builder.setMessage(getResources().getString(R.string.pickup_drop_dialog_message));
 
-        String positiveText = "Yes";
+        String positiveText = getResources().getString(R.string.yes);
         builder.setPositiveButton(positiveText,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                       dialog.dismiss();
+                        dialog.dismiss();
                         cancelRouteDetail(pathOfRouteInfoList.get(viewIndex).routeDetailId);
                         viewIndex++;
                         updateUIAll();
@@ -285,7 +282,7 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
                     }
                 });
 
-        String negativeText = "No";
+        String negativeText = getResources().getString(R.string.no);
         builder.setNegativeButton(negativeText,
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -306,16 +303,15 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
         googleMap.clear();
 
 
-
         // Creating MarkerOptions
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ico_pin_from));
-        LatLng latLng=new LatLng(Double.parseDouble(pathOfRouteInfoList.get(viewIndex).lat),
+        LatLng latLng = new LatLng(Double.parseDouble(pathOfRouteInfoList.get(viewIndex).lat),
                 Double.parseDouble(pathOfRouteInfoList.get(viewIndex).lon));
         markerOptions.position(latLng);
         markerOptions.title(pathOfRouteInfoList.get(viewIndex).destinationInfo);
         googleMap.addMarker(markerOptions);
-        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng,17);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(latLng, 17);
         googleMap.animateCamera(cu);
 
 
@@ -326,10 +322,9 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
         this.googleMap = googleMap;
         this.googleMap.getUiSettings().setZoomControlsEnabled(true);
         this.googleMap.setPadding(0, 0, 0, (int) Utility.convertDPtoPIXEL(TypedValue.COMPLEX_UNIT_DIP, 40));
-       drawMap();
+        drawMap();
 
     }
-
 
 
     private void updateRouteDetail(String routeDetailId) {
@@ -386,12 +381,12 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
 
     }
 
-    private void updateUIAll(){
-        PathOfRouteInfo pathOfRouteInfo=pathOfRouteInfoList.get(viewIndex);
+    private void updateUIAll() {
+        PathOfRouteInfo pathOfRouteInfo = pathOfRouteInfoList.get(viewIndex);
         txtMobile.setText(pathOfRouteInfo.telephone);
         txtAddress.setText(pathOfRouteInfo.destinationInfo);
         txtName.setText(pathOfRouteInfo.customer_name);
-        isPickup = pathOfRouteInfo.is_delivery.equals("0")?true:false;
+        isPickup = pathOfRouteInfo.is_delivery.equals("0") ? true : false;
         setUIPickup();
     }
 

@@ -20,34 +20,38 @@ import butterknife.Unbinder;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class AccountFragment extends Fragment implements View.OnClickListener,OnBackListener,
+public class AccountFragment extends Fragment implements View.OnClickListener, OnBackListener,
         HomeNavigationListener {
 
-    @BindView(R.id.btnProfil) View btnProfil;
-    @BindView(R.id.btnAddress) View btnAddress;
-    @BindView(R.id.btnBankAcc) View btnBankAcc;
-    @BindView(R.id.btnUpgrade) View btnUpgrade;
-    @BindView(R.id.btnLogout) View btnLogout;
-    @BindView(R.id.btnLanguage) View btnLanguage;
+    @BindView(R.id.btnProfil)
+    View btnProfil;
+    @BindView(R.id.btnAddress)
+    View btnAddress;
+    @BindView(R.id.btnBankAcc)
+    View btnBankAcc;
+    @BindView(R.id.btnUpgrade)
+    View btnUpgrade;
+    @BindView(R.id.btnLogout)
+    View btnLogout;
+    @BindView(R.id.btnLanguage)
+    View btnLanguage;
 
 
     private Unbinder unbinder;
+    private Context context;
 
-    public static AccountFragment init(){
-        AccountFragment registerFragment=new AccountFragment();
-        Bundle bundle=new Bundle();
+    public static AccountFragment init() {
+        AccountFragment registerFragment = new AccountFragment();
+        Bundle bundle = new Bundle();
 
         registerFragment.setArguments(bundle);
         return registerFragment;
     }
 
-    private Context context;
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -58,8 +62,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener,On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.account_fragment, container, false);
-        unbinder=ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.account_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
         btnProfil.setOnClickListener(this);
         btnAddress.setOnClickListener(this);
         btnBankAcc.setOnClickListener(this);
@@ -74,8 +78,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener,On
         super.onViewCreated(view, savedInstanceState);
 
 
-
-
     }
 
     @Override
@@ -86,17 +88,17 @@ public class AccountFragment extends Fragment implements View.OnClickListener,On
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.btnProfil:
-                Utility.showMessage(context,"profil clicked");
+                Utility.showMessage(context, "profil clicked");
                 break;
             case R.id.btnLogout:
 
-                ((HomeListener)getParentFragment().getFragmentManager().findFragmentByTag(HomeWrapperFragment.class.getName())).logOut();
+                ((HomeListener) getParentFragment().getFragmentManager().findFragmentByTag(HomeWrapperFragment.class.getName())).logOut();
                 break;
             case R.id.btnLanguage:
-                getFragmentManager().beginTransaction().add(R.id.fragment, LanguageFragment.instantiate(context,LanguageFragment.class.getName()),
+                getFragmentManager().beginTransaction().add(R.id.fragment, LanguageFragment.instantiate(context, LanguageFragment.class.getName()),
                         LanguageFragment.class.getName()).addToBackStack(LanguageFragment.class.getName()).commit();
                 break;
 

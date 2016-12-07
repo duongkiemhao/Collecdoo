@@ -1,12 +1,23 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-    <RelativeLayout android:id="@+id/rlLogo"
+
+    <RelativeLayout
+        android:id="@+id/rlLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
         <ImageView
-            android:layout_width="50dp" android:id="@+id/imaLogo"
-            android:layout_height="50dp" android:src="@drawable/ico_logo"/>
-        <TextView android:text="smart mobility" android:textSize="9sp"
-            android:layout_width="wrap_content" android:layout_below="@+id/imaLogo" android:layout_centerHorizontal="true"
-            android:layout_height="wrap_content" android:textColor="@color/red"/>
+            android:id="@+id/imaLogo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ico_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imaLogo"
+            android:layout_centerHorizontal="true"
+            android:text="smart mobility"
+            android:textColor="@color/red"
+            android:textSize="9sp" />
     </RelativeLayout>
 </merge>

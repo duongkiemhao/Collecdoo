@@ -134,15 +134,15 @@ public class URLConfig {
     }
 
 
-    public static String getSearch(){
-        return getPrefix()+"home/app-home-search?search=%1$s&page=1&pagesize=50";
+    public static String getSearch() {
+        return getPrefix() + "home/app-home-search?search=%1$s&page=1&pagesize=50";
     }
 
-    public static String getHistory(){
-        return getPrefix()+"app-history-score?id_member=%1$s&page=%2$s&pagesize=%3$s";
+    public static String getHistory() {
+        return getPrefix() + "app-history-score?id_member=%1$s&page=%2$s&pagesize=%3$s";
     }
 
-    public static String getUpdateProfileInfo(){
-        return getPrefix()+"profiles/app-update-profile";
+    public static String getUpdateProfileInfo() {
+        return getPrefix() + "profiles/app-update-profile";
     }
 }

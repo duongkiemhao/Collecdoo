@@ -28,14 +28,13 @@ import java.io.IOException;
 
 
 public class MyApplicationContext extends Application {
-    private Context context;
+    public static final String TAG = MyApplicationContext.class.getSimpleName();
     private static Logger logger = LoggerFactory.getLogger();
 
     private static MyApplicationContext instance;
-    private RequestQueue mRequestQueue;
+    private Context context;
     // private HashMap<String, Object> hashmap;
-
-    public static final String TAG = MyApplicationContext.class.getSimpleName();
+    private RequestQueue mRequestQueue;
 
 
     public MyApplicationContext() {
@@ -51,13 +50,20 @@ public class MyApplicationContext extends Application {
         return instance;
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        instance = this;
-        context = this;
-        init();
-        // hashmap = new HashMap<String, Object>();
+    private static void createLogFileIfNeed() {
+
+        File file = new File(Environment.getExternalStorageDirectory() + "/"
+                + Config.LOG_NAME + "/" + Config.LOGFILE_NAME);
+        try {
+            if (!file.exists())
+                file.createNewFile();
+            else if (file.length() / 1024 > Config.MAX_LOGFILE_KB) {
+                file.delete();
+                file.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // public Object getFromHashmap(String key) {
@@ -67,6 +73,32 @@ public class MyApplicationContext extends Application {
     // public void setToHashmap(String key, Object value) {
     // this.hashmap.put(key, value);
     // }
+
+    public static void log(String msg) {
+        // createLogFileIfNeed();
+
+        logger.debug(DateHelper.getcurrentDateString() + "-----" + msg);
+    }
+
+    public static void log(Exception exp) {
+        logger.debug(DateHelper.getcurrentDateString()
+                + Log.getStackTraceString(exp));
+    }
+
+    public static void setEnableUncatchException(Context context) {
+        Thread.setDefaultUncaughtExceptionHandler(new MyUncaughtExceptionHandler(
+                context));
+
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        instance = this;
+        context = this;
+        init();
+        // hashmap = new HashMap<String, Object>();
+    }
 
     void init() {
         // init image loader
@@ -95,22 +127,6 @@ public class MyApplicationContext extends Application {
         return options;
     }
 
-    private static void createLogFileIfNeed() {
-
-        File file = new File(Environment.getExternalStorageDirectory() + "/"
-                + Config.LOG_NAME + "/" + Config.LOGFILE_NAME);
-        try {
-            if (!file.exists())
-                file.createNewFile();
-            else if (file.length() / 1024 > Config.MAX_LOGFILE_KB) {
-                file.delete();
-                file.createNewFile();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     void initLogger() {
         new File(Environment.getExternalStorageDirectory() + "/"
                 + Config.LOG_NAME).mkdir();
@@ -122,23 +138,12 @@ public class MyApplicationContext extends Application {
         logger.addAppender(appender);
     }
 
+
+    // volley
+
     public Context getAppContext() {
         return context;
     }
-
-    public static void log(String msg) {
-        // createLogFileIfNeed();
-
-        logger.debug(DateHelper.getcurrentDateString() + "-----" + msg);
-    }
-
-    public static void log(Exception exp) {
-        logger.debug(DateHelper.getcurrentDateString()
-                + Log.getStackTraceString(exp));
-    }
-
-
-    // volley
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
@@ -181,12 +186,6 @@ public class MyApplicationContext extends Application {
                 return true;
             }
         });
-    }
-
-    public static void setEnableUncatchException(Context context) {
-        Thread.setDefaultUncaughtExceptionHandler(new MyUncaughtExceptionHandler(
-                context));
-
     }
 
 

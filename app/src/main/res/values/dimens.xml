@@ -6,4 +6,5 @@
 
     <dimen name="register_label_width">120dp</dimen>
     <dimen name="register_margin_top">5dp</dimen>
+
 </resources>

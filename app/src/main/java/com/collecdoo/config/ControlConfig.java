@@ -30,6 +30,4 @@ public class ControlConfig {
     public static final int SEND_EMOJI_ICON = 71;
 
 
-
-
 }

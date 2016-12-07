@@ -1,9 +1,9 @@
 package com.collecdoo.dto;
 
 
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by kiemhao on 7/2/16.
  */

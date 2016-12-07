@@ -5,20 +5,22 @@
     android:orientation="horizontal">
 
 
-
     <CheckedTextView
         android:id="@+id/checkTextView"
-        android:layout_width="50dp" android:layout_gravity="center_vertical"
+        android:layout_width="50dp"
         android:layout_height="?android:attr/listPreferredItemHeightSmall"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall"
-        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
         android:checkMark="@drawable/main_lv_checkbox_selector"
+        android:gravity="center_vertical"
         android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
-        android:paddingRight="?android:attr/listPreferredItemPaddingRight"/>
+        android:paddingRight="?android:attr/listPreferredItemPaddingRight"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall" />
 
     <TextView
-        android:id="@+id/textView" android:textColor="@android:color/black"
-        android:layout_width="match_parent" android:textSize="18sp"
-        android:layout_height="wrap_content" android:layout_gravity="center_vertical"
-        />
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
 </LinearLayout>

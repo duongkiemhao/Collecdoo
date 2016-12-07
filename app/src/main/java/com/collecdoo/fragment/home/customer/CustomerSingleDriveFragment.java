@@ -2,7 +2,6 @@ package com.collecdoo.fragment.home.customer;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,8 +10,6 @@ import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.speech.tts.TextToSpeech;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -31,7 +28,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -43,7 +39,6 @@ import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
-
 import com.collecdoo.control.InstantAutoComplete;
 import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.DrivePostInfo;
@@ -51,7 +46,6 @@ import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.BaseFragment;
 import com.collecdoo.fragment.ServiceGenerator;
-import com.collecdoo.fragment.home.LanguageFragment;
 import com.collecdoo.fragment.home.TextToSpeedManager;
 import com.collecdoo.fragment.parser.DirectionsJSONParser;
 import com.collecdoo.fragment.parser.PlaceDetailsJSONParser;
@@ -73,10 +67,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.internal.LinkedTreeMap;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
 
@@ -85,7 +76,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -97,8 +87,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -110,67 +98,83 @@ import retrofit2.Callback;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CustomerSingleDriveFragment extends BaseFragment implements View.OnClickListener,OnBackListener,
-        OnMapReadyCallback ,DatePickerDialog.OnDateSetListener,HomeNavigationListener {
+public class CustomerSingleDriveFragment extends BaseFragment implements View.OnClickListener, OnBackListener,
+        OnMapReadyCallback, DatePickerDialog.OnDateSetListener, HomeNavigationListener {
+    private final int PLACES = 0;
+    private final int PLACES_DETAILS = 1;
+    private final String TAG = "--customer single--";
     @BindView(R.id.txtFrom)
     InstantAutoComplete txtFrom;
-    @BindView(R.id.txtTo) InstantAutoComplete txtTo;
-    @BindView(R.id.imaSearch) ImageView imaSearchFrom;
-    @BindView(R.id.imaSearchTo) ImageView imaSearchTo;
-    @BindView(R.id.imaQuestion) ImageView imaQuestionFrom;
-    @BindView(R.id.imaQuestionTo) ImageView imaQuestionTo;
-    @BindView(R.id.ediNoOfPerson) EditText ediNoOfPerson;
-    @BindView(R.id.btnDatePicker) View btnDatePicker;
-    @BindView(R.id.txtDatePicker) TextView txtDatePicker;
-    @BindView(R.id.btnOk) Button btnOk;
+    @BindView(R.id.txtTo)
+    InstantAutoComplete txtTo;
+    @BindView(R.id.imaSearch)
+    ImageView imaSearchFrom;
+    @BindView(R.id.imaSearchTo)
+    ImageView imaSearchTo;
+    @BindView(R.id.imaQuestion)
+    ImageView imaQuestionFrom;
+    @BindView(R.id.imaQuestionTo)
+    ImageView imaQuestionTo;
+    @BindView(R.id.ediNoOfPerson)
+    EditText ediNoOfPerson;
+    @BindView(R.id.btnDatePicker)
+    View btnDatePicker;
+    @BindView(R.id.txtDatePicker)
+    TextView txtDatePicker;
+    @BindView(R.id.btnOk)
+    Button btnOk;
     private Unbinder unbinder;
-
     private GoogleMap googleMap;
     private LatLng startLat;
     private LatLng endLat;
     private ArrayList<LatLng> markerPoints;
-
-    private final int PLACES=0;
-    private final int PLACES_DETAILS=1;
     private String browserKey = "AIzaSyBwRYVxhnE8LGKvve6Mq75ke0dkaVp39hQ";
     private boolean isStartClick;
     private int index;
+    private Context context;
+    private SlideDateTimeListener listener = new SlideDateTimeListener() {
 
+        @Override
+        public void onDateTimeSet(Date date) {
+            SimpleDateFormat mFormatter = new SimpleDateFormat("MMM dd yyyy HH:mm");
+            txtDatePicker.setText(mFormatter.format(date));
+        }
 
+        // Optional cancel listener
+        @Override
+        public void onDateTimeCancel() {
 
+        }
+    };
 
-    public static CustomerSingleDriveFragment init(int index){
-        CustomerSingleDriveFragment fragment=new CustomerSingleDriveFragment();
-        Bundle bundle=new Bundle();
-        bundle.putInt("index",index);
+    public static CustomerSingleDriveFragment init(int index) {
+        CustomerSingleDriveFragment fragment = new CustomerSingleDriveFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("index", index);
         fragment.setArguments(bundle);
 
         fragment.setArguments(bundle);
         return fragment;
     }
 
-    private Context context;
-    private final String TAG="--customer single--";
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        index=getArguments().getInt("index");
+        index = getArguments().getInt("index");
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.customer_single_drive_fragment, container, false);
-        unbinder=ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.customer_single_drive_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
         imaSearchFrom.setOnClickListener(this);
         imaSearchTo.setOnClickListener(this);
 
@@ -184,9 +188,9 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
         super.onViewCreated(view, savedInstanceState);
 
 
-        SupportMapFragment supportMapFragment=SupportMapFragment.newInstance();
+        SupportMapFragment supportMapFragment = SupportMapFragment.newInstance();
         supportMapFragment.getMapAsync(this);
-        getChildFragmentManager().beginTransaction().replace(R.id.fragment,supportMapFragment,"map").commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.fragment, supportMapFragment, "map").commit();
 
         // Getting a reference to the AutoCompleteTextView
         setupAutoCompleteTextView(txtFrom);
@@ -195,41 +199,38 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
         txtFrom.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                TextToSpeedManager.startTTS(CustomerSingleDriveFragment.this,txtFrom,FROM_REQUEST_CODE);
+                TextToSpeedManager.startTTS(CustomerSingleDriveFragment.this, txtFrom, FROM_REQUEST_CODE);
                 return false;
             }
         });
         txtTo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                TextToSpeedManager.startTTS(CustomerSingleDriveFragment.this,txtTo,TO_REQUEST_CODE);
+                TextToSpeedManager.startTTS(CustomerSingleDriveFragment.this, txtTo, TO_REQUEST_CODE);
                 return false;
             }
         });
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
-            case FROM_REQUEST_CODE|TO_REQUEST_CODE:
+        switch (requestCode) {
+            case FROM_REQUEST_CODE | TO_REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK && null != data) {
                     ArrayList<String> text = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    (requestCode==FROM_REQUEST_CODE?txtFrom:txtTo).setText(text.get(0));
+                    (requestCode == FROM_REQUEST_CODE ? txtFrom : txtTo).setText(text.get(0));
                 }
                 break;
         }
     }
 
-
-
-    private void setupAutoCompleteTextView(final AutoCompleteTextView autoCompleteTextView){
+    private void setupAutoCompleteTextView(final AutoCompleteTextView autoCompleteTextView) {
         autoCompleteTextView.setThreshold(1);
         Point pointSize = new Point();
 
-        ((AppCompatActivity)context).getWindowManager().getDefaultDisplay().getSize(pointSize);
+        ((AppCompatActivity) context).getWindowManager().getDefaultDisplay().getSize(pointSize);
 
         autoCompleteTextView.setDropDownWidth(pointSize.x);
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
@@ -266,27 +267,26 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
                 HashMap<String, String> hm = new HashMap<String, String>();
                 try {
                     hm = (HashMap<String, String>) adapter.getItem(index);
-                }
-                catch (Exception exp){
-                    LinkedTreeMap<String,String> tmap= (LinkedTreeMap<String,String>) adapter.getItem(index);
-                    for ( String key : tmap.keySet() ) {
-                        hm.put(key,tmap.get(key));
+                } catch (Exception exp) {
+                    LinkedTreeMap<String, String> tmap = (LinkedTreeMap<String, String>) adapter.getItem(index);
+                    for (String key : tmap.keySet()) {
+                        hm.put(key, tmap.get(key));
                     }
                 }
-                HashSet<HashMap<String,String>> hashSet= (HashSet<HashMap<String, String>>) MyPreference.getObjectHashsetMap(Constant.PRE_LIST_SUGGESTION,HashSet.class);
+                HashSet<HashMap<String, String>> hashSet = (HashSet<HashMap<String, String>>) MyPreference.getObjectHashsetMap(Constant.PRE_LIST_SUGGESTION, HashSet.class);
                 hashSet.add(hm);
-                MyPreference.setObject(Constant.PRE_LIST_SUGGESTION,hashSet );
+                MyPreference.setObject(Constant.PRE_LIST_SUGGESTION, hashSet);
 
                 autoCompleteTextView.setText(hm.get("description"));
                 String url = getPlaceDetailsUrl(hm.get("reference"));
                 placeTask(url);
             }
         });
-        if(index==1){
+        if (index == 1) {
             try {
-                startLat=((HomeListener)getParentFragment()).getLatLng();
-                if(startLat!=null)
-                    txtFrom.setText(Utility.getAddressFromLatLng(context,startLat));
+                startLat = ((HomeListener) getParentFragment()).getLatLng();
+                if (startLat != null)
+                    txtFrom.setText(Utility.getAddressFromLatLng(context, startLat));
                 else txtFrom.setText("");
             } catch (IOException e) {
                 txtFrom.setText("");
@@ -303,7 +303,7 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.imaSearch:
                 drawMap();
                 break;
@@ -315,17 +315,17 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
                 showDatePicker();
                 break;
             case R.id.btnOk:
-                if(!validate())
+                if (!validate())
                     return;
-                UserInfo userInfo= (UserInfo) MyPreference.getObject("userInfo",UserInfo.class);
-                DrivePostInfo drivePostInfo=new DrivePostInfo();
+                UserInfo userInfo = (UserInfo) MyPreference.getObject("userInfo", UserInfo.class);
+                DrivePostInfo drivePostInfo = new DrivePostInfo();
                 drivePostInfo.setUserId(userInfo.user_id);
                 drivePostInfo.setPickupInfo(txtFrom.getText().toString());
-                drivePostInfo.setLat1(startLat.latitude+"");
-                drivePostInfo.setLon1(startLat.longitude+"");
+                drivePostInfo.setLat1(startLat.latitude + "");
+                drivePostInfo.setLon1(startLat.longitude + "");
                 drivePostInfo.setDropInfo(txtTo.getText().toString());
-                drivePostInfo.setLat2(endLat.latitude+"");
-                drivePostInfo.setLon2(endLat.longitude+"");
+                drivePostInfo.setLat2(endLat.latitude + "");
+                drivePostInfo.setLon2(endLat.longitude + "");
                 drivePostInfo.setPersonCount(UIHelper.getStringFromEditText(ediNoOfPerson));
 
                 drivePostInfo.setPaymentMethod("");
@@ -334,7 +334,7 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
                 SimpleDateFormat toFormat = new SimpleDateFormat(DateHelper.SERVER_DATE_FORMAT);
 
                 try {
-                    Date     date=fromFormat.parse( txtDatePicker.getText().toString());
+                    Date date = fromFormat.parse(txtDatePicker.getText().toString());
                     drivePostInfo.setDesiredPickupTime(toFormat.format(date));
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -343,7 +343,7 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
                 drivePostInfo.setDesiredDropTime("");
                 drivePostInfo.setType(String.valueOf(index));
 
-                drivePostInfo.setEstimatedDistance(Utility.calculationByDistance(startLat,endLat)+"");
+                drivePostInfo.setEstimatedDistance(Utility.calculationByDistance(startLat, endLat) + "");
                 driveBooking(drivePostInfo);
                 break;
         }
@@ -351,31 +351,29 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
     }
 
     @OnClick(R.id.imaQuestion)
-    void onQuesionFromClick(){
-        isStartClick=true;
+    void onQuesionFromClick() {
+        isStartClick = true;
         onProcessQuestionClick();
     }
 
     @OnClick(R.id.imaQuestionTo)
-    void onQuesionToClick(){
-        isStartClick=false;
+    void onQuesionToClick() {
+        isStartClick = false;
         onProcessQuestionClick();
     }
 
-    private void onProcessQuestionClick(){
-        HashSet<HashMap<String,String>> lHMFrom= (HashSet<HashMap<String, String>>) MyPreference.getObject(Constant.PRE_LIST_SUGGESTION,HashSet.class);
-        if(lHMFrom!=null)
-        {
-            String[] from = new String[] { "description"};
-            int[] to = new int[] { android.R.id.text1 };
-            List<HashMap<String, String>> hashMapList=new ArrayList<HashMap<String, String>>(lHMFrom);
+    private void onProcessQuestionClick() {
+        HashSet<HashMap<String, String>> lHMFrom = (HashSet<HashMap<String, String>>) MyPreference.getObject(Constant.PRE_LIST_SUGGESTION, HashSet.class);
+        if (lHMFrom != null) {
+            String[] from = new String[]{"description"};
+            int[] to = new int[]{android.R.id.text1};
+            List<HashMap<String, String>> hashMapList = new ArrayList<HashMap<String, String>>(lHMFrom);
             SimpleAdapter adapter = new SimpleAdapter(context, hashMapList, android.R.layout.simple_list_item_1, from, to);
 
-            if(isStartClick) {
+            if (isStartClick) {
                 txtFrom.showDropDown();
                 txtFrom.setAdapter(adapter);
-            }
-            else {
+            } else {
                 txtTo.showDropDown();
                 txtTo.setAdapter(adapter);
             }
@@ -383,16 +381,15 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
         }
     }
 
-
-    private boolean validate(){
-        if(startLat==null || endLat==null ||
+    private boolean validate() {
+        if (startLat == null || endLat == null ||
                 TextUtils.isEmpty(UIHelper.getStringFromEditText(ediNoOfPerson))
                 || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePicker)))
             return false;
         SimpleDateFormat fromFormat = new SimpleDateFormat("MMM dd yyyy HH:mm");
         try {
-            Date     date=fromFormat.parse( txtDatePicker.getText().toString());
-            if(date.compareTo(new Date())<=0) {
+            Date date = fromFormat.parse(txtDatePicker.getText().toString());
+            if (date.compareTo(new Date()) <= 0) {
                 //Utility.showMessage(context,"Please provide the correct pickup datetime");
                 return false;
             }
@@ -413,7 +410,7 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if(index!=1)
+                        if (index != 1)
                             txtFrom.setText("");
                         txtTo.setText("");
                         ediNoOfPerson.setText("");
@@ -444,79 +441,58 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
         dialog.show();
     }
 
-
-    private void driveBooking(DrivePostInfo drivePostInfo){
-        Log.d(TAG,drivePostInfo.toString());
+    private void driveBooking(DrivePostInfo drivePostInfo) {
+        Log.d(TAG, drivePostInfo.toString());
         MyRetrofitService taskService = ServiceGenerator.createService(MyRetrofitService.class);
 
         Call<ResponseInfo> call = taskService.driveBooking(drivePostInfo);
-        final SimpleProgressDialog simpleProgressDialog=new SimpleProgressDialog(context);
+        final SimpleProgressDialog simpleProgressDialog = new SimpleProgressDialog(context);
         simpleProgressDialog.showBox();
         call.enqueue(new Callback<ResponseInfo>() {
 
             @Override
             public void onResponse(Call<ResponseInfo> call, retrofit2.Response<ResponseInfo> response) {
                 simpleProgressDialog.dismiss();
-                if(response.isSuccessful()){
-                    ResponseInfo driveResponseWrapperInfo= response.body();
+                if (response.isSuccessful()) {
+                    ResponseInfo driveResponseWrapperInfo = response.body();
 //                    DrivePostInfo drivePostInfo1= (DrivePostInfo) driveResponseWrapperInfo.data;
 //                    Log.d(TAG,drivePostInfo1.toString());
-                    if(driveResponseWrapperInfo.status.toLowerCase().equals("ok")) {
+                    if (driveResponseWrapperInfo.status.toLowerCase().equals("ok")) {
                         showNextDialog();
-                    }
-                    else Utility.showMessage(context,driveResponseWrapperInfo.message);
-                }
-                else Utility.showMessage(context,response.message());
+                    } else Utility.showMessage(context, driveResponseWrapperInfo.message);
+                } else Utility.showMessage(context, response.message());
             }
 
             @Override
             public void onFailure(Call<ResponseInfo> call, Throwable t) {
                 simpleProgressDialog.dismiss();
-                Utility.showMessage(context,t.getMessage());
-                Log.d(Constant.DEBUG_TAG,"error"+t.getMessage());
+                Utility.showMessage(context, t.getMessage());
+                Log.d(Constant.DEBUG_TAG, "error" + t.getMessage());
             }
         });
 
     }
 
-    private SlideDateTimeListener listener = new SlideDateTimeListener() {
-
-        @Override
-        public void onDateTimeSet(Date date)
-        {
-            SimpleDateFormat mFormatter = new SimpleDateFormat("MMM dd yyyy HH:mm");
-            txtDatePicker.setText(mFormatter.format(date));
-        }
-
-        // Optional cancel listener
-        @Override
-        public void onDateTimeCancel()
-        {
-
-        }
-    };
-
-    private void showDatePicker()
-    {
+    private void showDatePicker() {
         SimpleDateFormat mFormatter = new SimpleDateFormat("MMM dd yyyy HH:mm");
-        Date date=new Date();
+        Date date = new Date();
         try {
-            date=mFormatter.parse( txtDatePicker.getText().toString());
+            date = mFormatter.parse(txtDatePicker.getText().toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        SlideDateTimePicker slideDateTimePicker=new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
+        SlideDateTimePicker slideDateTimePicker = new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
                 .setListener(listener)
                 .setInitialDate(date)
 
                 .setMinDate(new Date())
 
                 .build();
-        if(index==2){
-            Calendar calendar=Calendar.getInstance();
+        if (index == 2) {
+            Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
-            calendar.add(Calendar.DATE,7);
-            Log.d(TAG,mFormatter.format(calendar.getTime()));
+            calendar.add(Calendar.DATE, 7);
+            Log.d(TAG, mFormatter.format(calendar.getTime()));
             slideDateTimePicker.setMaxDate(calendar.getTime());
         }
         slideDateTimePicker.show();
@@ -525,7 +501,7 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
 
     @Override
     public void onBackPress() {
-        Log.d(Constant.DEBUG_TAG,"on back single drive");
+        Log.d(Constant.DEBUG_TAG, "on back single drive");
         getFragmentManager().beginTransaction().
                 setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
                 replace(R.id.fragment, CustomerHomeFragment.init(), CustomerHomeFragment.class.getName()).
@@ -534,10 +510,10 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        this.googleMap=googleMap;
+        this.googleMap = googleMap;
         this.googleMap.getUiSettings().setZoomControlsEnabled(true);
-        this.googleMap.setPadding(0,0,0, (int) Utility.convertDPtoPIXEL(TypedValue.COMPLEX_UNIT_DIP,40));
-        markerPoints=new ArrayList<>();
+        this.googleMap.setPadding(0, 0, 0, (int) Utility.convertDPtoPIXEL(TypedValue.COMPLEX_UNIT_DIP, 40));
+        markerPoints = new ArrayList<>();
 //        startLat=new LatLng(43.6533103,-79.3827675);
 //        endLat=new LatLng(45.5017123,-73.5672184);
 
@@ -549,18 +525,18 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
         txtDatePicker.setText(formatCalendarOutput(monthOfYear + 1) + "/" + formatCalendarOutput(dayOfMonth) + "/" + year);
     }
 
-    private String formatCalendarOutput(int value){
-        if(value<10)
-            return "0"+value;
-        else return value+"";
+    private String formatCalendarOutput(int value) {
+        if (value < 10)
+            return "0" + value;
+        else return value + "";
     }
 
     //------------map------------
-    private void drawMap(){
-        if(startLat==null || endLat==null)
+    private void drawMap() {
+        if (startLat == null || endLat == null)
             return;
         // Already two locations
-        if(markerPoints.size()>1){
+        if (markerPoints.size() > 1) {
             markerPoints.clear();
             googleMap.clear();
         }
@@ -587,7 +563,7 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
 
 
         // Checks, whether start and end locations are captured
-        if(markerPoints.size() >= 2){
+        if (markerPoints.size() >= 2) {
             LatLng origin = markerPoints.get(0);
             LatLng dest = markerPoints.get(1);
 
@@ -601,34 +577,37 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
         }
     }
 
-    private String getDirectionsUrl(LatLng origin,LatLng dest){
+    private String getDirectionsUrl(LatLng origin, LatLng dest) {
 
         // Origin of route
-        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
 
         // Destination of route
-        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
 
         // Sensor enabled
         String sensor = "sensor=false";
 
         // Building the parameters to the web service
-        String parameters = str_origin+"&"+str_dest+"&"+sensor;
+        String parameters = str_origin + "&" + str_dest + "&" + sensor;
 
         // Output format
         String output = "json";
 
         // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
-        Log.d(Constant.DEBUG_TAG,url);
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
+        Log.d(Constant.DEBUG_TAG, url);
         return url;
     }
-    /** A method to download json data from url */
+
+    /**
+     * A method to download json data from url
+     */
     private String downloadUrl(String strUrl) throws IOException {
         String data = "";
         InputStream iStream = null;
         HttpURLConnection urlConnection = null;
-        try{
+        try {
             URL url = new URL(strUrl);
 
             // Creating an http connection to communicate with url
@@ -645,7 +624,7 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
             StringBuffer sb = new StringBuffer();
 
             String line = "";
-            while( ( line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
 
@@ -653,9 +632,9 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
 
             br.close();
 
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.d("Exception while downloading url", e.toString());
-        }finally{
+        } finally {
             iStream.close();
             urlConnection.disconnect();
         }
@@ -690,101 +669,9 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
 
     @Override
     public void onNextClick() {
-        if(validate())
-        showNextDialog();
+        if (validate())
+            showNextDialog();
 
-    }
-
-    // Fetches data from url passed
-    private class DownloadTask extends AsyncTask<String, Void, String>{
-
-        // Downloading data in non-ui thread
-        @Override
-        protected String doInBackground(String... url) {
-
-            // For storing data from web service
-            String data = "";
-
-            try{
-                // Fetching the data from web service
-                data = downloadUrl(url[0]);
-            }catch(Exception e){
-                Log.d("Background Task", e.toString());
-            }
-            return data;
-        }
-
-        // Executes in UI thread, after the execution of
-        // doInBackground()
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            ParserTask parserTask = new ParserTask();
-
-            // Invokes the thread for parsing the JSON data
-            parserTask.execute(result);
-        }
-    }
-
-    /** A class to parse the Google Places in JSON format */
-    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>> > {
-
-        // Parsing the data in non-ui thread
-        @Override
-        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
-            Log.d(Constant.DEBUG_TAG,"---ParserTask----");
-            JSONObject jObject;
-            List<List<HashMap<String, String>>> routes = null;
-
-            try{
-                jObject = new JSONObject(jsonData[0]);
-                DirectionsJSONParser parser = new DirectionsJSONParser();
-
-                // Starts parsing data
-                routes = parser.parse(jObject);
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-            return routes;
-        }
-
-        // Executes in UI thread, after the parsing process
-        @Override
-        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-            ArrayList<LatLng> points = null;
-            PolylineOptions lineOptions = null;
-            MarkerOptions markerOptions = new MarkerOptions();
-            Log.d(Constant.DEBUG_TAG,"---onPostExecute----");
-            // Traversing through all the routes
-            for(int i=0;i<result.size();i++){
-                points = new ArrayList<LatLng>();
-                lineOptions = new PolylineOptions();
-
-                // Fetching i-th route
-                List<HashMap<String, String>> path = result.get(i);
-
-                // Fetching all the points in i-th route
-                for(int j=0;j<path.size();j++){
-                    HashMap<String,String> point = path.get(j);
-
-                    double lat = Double.parseDouble(point.get("lat"));
-                    double lng = Double.parseDouble(point.get("lng"));
-                    LatLng position = new LatLng(lat, lng);
-
-                    points.add(position);
-                }
-
-                // Adding all the points in the route to LineOptions
-                lineOptions.addAll(points);
-                lineOptions.width(2);
-                lineOptions.color(Color.RED);
-            }
-            Log.d(Constant.DEBUG_TAG,"---end----");
-            // Drawing polyline in the Google Map for the i-th route
-            googleMap.addPolyline(lineOptions);
-            zoomAnimateLevelToFitMarkers(120);
-        }
     }
 
     //this is method to help us fit the Markers into specific bounds for camera position
@@ -800,114 +687,27 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
     }
 
     //-------google place----------
-    private String getPlaceDetailsUrl(String ref){
+    private String getPlaceDetailsUrl(String ref) {
 
         // Obtain browser key from https://code.google.com/apis/console
         String key = "key=AIzaSyBwRYVxhnE8LGKvve6Mq75ke0dkaVp39hQ";
 
         // reference of place
-        String reference = "reference="+ref;
+        String reference = "reference=" + ref;
 
         // Sensor enabled
         String sensor = "sensor=false";
 
         // Building the parameters to the web service
-        String parameters = reference+"&"+sensor+"&"+key;
+        String parameters = reference + "&" + sensor + "&" + key;
 
         // Output format
         String output = "json";
 
         // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/place/details/"+output+"?"+parameters;
+        String url = "https://maps.googleapis.com/maps/api/place/details/" + output + "?" + parameters;
 
         return url;
-    }
-
-    /** A class to parse the Google Places in JSON format */
-    private class ParserPlaceTask extends AsyncTask<String, Integer, List<HashMap<String,String>>>{
-
-        int parserType = 0;
-
-        public ParserPlaceTask(int type){
-            this.parserType = type;
-        }
-
-        @Override
-        protected List<HashMap<String, String>> doInBackground(String... jsonData) {
-
-            JSONObject jObject;
-            List<HashMap<String, String>> list = null;
-
-            try{
-                jObject = new JSONObject(jsonData[0]);
-                Log.d("ParserPlaceTask","---ParserPlaceTask---"+jObject.toString());
-
-                switch(parserType){
-                    case PLACES :
-                        PlaceJSONParser placeJsonParser = new PlaceJSONParser();
-                        // Getting the parsed data as a List construct
-                        list = placeJsonParser.parse(jObject);
-                        break;
-                    case PLACES_DETAILS :
-                        PlaceDetailsJSONParser placeDetailsJsonParser = new PlaceDetailsJSONParser();
-                        // Getting the parsed data as a List construct
-                        list = placeDetailsJsonParser.parse(jObject);
-                }
-
-            }catch(Exception e){
-                Log.d("Exception",e.toString());
-            }
-            return list;
-        }
-
-        @Override
-        protected void onPostExecute(List<HashMap<String, String>> result) {
-
-            switch(parserType){
-                case PLACES :
-                    String[] from = new String[] { "description"};
-                    int[] to = new int[] { android.R.id.text1 };
-
-                    SimpleAdapter adapter = new SimpleAdapter(context, result, android.R.layout.simple_list_item_1, from, to);
-
-                    if(isStartClick)
-                        txtFrom.setAdapter(adapter);
-                    else txtTo.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                    break;
-                case PLACES_DETAILS :
-                    HashMap<String, String> hm = result.get(0);
-
-                    // Getting latitude from the parsed data
-                    double latitude = Double.parseDouble(hm.get("lat"));
-
-                    // Getting longitude from the parsed data
-                    double longitude = Double.parseDouble(hm.get("lng"));
-
-                    // Getting reference to the SupportMapFragment of the activity_main.xml
-
-                    if(isStartClick)
-                        startLat = new LatLng(latitude, longitude);
-                    else endLat = new LatLng(latitude, longitude);
-
-//                    CameraUpdate cameraPosition = CameraUpdateFactory.newLatLng(point);
-//                    CameraUpdate cameraZoom = CameraUpdateFactory.zoomBy(5);
-//
-//                    // Showing the user input location in the Google Map
-//                    googleMap.moveCamera(cameraPosition);
-//                    googleMap.animateCamera(cameraZoom);
-//
-//                    MarkerOptions options = new MarkerOptions();
-//                    options.position(point);
-//                    options.title("Position");
-//                    options.snippet("Latitude:"+latitude+",Longitude:"+longitude);
-//
-//                    // Adding the marker in the Google Map
-//                    googleMap.addMarker(options);
-
-                    break;
-            }
-        }
     }
 
     public void autoCompleteTask(String place) {
@@ -963,8 +763,188 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
         MyApplicationContext.getInstance().addToRequestQueue(jsonObjReq, "jreq");
     }
 
+    // Fetches data from url passed
+    private class DownloadTask extends AsyncTask<String, Void, String> {
 
+        // Downloading data in non-ui thread
+        @Override
+        protected String doInBackground(String... url) {
 
+            // For storing data from web service
+            String data = "";
+
+            try {
+                // Fetching the data from web service
+                data = downloadUrl(url[0]);
+            } catch (Exception e) {
+                Log.d("Background Task", e.toString());
+            }
+            return data;
+        }
+
+        // Executes in UI thread, after the execution of
+        // doInBackground()
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            ParserTask parserTask = new ParserTask();
+
+            // Invokes the thread for parsing the JSON data
+            parserTask.execute(result);
+        }
+    }
+
+    /**
+     * A class to parse the Google Places in JSON format
+     */
+    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
+
+        // Parsing the data in non-ui thread
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+            Log.d(Constant.DEBUG_TAG, "---ParserTask----");
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
+
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                DirectionsJSONParser parser = new DirectionsJSONParser();
+
+                // Starts parsing data
+                routes = parser.parse(jObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        // Executes in UI thread, after the parsing process
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            ArrayList<LatLng> points = null;
+            PolylineOptions lineOptions = null;
+            MarkerOptions markerOptions = new MarkerOptions();
+            Log.d(Constant.DEBUG_TAG, "---onPostExecute----");
+            // Traversing through all the routes
+            for (int i = 0; i < result.size(); i++) {
+                points = new ArrayList<LatLng>();
+                lineOptions = new PolylineOptions();
+
+                // Fetching i-th route
+                List<HashMap<String, String>> path = result.get(i);
+
+                // Fetching all the points in i-th route
+                for (int j = 0; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
+
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
+
+                    points.add(position);
+                }
+
+                // Adding all the points in the route to LineOptions
+                lineOptions.addAll(points);
+                lineOptions.width(2);
+                lineOptions.color(Color.RED);
+            }
+            Log.d(Constant.DEBUG_TAG, "---end----");
+            // Drawing polyline in the Google Map for the i-th route
+            googleMap.addPolyline(lineOptions);
+            zoomAnimateLevelToFitMarkers(120);
+        }
+    }
+
+    /**
+     * A class to parse the Google Places in JSON format
+     */
+    private class ParserPlaceTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> {
+
+        int parserType = 0;
+
+        public ParserPlaceTask(int type) {
+            this.parserType = type;
+        }
+
+        @Override
+        protected List<HashMap<String, String>> doInBackground(String... jsonData) {
+
+            JSONObject jObject;
+            List<HashMap<String, String>> list = null;
+
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                Log.d("ParserPlaceTask", "---ParserPlaceTask---" + jObject.toString());
+
+                switch (parserType) {
+                    case PLACES:
+                        PlaceJSONParser placeJsonParser = new PlaceJSONParser();
+                        // Getting the parsed data as a List construct
+                        list = placeJsonParser.parse(jObject);
+                        break;
+                    case PLACES_DETAILS:
+                        PlaceDetailsJSONParser placeDetailsJsonParser = new PlaceDetailsJSONParser();
+                        // Getting the parsed data as a List construct
+                        list = placeDetailsJsonParser.parse(jObject);
+                }
+
+            } catch (Exception e) {
+                Log.d("Exception", e.toString());
+            }
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(List<HashMap<String, String>> result) {
+
+            switch (parserType) {
+                case PLACES:
+                    String[] from = new String[]{"description"};
+                    int[] to = new int[]{android.R.id.text1};
+
+                    SimpleAdapter adapter = new SimpleAdapter(context, result, android.R.layout.simple_list_item_1, from, to);
+
+                    if (isStartClick)
+                        txtFrom.setAdapter(adapter);
+                    else txtTo.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    break;
+                case PLACES_DETAILS:
+                    HashMap<String, String> hm = result.get(0);
+
+                    // Getting latitude from the parsed data
+                    double latitude = Double.parseDouble(hm.get("lat"));
+
+                    // Getting longitude from the parsed data
+                    double longitude = Double.parseDouble(hm.get("lng"));
+
+                    // Getting reference to the SupportMapFragment of the activity_main.xml
+
+                    if (isStartClick)
+                        startLat = new LatLng(latitude, longitude);
+                    else endLat = new LatLng(latitude, longitude);
+
+//                    CameraUpdate cameraPosition = CameraUpdateFactory.newLatLng(point);
+//                    CameraUpdate cameraZoom = CameraUpdateFactory.zoomBy(5);
+//
+//                    // Showing the user input location in the Google Map
+//                    googleMap.moveCamera(cameraPosition);
+//                    googleMap.animateCamera(cameraZoom);
+//
+//                    MarkerOptions options = new MarkerOptions();
+//                    options.position(point);
+//                    options.title("Position");
+//                    options.snippet("Latitude:"+latitude+",Longitude:"+longitude);
+//
+//                    // Adding the marker in the Google Map
+//                    googleMap.addMarker(options);
+
+                    break;
+            }
+        }
+    }
 
 
 }

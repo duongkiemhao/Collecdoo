@@ -31,7 +31,8 @@ public class InstantAutoComplete extends AutoCompleteTextView {
         if (focused) {
             try {
                 performFiltering(getText(), 0);
-            }catch (Exception exp){}
+            } catch (Exception exp) {
+            }
         }
     }
 

@@ -11,6 +11,17 @@ import com.google.gson.annotations.SerializedName;
  */
 public class PathOfRouteInfo implements Parcelable {
 
+    public static final Creator<PathOfRouteInfo> CREATOR = new Creator<PathOfRouteInfo>() {
+        @Override
+        public PathOfRouteInfo createFromParcel(Parcel source) {
+            return new PathOfRouteInfo(source);
+        }
+
+        @Override
+        public PathOfRouteInfo[] newArray(int size) {
+            return new PathOfRouteInfo[size];
+        }
+    };
     @SerializedName("route_detail_id")
     @Expose
     public String routeDetailId;
@@ -38,6 +49,22 @@ public class PathOfRouteInfo implements Parcelable {
     @SerializedName("telephone")
     @Expose
     public String telephone;
+
+    public PathOfRouteInfo() {
+    }
+
+    protected PathOfRouteInfo(Parcel in) {
+        this.routeDetailId = in.readString();
+        this.destinationInfo = in.readString();
+        this.lat = in.readString();
+        this.lon = in.readString();
+        this.notes = in.readString();
+        this.status = in.readString();
+        this.is_delivery = in.readString();
+        this.customer_name = in.readString();
+        this.telephone = in.readString();
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -55,31 +82,4 @@ public class PathOfRouteInfo implements Parcelable {
         dest.writeString(this.customer_name);
         dest.writeString(this.telephone);
     }
-
-    public PathOfRouteInfo() {
-    }
-
-    protected PathOfRouteInfo(Parcel in) {
-        this.routeDetailId = in.readString();
-        this.destinationInfo = in.readString();
-        this.lat = in.readString();
-        this.lon = in.readString();
-        this.notes = in.readString();
-        this.status = in.readString();
-        this.is_delivery = in.readString();
-        this.customer_name = in.readString();
-        this.telephone = in.readString();
-    }
-
-    public static final Creator<PathOfRouteInfo> CREATOR = new Creator<PathOfRouteInfo>() {
-        @Override
-        public PathOfRouteInfo createFromParcel(Parcel source) {
-            return new PathOfRouteInfo(source);
-        }
-
-        @Override
-        public PathOfRouteInfo[] newArray(int size) {
-            return new PathOfRouteInfo[size];
-        }
-    };
 }

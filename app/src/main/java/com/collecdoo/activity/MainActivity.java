@@ -1,14 +1,10 @@
 package com.collecdoo.activity;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -17,17 +13,13 @@ import com.collecdoo.MyPreference;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
-
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.home.LanguageFragment;
 import com.collecdoo.fragment.main.MainFragment;
 import com.collecdoo.interfaces.OnBackListener;
-import com.collecdoo.service.gcm.QuickstartPreferences;
 import com.collecdoo.service.gcm.RegistrationIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-
-import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -39,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        if(MyPreference.getString(LanguageFragment.LANGUAGE)==null)
+        if (MyPreference.getString(LanguageFragment.LANGUAGE) == null)
             LanguageFragment.setDefaultLanguage(this);
         else LanguageFragment.setLanguageToActitity(this);
 
@@ -49,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
         startService(intent);
 
 
-        if(MyPreference.getObject("userInfo", UserInfo.class)==null)
+        if (MyPreference.getObject("userInfo", UserInfo.class) == null)
             getSupportFragmentManager().beginTransaction().
-                    replace(R.id.fragment, MainFragment.init(),MainFragment.class.getName()).
+                    replace(R.id.fragment, MainFragment.init(), MainFragment.class.getName()).
                     commit();
-        else{
-            Intent intentHome=new Intent(this,HomeActivity.class);
-            intentHome.putExtra("route_id",getIntent().getStringExtra("route_id"));
+        else {
+            Intent intentHome = new Intent(this, HomeActivity.class);
+            intentHome.putExtra("route_id", getIntent().getStringExtra("route_id"));
             startActivity(intentHome);
             finish();
         }
@@ -103,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -115,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
 
     }
-
 
 
     private boolean checkPlayServices() {

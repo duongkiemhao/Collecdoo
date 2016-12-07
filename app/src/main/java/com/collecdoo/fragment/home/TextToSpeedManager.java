@@ -1,6 +1,5 @@
 package com.collecdoo.fragment.home;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
@@ -15,7 +14,7 @@ import com.collecdoo.Utility;
 
 public class TextToSpeedManager {
 
-    public static void startTTS(Fragment fragment, EditText editText,int requestCode){
+    public static void startTTS(Fragment fragment, EditText editText, int requestCode) {
         Intent intent = new Intent(
                 RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-US");

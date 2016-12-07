@@ -16,26 +16,26 @@ import java.net.HttpURLConnection;
 public class NetworkHelper {
 
 
-	public static String convertStreamToString(InputStream is) {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-		StringBuilder sb = new StringBuilder();
+    public static String convertStreamToString(InputStream is) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
 
-		String line = null;
-		try {
-			while ((line = reader.readLine()) != null) {
-				sb.append(line + "\n");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				is.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return sb.toString();
-	}
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return sb.toString();
+    }
 //
 //	public static String getStringFromResponse(HttpResponse response)
 //			throws IOException {
@@ -54,13 +54,13 @@ public class NetworkHelper {
 //			}
 //	}
 
-	public static String getJsonString(JSONObject object, String key) {
-		try {
-			return object.getString(key);
-		} catch (JSONException e) {
-			return "";
-		}
-	}
+    public static String getJsonString(JSONObject object, String key) {
+        try {
+            return object.getString(key);
+        } catch (JSONException e) {
+            return "";
+        }
+    }
 //
 //	public static String getConnectParaString(List<NameValuePair> params)
 //			throws UnsupportedEncodingException {
@@ -81,31 +81,31 @@ public class NetworkHelper {
 //		return result.toString();
 //	}
 
-	public static StringBuilder readStream(InputStream in) {
-		BufferedReader reader = null;
-		StringBuilder sb = null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(in,"UTF-8"));
-			String line = "";
-			sb = new StringBuilder();
+    public static StringBuilder readStream(InputStream in) {
+        BufferedReader reader = null;
+        StringBuilder sb = null;
+        try {
+            reader = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+            String line = "";
+            sb = new StringBuilder();
 
-			while ((line = reader.readLine()) != null) {
-				sb.append(line + '\n');
-			}
-			return sb;
-		} catch (IOException e) {
-			return null;
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-			sb = null;
-		}
-	}
+            while ((line = reader.readLine()) != null) {
+                sb.append(line + '\n');
+            }
+            return sb;
+        } catch (IOException e) {
+            return null;
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            sb = null;
+        }
+    }
 
 //	public static void setConnectionHeader(HttpURLConnection con) {
 //		Date date = new Date();
@@ -123,7 +123,7 @@ public class NetworkHelper {
 //		con.setRequestProperty(Constant.T_TOKEN, t_token);
 //	}
 
-//	public static void setConnectionAuthorization(HttpURLConnection con) {
+    //	public static void setConnectionAuthorization(HttpURLConnection con) {
 //        String[] credential=MyPreference.getLoginCredential();
 //        Log.e("credential", credential[0]+" - "+credential[1]);
 //        String authen = Base64.encodeToString(
@@ -147,7 +147,7 @@ public class NetworkHelper {
 //                        Base64.NO_WRAP));
 //
 //    }
-    public static void writeOutputStream(HttpURLConnection con,String content) throws  IOException{
+    public static void writeOutputStream(HttpURLConnection con, String content) throws IOException {
         OutputStream os = con.getOutputStream();
         BufferedWriter writer = new BufferedWriter(
                 new OutputStreamWriter(os, "UTF-8"));

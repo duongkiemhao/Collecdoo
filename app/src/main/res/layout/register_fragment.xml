@@ -6,13 +6,16 @@
 
     <include layout="@layout/logo" />
 
-    <LinearLayout android:id="@+id/linearLayout1"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
 
-        android:layout_width="wrap_content" android:padding="5dp"
-        android:layout_height="wrap_content" android:background="@drawable/box_shape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:orientation="vertical">
+        android:background="@drawable/box_shape"
+        android:orientation="vertical"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/txtTitle"
@@ -23,12 +26,14 @@
             android:textColor="@color/black" />
     </LinearLayout>
 
-    <LinearLayout android:layout_above="@+id/btnOk"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/btnOk"
         android:layout_below="@+id/linearLayout1"
         android:layout_marginTop="20dp"
-        android:orientation="vertical" android:id="@+id/linearLayout2"
+        android:orientation="vertical"
         android:padding="10dp">
 
         <LinearLayout
@@ -54,121 +59,155 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/register_margin_top"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/register_label_width"
                 android:layout_height="wrap_content"
                 android:text="@string/register_name"
                 android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/ediName"
                 style="@style/register_edittext"
                 android:layout_width="match_parent"
                 android:textColor="@color/black" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/register_margin_top"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/register_label_width"
                 android:layout_height="wrap_content"
                 android:text="@string/register_phone"
                 android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/ediPhone"
-                style="@style/register_edittext" android:inputType="number"
+                style="@style/register_edittext"
                 android:layout_width="match_parent"
+                android:inputType="number"
                 android:textColor="@color/black" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/register_margin_top"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/register_label_width"
                 android:layout_height="wrap_content"
                 android:text="@string/register_email"
                 android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/ediEmail"
                 style="@style/register_edittext"
                 android:layout_width="match_parent"
                 android:textColor="@color/black" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/register_margin_top"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/register_label_width"
                 android:layout_height="wrap_content"
                 android:text="@string/register_pass"
                 android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/ediPassword"
                 style="@style/register_edittext"
                 android:layout_width="match_parent"
                 android:textColor="@color/black" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/register_margin_top"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/register_label_width"
                 android:layout_height="wrap_content"
                 android:text="@string/register_confirm_pass"
                 android:textColor="@color/black" />
+
             <EditText
                 android:id="@+id/ediConfirmPass"
                 style="@style/register_edittext"
-                android:layout_width="match_parent" android:imeOptions="actionDone"
+                android:layout_width="match_parent"
+                android:imeOptions="actionDone"
                 android:textColor="@color/black" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/register_margin_top"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/register_label_width"
                 android:layout_height="wrap_content"
                 android:text="@string/register_dob"
                 android:textColor="@color/black" />
+
             <TextView
                 android:id="@+id/txtYearOfBirth"
                 style="@style/register_edittext"
                 android:layout_width="match_parent"
                 android:textColor="@color/black" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/register_margin_top"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="@dimen/register_label_width"
                 android:layout_height="wrap_content"
-                android:text="@string/register_gent" android:layout_gravity="center_vertical"
+                android:layout_gravity="center_vertical"
+                android:text="@string/register_gent"
                 android:textColor="@color/black" />
-            <RadioGroup android:orientation="horizontal"
-                android:layout_width="wrap_content" android:id="@+id/rdgGender"
-                android:layout_height="wrap_content">
-                <RadioButton android:button="@null"
-                    android:layout_width="25dp" android:id="@+id/rdbMan"
-                    android:layout_height="35dp" android:background="@drawable/register_checkbox_man_selector"/>
-                <RadioButton android:button="@null" android:layout_marginLeft="20dp"
-                    android:layout_width="25dp" android:id="@+id/rdbLady"
-                    android:layout_height="35dp" android:background="@drawable/register_checkbox_lady_selector"/>
+
+            <RadioGroup
+                android:id="@+id/rdgGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rdbMan"
+                    android:layout_width="25dp"
+                    android:layout_height="35dp"
+                    android:background="@drawable/register_checkbox_man_selector"
+                    android:button="@null" />
+
+                <RadioButton
+                    android:id="@+id/rdbLady"
+                    android:layout_width="25dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/register_checkbox_lady_selector"
+                    android:button="@null" />
             </RadioGroup>
         </LinearLayout>
 
 
     </LinearLayout>
 
-    <include layout="@layout/ok"/>
+    <include layout="@layout/ok" />
 </RelativeLayout>

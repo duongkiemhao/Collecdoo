@@ -19,8 +19,8 @@ import com.collecdoo.dto.PathOfRouteInfo;
 import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.fragment.LocationManger;
 import com.collecdoo.fragment.ServiceGenerator;
-import com.collecdoo.fragment.home.HomeWrapperFragment;
 import com.collecdoo.fragment.home.HomeFragment;
+import com.collecdoo.fragment.home.HomeWrapperFragment;
 import com.collecdoo.helper.UserHelper;
 import com.collecdoo.interfaces.HomeNavigationListener;
 
@@ -37,7 +37,7 @@ import retrofit2.Response;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class DriverPickupHomeFragment extends Fragment implements View.OnClickListener{
+public class DriverPickupHomeFragment extends Fragment implements View.OnClickListener {
     @BindView(R.id.btnBack)
     View btnBack;
     @BindView(R.id.btnCall)
@@ -55,10 +55,12 @@ public class DriverPickupHomeFragment extends Fragment implements View.OnClickLi
 
     private Unbinder unbinder;
     private String currentFragmentTag;
+    private Context context;
 
+    public DriverPickupHomeFragment() {
+    }
 
-
-    public static DriverPickupHomeFragment init(boolean isPickup,List<PathOfRouteInfo> pathOfRouteInfoList,int viewIndex) {
+    public static DriverPickupHomeFragment init(boolean isPickup, List<PathOfRouteInfo> pathOfRouteInfoList, int viewIndex) {
         DriverPickupHomeFragment registerFragment = new DriverPickupHomeFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean("isPickup", isPickup);
@@ -66,11 +68,6 @@ public class DriverPickupHomeFragment extends Fragment implements View.OnClickLi
         bundle.putParcelableArrayList("list", (ArrayList<? extends Parcelable>) pathOfRouteInfoList);
         registerFragment.setArguments(bundle);
         return registerFragment;
-    }
-
-    private Context context;
-
-    public DriverPickupHomeFragment() {
     }
 
     @Override
@@ -106,7 +103,7 @@ public class DriverPickupHomeFragment extends Fragment implements View.OnClickLi
                         getArguments().getParcelableArrayList("list"),
                         getArguments().getInt("viewIndex")), HomeFragment.class.getName()).
                 commit();
-        if(UserHelper.isDriver())
+        if (UserHelper.isDriver())
             driverActivity(Config.ACTION_WORKING);
     }
 
@@ -123,12 +120,12 @@ public class DriverPickupHomeFragment extends Fragment implements View.OnClickLi
         switch (v.getId()) {
 
             case R.id.btnBack:
-                if(UserHelper.isDriver())
+                //if (UserHelper.isDriver())
                     driverActivity(Config.ACTION_LOGIN);
-                else{
-                    getFragmentManager().beginTransaction().replace(R.id.fragment, HomeWrapperFragment.init(),HomeWrapperFragment.class.getName())
-                            .commit();
-                }
+//                else {
+//                    getFragmentManager().beginTransaction().replace(R.id.fragment, HomeWrapperFragment.init(), HomeWrapperFragment.class.getName())
+//                            .commit();
+//                }
                 break;
             case R.id.btnCall:
                 HomeNavigationListener navigationListener = (HomeNavigationListener) getChildFragmentManager().findFragmentById(R.id.fragment);
@@ -162,8 +159,8 @@ public class DriverPickupHomeFragment extends Fragment implements View.OnClickLi
 
         DriverActivityInfo activityInfo = new DriverActivityInfo();
         activityInfo.user_id = UserHelper.getUserId();
-        activityInfo.latitude = LocationManger.getInstance().getLocation().getLatitude()+ "";
-        activityInfo.longitude = LocationManger.getInstance().getLocation().getLongitude()+ "";
+        activityInfo.latitude = LocationManger.getInstance().getLocation().getLatitude() + "";
+        activityInfo.longitude = LocationManger.getInstance().getLocation().getLongitude() + "";
         activityInfo.action = actionIndex + "";
         driverActivityTask(activityInfo);
     }
@@ -177,15 +174,15 @@ public class DriverPickupHomeFragment extends Fragment implements View.OnClickLi
 
             @Override
             public void onResponse(Call<ResponseInfo> call, Response<ResponseInfo> response) {
-                if(Integer.parseInt(activityInfo.action)==Config.ACTION_LOGIN) {
-                    getFragmentManager().beginTransaction().replace(R.id.fragment, HomeWrapperFragment.init(),HomeWrapperFragment.class.getName())
+                if (Integer.parseInt(activityInfo.action) == Config.ACTION_LOGIN) {
+                    getFragmentManager().beginTransaction().replace(R.id.fragment, HomeWrapperFragment.init(), HomeWrapperFragment.class.getName())
                             .commit();
                     return;
                 }
                 if (response.isSuccessful()) {
                     ResponseInfo responseInfo = response.body();
                     if (responseInfo.status.toLowerCase().equals("ok")) {
-                        Log.d(DriverPickupHomeFragment.this.getClass().getName(),responseInfo.toString());
+                        Log.d(DriverPickupHomeFragment.this.getClass().getName(), responseInfo.toString());
 
 
                     } else Utility.showMessage(context, responseInfo.message);

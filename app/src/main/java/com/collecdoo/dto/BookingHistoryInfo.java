@@ -9,6 +9,17 @@ import com.google.gson.annotations.SerializedName;
 
 public class BookingHistoryInfo implements Parcelable {
 
+    public static final Parcelable.Creator<BookingHistoryInfo> CREATOR = new Parcelable.Creator<BookingHistoryInfo>() {
+        @Override
+        public BookingHistoryInfo createFromParcel(Parcel source) {
+            return new BookingHistoryInfo(source);
+        }
+
+        @Override
+        public BookingHistoryInfo[] newArray(int size) {
+            return new BookingHistoryInfo[size];
+        }
+    };
     @SerializedName("booking_id")
     @Expose
     public String bookingId;
@@ -49,6 +60,25 @@ public class BookingHistoryInfo implements Parcelable {
     @Expose
     public String status;
 
+    public BookingHistoryInfo() {
+    }
+
+    protected BookingHistoryInfo(Parcel in) {
+        this.bookingId = in.readString();
+        this.createdOn = in.readString();
+        this.pickupInfo = in.readString();
+        this.dropInfo = in.readString();
+        this.desiredPickupTime = in.readString();
+        this.desiredDropTime = in.readString();
+        this.realPickupTime = in.readString();
+        this.realDropTime = in.readString();
+        this.rating = in.readString();
+        this.notes = in.readString();
+        this.fare = in.readString();
+        this.type = in.readString();
+        this.status = in.readString();
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -71,37 +101,6 @@ public class BookingHistoryInfo implements Parcelable {
         dest.writeString(this.status);
     }
 
-    public BookingHistoryInfo() {
-    }
-
-    protected BookingHistoryInfo(Parcel in) {
-        this.bookingId = in.readString();
-        this.createdOn = in.readString();
-        this.pickupInfo = in.readString();
-        this.dropInfo = in.readString();
-        this.desiredPickupTime = in.readString();
-        this.desiredDropTime = in.readString();
-        this.realPickupTime = in.readString();
-        this.realDropTime = in.readString();
-        this.rating = in.readString();
-        this.notes = in.readString();
-        this.fare = in.readString();
-        this.type = in.readString();
-        this.status = in.readString();
-    }
-
-    public static final Parcelable.Creator<BookingHistoryInfo> CREATOR = new Parcelable.Creator<BookingHistoryInfo>() {
-        @Override
-        public BookingHistoryInfo createFromParcel(Parcel source) {
-            return new BookingHistoryInfo(source);
-        }
-
-        @Override
-        public BookingHistoryInfo[] newArray(int size) {
-            return new BookingHistoryInfo[size];
-        }
-    };
-
     public String getBookingId() {
         return bookingId;
     }
@@ -111,11 +110,11 @@ public class BookingHistoryInfo implements Parcelable {
     }
 
     public String getDesiredDropTime() {
-        return desiredDropTime!=null?desiredDropTime:"";
+        return desiredDropTime != null ? desiredDropTime : "";
     }
 
     public String getDesiredPickupTime() {
-        return desiredPickupTime!=null?desiredPickupTime:"";
+        return desiredPickupTime != null ? desiredPickupTime : "";
     }
 
     public String getDropInfo() {
@@ -123,11 +122,11 @@ public class BookingHistoryInfo implements Parcelable {
     }
 
     public String getFare() {
-        return fare!=null?fare+" Eur":"0 Eur";
+        return fare != null ? fare + " Eur" : "0 Eur";
     }
 
     public String getNotes() {
-        return notes!=null?notes:"";
+        return notes != null ? notes : "";
     }
 
     public String getPickupInfo() {
@@ -135,15 +134,15 @@ public class BookingHistoryInfo implements Parcelable {
     }
 
     public String getRating() {
-        return rating!=null?rating:"";
+        return rating != null ? rating : "";
     }
 
     public String getRealDropTime() {
-        return realDropTime!=null?realDropTime:"";
+        return realDropTime != null ? realDropTime : "";
     }
 
     public String getRealPickupTime() {
-        return realPickupTime!=null?realPickupTime:"";
+        return realPickupTime != null ? realPickupTime : "";
     }
 
     public String getStatus() {

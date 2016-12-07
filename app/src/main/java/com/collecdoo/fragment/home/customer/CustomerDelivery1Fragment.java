@@ -8,7 +8,6 @@ import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -35,7 +34,6 @@ import com.collecdoo.MyApplicationContext;
 import com.collecdoo.MyPreference;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
-
 import com.collecdoo.config.Constant;
 import com.collecdoo.control.InstantAutoComplete;
 import com.collecdoo.dto.DeliveryInfo;
@@ -80,44 +78,61 @@ import butterknife.Unbinder;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class CustomerDelivery1Fragment extends BaseFragment implements View.OnClickListener,OnBackListener,
-        OnMapReadyCallback ,DatePickerDialog.OnDateSetListener,HomeNavigationListener {
-    @BindView(R.id.ediFirstName) EditText ediFirstName;
+public class CustomerDelivery1Fragment extends BaseFragment implements View.OnClickListener, OnBackListener,
+        OnMapReadyCallback, DatePickerDialog.OnDateSetListener, HomeNavigationListener {
+    private final String TAG = "--delive step1--";
+    private final int PLACES = 0;
+    private final int PLACES_DETAILS = 1;
+    @BindView(R.id.ediFirstName)
+    EditText ediFirstName;
     @BindView(R.id.txtFrom)
     InstantAutoComplete txtFrom;
-    @BindView(R.id.ediTel) EditText ediTel;
-    @BindView(R.id.ediAddress) EditText ediAddress;
-    @BindView(R.id.txtDatePicker) TextView txtDatePicker;
-    @BindView(R.id.seekBar) SeekBar seekBar;
-    @BindView(R.id.btnOk) Button btnOk;
-    @BindView(R.id.btnDatePicker) TextView btnDatePicker;
-
-    private final String TAG="--delive step1--";
+    @BindView(R.id.ediTel)
+    EditText ediTel;
+    @BindView(R.id.ediAddress)
+    EditText ediAddress;
+    @BindView(R.id.txtDatePicker)
+    TextView txtDatePicker;
+    @BindView(R.id.seekBar)
+    SeekBar seekBar;
+    @BindView(R.id.btnOk)
+    Button btnOk;
+    @BindView(R.id.btnDatePicker)
+    TextView btnDatePicker;
     private GoogleMap googleMap;
     private LatLng startLat;
     private ArrayList<LatLng> markerPoints;
-
-    private final int PLACES=0;
-    private final int PLACES_DETAILS=1;
     private String browserKey = "AIzaSyBwRYVxhnE8LGKvve6Mq75ke0dkaVp39hQ";
 
     private Unbinder unbinder;
+    private Context context;
+    private SlideDateTimeListener listener = new SlideDateTimeListener() {
 
-    public static CustomerDelivery1Fragment init(){
-        CustomerDelivery1Fragment registerFragment=new CustomerDelivery1Fragment();
-        Bundle bundle=new Bundle();
+        @Override
+        public void onDateTimeSet(Date date) {
+            SimpleDateFormat mFormatter = new SimpleDateFormat("MMM dd yyyy HH:mm");
+            txtDatePicker.setText(mFormatter.format(date));
+        }
+
+        // Optional cancel listener
+        @Override
+        public void onDateTimeCancel() {
+
+        }
+    };
+
+    public static CustomerDelivery1Fragment init() {
+        CustomerDelivery1Fragment registerFragment = new CustomerDelivery1Fragment();
+        Bundle bundle = new Bundle();
 
         registerFragment.setArguments(bundle);
         return registerFragment;
     }
 
-    private Context context;
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -128,8 +143,8 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.customer_delivery_step1_fragment, container, false);
-        unbinder=ButterKnife.bind(this, view);
+        View view = inflater.inflate(R.layout.customer_delivery_step1_fragment, container, false);
+        unbinder = ButterKnife.bind(this, view);
         btnOk.setOnClickListener(this);
         btnDatePicker.setOnClickListener(this);
 
@@ -141,16 +156,16 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
         super.onViewCreated(view, savedInstanceState);
 
 
-        SupportMapFragment supportMapFragment=SupportMapFragment.newInstance();
+        SupportMapFragment supportMapFragment = SupportMapFragment.newInstance();
         supportMapFragment.getMapAsync(this);
-        getChildFragmentManager().beginTransaction().replace(R.id.fragment,supportMapFragment,"map").commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.fragment, supportMapFragment, "map").commit();
 
         // Getting a reference to the AutoCompleteTextView
         setupAutoCompleteTextView(txtFrom);
         txtFrom.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                TextToSpeedManager.startTTS(CustomerDelivery1Fragment.this,txtFrom,FROM_REQUEST_CODE);
+                TextToSpeedManager.startTTS(CustomerDelivery1Fragment.this, txtFrom, FROM_REQUEST_CODE);
                 return false;
             }
         });
@@ -179,7 +194,7 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.imaSearch:
 
                 break;
@@ -196,24 +211,24 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
                 showDatePicker();
                 break;
             case R.id.btnOk:
-                if(startLat==null || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePicker)))
+                if (startLat == null || TextUtils.isEmpty(UIHelper.getStringFromTextView(txtDatePicker)))
                     return;
-                UserInfo userInfo= (UserInfo) MyPreference.getObject("userInfo",UserInfo.class);
-                DeliveryInfo deliveryInfo=new DeliveryInfo();
+                UserInfo userInfo = (UserInfo) MyPreference.getObject("userInfo", UserInfo.class);
+                DeliveryInfo deliveryInfo = new DeliveryInfo();
                 deliveryInfo.setUserId(userInfo.user_id);
                 deliveryInfo.setPickupInfo(txtFrom.getText().toString());
-                deliveryInfo.setLat1(startLat.latitude+"");
-                deliveryInfo.setLon1(startLat.longitude+"");
-                deliveryInfo.setParcelSize(seekBar.getProgress()+"");
+                deliveryInfo.setLat1(startLat.latitude + "");
+                deliveryInfo.setLon1(startLat.longitude + "");
+                deliveryInfo.setParcelSize(seekBar.getProgress() + "");
 
                 deliveryInfo.setDescription("");
                 SimpleDateFormat fromFormat = new SimpleDateFormat("MMM dd yyyy HH:mm");
                 SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
                 try {
-                    Date date=fromFormat.parse( txtDatePicker.getText().toString());
+                    Date date = fromFormat.parse(txtDatePicker.getText().toString());
                     deliveryInfo.setDesiredPickupTime(toFormat.format(date));
-                    if(date.compareTo(new Date())<=0)
+                    if (date.compareTo(new Date()) <= 0)
                         return;
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -229,12 +244,11 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
 
     }
 
-
-    private void setupAutoCompleteTextView(final AutoCompleteTextView autoCompleteTextView){
+    private void setupAutoCompleteTextView(final AutoCompleteTextView autoCompleteTextView) {
         autoCompleteTextView.setThreshold(1);
         Point pointSize = new Point();
 
-        ((AppCompatActivity)context).getWindowManager().getDefaultDisplay().getSize(pointSize);
+        ((AppCompatActivity) context).getWindowManager().getDefaultDisplay().getSize(pointSize);
 
         autoCompleteTextView.setDropDownWidth(pointSize.x);
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
@@ -264,16 +278,15 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
                 HashMap<String, String> hm = new HashMap<String, String>();
                 try {
                     hm = (HashMap<String, String>) adapter.getItem(index);
-                }
-                catch (Exception exp){
-                    LinkedTreeMap<String,String> tmap= (LinkedTreeMap<String,String>) adapter.getItem(index);
-                    for ( String key : tmap.keySet() ) {
-                        hm.put(key,tmap.get(key));
+                } catch (Exception exp) {
+                    LinkedTreeMap<String, String> tmap = (LinkedTreeMap<String, String>) adapter.getItem(index);
+                    for (String key : tmap.keySet()) {
+                        hm.put(key, tmap.get(key));
                     }
                 }
-                HashSet<HashMap<String,String>> hashSet= (HashSet<HashMap<String, String>>) MyPreference.getObjectHashsetMap(Constant.PRE_LIST_SUGGESTION,HashSet.class);
+                HashSet<HashMap<String, String>> hashSet = (HashSet<HashMap<String, String>>) MyPreference.getObjectHashsetMap(Constant.PRE_LIST_SUGGESTION, HashSet.class);
                 hashSet.add(hm);
-                MyPreference.setObject(Constant.PRE_LIST_SUGGESTION,hashSet );
+                MyPreference.setObject(Constant.PRE_LIST_SUGGESTION, hashSet);
 
                 autoCompleteTextView.setText(hm.get("description"));
                 String url = getPlaceDetailsUrl(hm.get("reference"));
@@ -283,45 +296,26 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
 
     }
 
-
-    private SlideDateTimeListener listener = new SlideDateTimeListener() {
-
-        @Override
-        public void onDateTimeSet(Date date)
-        {
-            SimpleDateFormat mFormatter = new SimpleDateFormat("MMM dd yyyy HH:mm");
-            txtDatePicker.setText(mFormatter.format(date));
-        }
-
-        // Optional cancel listener
-        @Override
-        public void onDateTimeCancel()
-        {
-
-        }
-    };
-
-    private void showDatePicker()
-    {
+    private void showDatePicker() {
         SimpleDateFormat mFormatter = new SimpleDateFormat("MMM dd yyyy HH:mm");
-        Date date=new Date();
+        Date date = new Date();
         try {
-            date=mFormatter.parse( txtDatePicker.getText().toString());
+            date = mFormatter.parse(txtDatePicker.getText().toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        SlideDateTimePicker slideDateTimePicker=new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
+        SlideDateTimePicker slideDateTimePicker = new SlideDateTimePicker.Builder(getActivity().getSupportFragmentManager())
                 .setListener(listener)
                 .setInitialDate(date)
                 .setMinDate(new Date())
 
                 .build();
 
-            Calendar calendar=Calendar.getInstance();
-            calendar.setTime(date);
-            calendar.add(Calendar.DATE,7);
-            Log.d(TAG,mFormatter.format(calendar.getTime()));
-            slideDateTimePicker.setMaxDate(calendar.getTime());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, 7);
+        Log.d(TAG, mFormatter.format(calendar.getTime()));
+        slideDateTimePicker.setMaxDate(calendar.getTime());
 
         slideDateTimePicker.show();
 
@@ -337,10 +331,10 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        this.googleMap=googleMap;
+        this.googleMap = googleMap;
         this.googleMap.getUiSettings().setZoomControlsEnabled(true);
-        this.googleMap.setPadding(0,0,0, (int) Utility.convertDPtoPIXEL(TypedValue.COMPLEX_UNIT_DIP,40));
-        markerPoints=new ArrayList<>();
+        this.googleMap.setPadding(0, 0, 0, (int) Utility.convertDPtoPIXEL(TypedValue.COMPLEX_UNIT_DIP, 40));
+        markerPoints = new ArrayList<>();
 //        startLat=new LatLng(43.6533103,-79.3827675);
 //        endLat=new LatLng(45.5017123,-73.5672184);
 
@@ -352,31 +346,30 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
         txtDatePicker.setText(formatCalendarOutput(monthOfYear + 1) + "/" + formatCalendarOutput(dayOfMonth) + "/" + year);
     }
 
-    private String formatCalendarOutput(int value){
-        if(value<10)
-            return "0"+value;
-        else return value+"";
+    private String formatCalendarOutput(int value) {
+        if (value < 10)
+            return "0" + value;
+        else return value + "";
     }
 
 
     @OnClick(R.id.imaQuestion)
-    void onQuesionClick(){
+    void onQuesionClick() {
 
         onProcessQuestionClick();
     }
 
 
-    private void onProcessQuestionClick(){
-        HashSet<HashMap<String,String>> lHMFrom= (HashSet<HashMap<String, String>>) MyPreference.getObject(Constant.PRE_LIST_SUGGESTION,HashSet.class);
-        if(lHMFrom!=null)
-        {
-            String[] from = new String[] { "description"};
-            int[] to = new int[] { android.R.id.text1 };
-            List<HashMap<String, String>> hashMapList=new ArrayList<HashMap<String, String>>(lHMFrom);
+    private void onProcessQuestionClick() {
+        HashSet<HashMap<String, String>> lHMFrom = (HashSet<HashMap<String, String>>) MyPreference.getObject(Constant.PRE_LIST_SUGGESTION, HashSet.class);
+        if (lHMFrom != null) {
+            String[] from = new String[]{"description"};
+            int[] to = new int[]{android.R.id.text1};
+            List<HashMap<String, String>> hashMapList = new ArrayList<HashMap<String, String>>(lHMFrom);
             SimpleAdapter adapter = new SimpleAdapter(context, hashMapList, android.R.layout.simple_list_item_1, from, to);
 
-                txtFrom.showDropDown();
-                txtFrom.setAdapter(adapter);
+            txtFrom.showDropDown();
+            txtFrom.setAdapter(adapter);
 
             adapter.notifyDataSetChanged();
         }
@@ -549,25 +542,25 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
 //    }
 
     //-------google place----------
-    private String getPlaceDetailsUrl(String ref){
+    private String getPlaceDetailsUrl(String ref) {
 
         // Obtain browser key from https://code.google.com/apis/console
         String key = "key=AIzaSyBwRYVxhnE8LGKvve6Mq75ke0dkaVp39hQ";
 
         // reference of place
-        String reference = "reference="+ref;
+        String reference = "reference=" + ref;
 
         // Sensor enabled
         String sensor = "sensor=false";
 
         // Building the parameters to the web service
-        String parameters = reference+"&"+sensor+"&"+key;
+        String parameters = reference + "&" + sensor + "&" + key;
 
         // Output format
         String output = "json";
 
         // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/place/details/"+output+"?"+parameters;
+        String url = "https://maps.googleapis.com/maps/api/place/details/" + output + "?" + parameters;
 
         return url;
     }
@@ -600,87 +593,6 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
     @Override
     public void onNextClick() {
 
-    }
-
-
-    /** A class to parse the Google Places in JSON format */
-    private class ParserPlaceTask extends AsyncTask<String, Integer, List<HashMap<String,String>>>{
-
-        int parserType = 0;
-
-        public ParserPlaceTask(int type){
-            this.parserType = type;
-        }
-
-        @Override
-        protected List<HashMap<String, String>> doInBackground(String... jsonData) {
-
-            JSONObject jObject;
-            List<HashMap<String, String>> list = null;
-
-            try{
-                jObject = new JSONObject(jsonData[0]);
-                Log.d("ParserPlaceTask","---ParserPlaceTask---"+jObject.toString());
-
-                switch(parserType){
-                    case PLACES :
-                        PlaceJSONParser placeJsonParser = new PlaceJSONParser();
-                        // Getting the parsed data as a List construct
-                        list = placeJsonParser.parse(jObject);
-                        break;
-                    case PLACES_DETAILS :
-                        PlaceDetailsJSONParser placeDetailsJsonParser = new PlaceDetailsJSONParser();
-                        // Getting the parsed data as a List construct
-                        list = placeDetailsJsonParser.parse(jObject);
-                }
-
-            }catch(Exception e){
-                Log.d("Exception",e.toString());
-            }
-            return list;
-        }
-
-        @Override
-        protected void onPostExecute(List<HashMap<String, String>> result) {
-
-            switch(parserType){
-                case PLACES :
-                    String[] from = new String[] { "description"};
-                    int[] to = new int[] { android.R.id.text1 };
-
-                    SimpleAdapter adapter = new SimpleAdapter(context, result, android.R.layout.simple_list_item_1, from, to);
-
-
-                        txtFrom.setAdapter(adapter);
-
-                    adapter.notifyDataSetChanged();
-                    break;
-                case PLACES_DETAILS :
-                    HashMap<String, String> hm = result.get(0);
-
-                    // Getting latitude from the parsed data
-                    double latitude = Double.parseDouble(hm.get("lat"));
-
-                    // Getting longitude from the parsed data
-                    double longitude = Double.parseDouble(hm.get("lng"));
-
-                    // Getting reference to the SupportMapFragment of the activity_main.xml
-
-
-                    startLat = new LatLng(latitude, longitude);
-                    MarkerOptions markerStart = new MarkerOptions();
-                    markerStart.icon(BitmapDescriptorFactory.fromResource(R.drawable.ico_pin_from));
-                    markerStart.position(startLat);
-                    markerStart.title(txtFrom.getText().toString().trim());
-                    googleMap.addMarker(markerStart);
-                    CameraUpdate cameraPosition = CameraUpdateFactory.newLatLng(startLat);
-                    CameraUpdate cameraZoom = CameraUpdateFactory.zoomBy(5);
-
-                    googleMap.moveCamera(cameraPosition);
-                    googleMap.animateCamera(cameraZoom);
-                    break;
-            }
-        }
     }
 
     public void autoCompleteTask(String place) {
@@ -736,7 +648,87 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
         MyApplicationContext.getInstance().addToRequestQueue(jsonObjReq, "jreq");
     }
 
+    /**
+     * A class to parse the Google Places in JSON format
+     */
+    private class ParserPlaceTask extends AsyncTask<String, Integer, List<HashMap<String, String>>> {
 
+        int parserType = 0;
+
+        public ParserPlaceTask(int type) {
+            this.parserType = type;
+        }
+
+        @Override
+        protected List<HashMap<String, String>> doInBackground(String... jsonData) {
+
+            JSONObject jObject;
+            List<HashMap<String, String>> list = null;
+
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                Log.d("ParserPlaceTask", "---ParserPlaceTask---" + jObject.toString());
+
+                switch (parserType) {
+                    case PLACES:
+                        PlaceJSONParser placeJsonParser = new PlaceJSONParser();
+                        // Getting the parsed data as a List construct
+                        list = placeJsonParser.parse(jObject);
+                        break;
+                    case PLACES_DETAILS:
+                        PlaceDetailsJSONParser placeDetailsJsonParser = new PlaceDetailsJSONParser();
+                        // Getting the parsed data as a List construct
+                        list = placeDetailsJsonParser.parse(jObject);
+                }
+
+            } catch (Exception e) {
+                Log.d("Exception", e.toString());
+            }
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(List<HashMap<String, String>> result) {
+
+            switch (parserType) {
+                case PLACES:
+                    String[] from = new String[]{"description"};
+                    int[] to = new int[]{android.R.id.text1};
+
+                    SimpleAdapter adapter = new SimpleAdapter(context, result, android.R.layout.simple_list_item_1, from, to);
+
+
+                    txtFrom.setAdapter(adapter);
+
+                    adapter.notifyDataSetChanged();
+                    break;
+                case PLACES_DETAILS:
+                    HashMap<String, String> hm = result.get(0);
+
+                    // Getting latitude from the parsed data
+                    double latitude = Double.parseDouble(hm.get("lat"));
+
+                    // Getting longitude from the parsed data
+                    double longitude = Double.parseDouble(hm.get("lng"));
+
+                    // Getting reference to the SupportMapFragment of the activity_main.xml
+
+
+                    startLat = new LatLng(latitude, longitude);
+                    MarkerOptions markerStart = new MarkerOptions();
+                    markerStart.icon(BitmapDescriptorFactory.fromResource(R.drawable.ico_pin_from));
+                    markerStart.position(startLat);
+                    markerStart.title(txtFrom.getText().toString().trim());
+                    googleMap.addMarker(markerStart);
+                    CameraUpdate cameraPosition = CameraUpdateFactory.newLatLng(startLat);
+                    CameraUpdate cameraZoom = CameraUpdateFactory.zoomBy(5);
+
+                    googleMap.moveCamera(cameraPosition);
+                    googleMap.animateCamera(cameraZoom);
+                    break;
+            }
+        }
+    }
 
 
 }

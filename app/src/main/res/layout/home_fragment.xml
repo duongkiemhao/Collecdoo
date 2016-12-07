@@ -8,11 +8,13 @@
 
     <LinearLayout
         android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content" android:padding="5dp"
-        android:layout_height="wrap_content" android:background="@drawable/box_shape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:orientation="vertical">
+        android:background="@drawable/box_shape"
+        android:orientation="vertical"
+        android:padding="5dp">
 
         <TextView
             android:id="@+id/txtTitle"
@@ -23,32 +25,65 @@
             android:textColor="@color/black" />
     </LinearLayout>
 
-    <LinearLayout android:layout_above="@+id/btnOk"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/btnOk"
         android:layout_below="@+id/linearLayout1"
         android:layout_marginTop="20dp"
-        android:orientation="vertical" android:id="@+id/linearLayout2"
+        android:orientation="vertical"
         android:padding="10dp">
-        <TextView android:background="@drawable/box_shape" android:padding="10dp"
-            android:layout_width="wrap_content" android:text="@string/home_require_ride_desc"
-            android:layout_height="wrap_content" android:textColor="@color/black"/>
-        <Button android:textAllCaps="false" android:layout_gravity="center_horizontal" android:layout_marginTop="20dp"
-            android:padding="5dp" android:id="@+id/btnRequireRide"
-            android:layout_width="wrap_content" android:textColor="@color/red" android:background="@drawable/box_shape"
-            android:layout_height="35dp" android:text="@string/home_require_ride"/>
-        <TextView android:background="@drawable/box_shape" android:padding="10dp"
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/box_shape"
+            android:padding="10dp"
+            android:text="@string/home_require_ride_desc"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/btnRequireRide"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
-            android:layout_width="wrap_content" android:text="@string/home_share_trip_desc"
-            android:layout_height="wrap_content" android:textColor="@color/black"/>
-        <Button android:textAllCaps="false" android:layout_gravity="center_horizontal" android:layout_marginTop="20dp"
-            android:padding="5dp" android:id="@+id/btnShareTrip"
-            android:layout_width="wrap_content" android:textColor="@color/red" android:background="@drawable/box_shape"
-            android:layout_height="35dp" android:text="@string/home_sgare_trip"/>
-        <TextView android:background="@drawable/box_shape" android:padding="10dp"
+            android:background="@drawable/box_shape"
+            android:padding="5dp"
+            android:text="@string/home_require_ride"
+            android:textAllCaps="false"
+            android:textColor="@color/red" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:layout_width="wrap_content" android:text="@string/home_bottom"
-            android:layout_height="wrap_content" android:textColor="@color/black"/>
+            android:background="@drawable/box_shape"
+            android:padding="10dp"
+            android:text="@string/home_share_trip_desc"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/btnShareTrip"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/box_shape"
+            android:padding="5dp"
+            android:text="@string/home_sgare_trip"
+            android:textAllCaps="false"
+            android:textColor="@color/red" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/box_shape"
+            android:padding="10dp"
+            android:text="@string/home_bottom"
+            android:textColor="@color/black" />
     </LinearLayout>
 
 </RelativeLayout>

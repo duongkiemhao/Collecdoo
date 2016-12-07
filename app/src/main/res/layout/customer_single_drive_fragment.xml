@@ -3,10 +3,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout android:id="@+id/linearLayout1"
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-         android:layout_margin="5dp"
+        android:layout_margin="5dp"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -24,18 +25,24 @@
             <com.collecdoo.control.InstantAutoComplete
                 android:id="@+id/txtFrom"
                 android:layout_width="match_parent"
-                android:layout_height="35dp" android:singleLine="true"
-                android:layout_centerVertical="true" android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:layout_marginLeft="10dp" android:textSize="16sp"
+                android:layout_height="35dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_toLeftOf="@+id/imaSearch" android:textColor="@color/black"
-                android:textCursorDrawable="@null"
-                android:layout_toRightOf="@+id/imaPin" android:maxLines="1" android:ellipsize="start"
+                android:layout_toLeftOf="@+id/imaSearch"
+                android:layout_toRightOf="@+id/imaPin"
                 android:background="@drawable/box_shape"
-                android:hint="From: Street, house no, city"
+                android:ellipsize="start"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/customer_single_from"
                 android:imeOptions="actionNext"
-                android:padding="5dp" />
+                android:maxLines="1"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/imaSearch"
@@ -48,10 +55,11 @@
 
             <ImageView
                 android:id="@+id/imaQuestion"
-                android:layout_width="30dp" android:clickable="true"
+                android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:clickable="true"
                 android:src="@drawable/ico_question" />
         </RelativeLayout>
 
@@ -70,18 +78,23 @@
 
             <com.collecdoo.control.InstantAutoComplete
                 android:id="@+id/txtTo"
-                android:layout_width="match_parent" android:singleLine="true"
+                android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_centerVertical="true" android:maxLines="1"
-                android:layout_marginLeft="10dp"  android:ellipsize="start"
-                android:layout_marginRight="10dp" android:textColor="@color/black"
-                android:textCursorDrawable="@null"
-                android:padding="5dp" android:textSize="16sp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@+id/imaSearchTo"
                 android:layout_toRightOf="@+id/imaPinTo"
                 android:background="@drawable/box_shape"
-                android:hint="To: Street, house no, city"
-                android:imeOptions="actionDone" />
+                android:ellipsize="start"
+                android:hint="@string/customer_single_to"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/imaSearchTo"
@@ -103,12 +116,17 @@
 
         <EditText
             android:id="@+id/ediNoOfPerson"
-            style="@style/register_edittext" android:layout_height="35dp"
-            android:layout_width="wrap_content" android:textCursorDrawable="@null"
-            android:layout_marginLeft="45dp" android:inputType="number"
-            android:hint="number of person" android:gravity="center"
-            android:textColor="@color/black" android:layout_marginTop="5dp"
-            android:textColorHint="@color/black_light" />
+            style="@style/register_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:hint="@string/customer_single_nop"
+            android:inputType="number"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black_light"
+            android:textCursorDrawable="@null" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -117,13 +135,14 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/btnDatePicker"
                 android:layout_width="110dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/box_shape"
                 android:gravity="center"
-                android:lines="2" android:id="@+id/btnDatePicker"
+                android:lines="2"
                 android:padding="5dp"
-                android:text="select pickup date &amp; time"
+                android:text="@string/customer_single_select_pickup"
                 android:textColor="@color/black" />
 
             <TextView
@@ -139,17 +158,19 @@
                 android:textColorHint="@color/black_light" />
         </LinearLayout>
     </LinearLayout>
+
     <FrameLayout
-        android:id="@+id/fragment" android:layout_below="@+id/linearLayout1"
+        android:id="@+id/fragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linearLayout1" />
 
     <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
     <!-- -->
 
 
-        <include layout="@layout/ok"/>
+    <include layout="@layout/ok" />
 
 </RelativeLayout>
