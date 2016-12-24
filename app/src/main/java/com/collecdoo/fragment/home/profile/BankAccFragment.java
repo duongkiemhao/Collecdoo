@@ -1,14 +1,11 @@
-package com.collecdoo.fragment.main;
+package com.collecdoo.fragment.home.profile;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +15,22 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
+import com.collecdoo.config.Constant;
+import com.collecdoo.control.SimpleProgressDialog;
+import com.collecdoo.dto.BankInfo;
 import com.collecdoo.dto.CountryInfo;
-import com.collecdoo.dto.UserInfo;
+import com.collecdoo.dto.ResponseInfo;
+import com.collecdoo.fragment.ServiceGenerator;
 import com.collecdoo.fragment.UserManager;
 import com.collecdoo.fragment.adapter.MySimpleSpinnerAdapter;
-import com.collecdoo.fragment.home.HomeFragment;
 import com.collecdoo.helper.UIHelper;
 import com.collecdoo.interfaces.HomeListener;
+import com.collecdoo.interfaces.HomeNavigationListener;
 import com.collecdoo.interfaces.OnBackListener;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,48 +41,31 @@ import java.util.TreeSet;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class RegisterDriverFragment extends Fragment implements View.OnClickListener, OnBackListener {
-    @BindView(R.id.txtTitle)
-    TextView txtTitle;
-    @BindView(R.id.ediStreet)
-    EditText ediStreet;
-    @BindView(R.id.ediHouseNo)
-    EditText ediHouseNo;
-    @BindView(R.id.ediCity)
-    EditText ediCity;
-    @BindView(R.id.ediPostcode)
-    EditText ediPostcode;
+public class BankAccFragment extends Fragment implements View.OnClickListener, OnBackListener ,HomeNavigationListener {
+
+    @BindView(R.id.ediBankAcc)
+    EditText ediBankAcc;
+    @BindView(R.id.ediBankName)
+    EditText ediBankName;
+    @BindView(R.id.ediBankCode)
+    EditText ediBankCode;
+
     @BindView(R.id.spiCountry)
     Spinner spiCountry;
     @BindView(R.id.btnOk)
     Button btnOk;
-    private UserInfo userInfo;
-    private boolean wasPassenger;
+
+    BankInfo bankInfo;
     private Unbinder unbinder;
     private Context context;
 
-    public RegisterDriverFragment() {
-    }
-
-    //    public static RegisterDriverFragment init(boolean wasPassenger){
-//        RegisterDriverFragment registerDriverFragment=new RegisterDriverFragment();
-//        Bundle bundle=new Bundle();
-//        bundle.putBoolean("wasPassenger",wasPassenger);
-//        registerDriverFragment.setArguments(bundle);
-//        return registerDriverFragment;
-//    }
-    public static RegisterDriverFragment init(boolean wasPassenger, UserInfo userInfo) {
-        RegisterDriverFragment registerDriverFragment = new RegisterDriverFragment();
-        Bundle bundle = new Bundle();
-        bundle.putBoolean("wasPassenger", wasPassenger);
-        bundle.putParcelable("userInfo", userInfo);
-        registerDriverFragment.setArguments(bundle);
-        return registerDriverFragment;
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -90,14 +76,13 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        userInfo = getArguments().getParcelable("userInfo");
-        wasPassenger = getArguments().getBoolean("wasPassenger");
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.register_driver_fragment, container, false);
+        View view = inflater.inflate(R.layout.profile_bank_acc_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
         btnOk.setOnClickListener(this);
         return view;
@@ -107,23 +92,17 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+        bankInfo=UserManager.getInstance().getBankInfo();
+        if(bankInfo.user_id.equals(UserManager.getInstance().getUserInfo().getUser_id())) {
+            ediBankAcc.setText(bankInfo.bank_account);
+            ediBankName.setText(bankInfo.bank_name);
+            ediBankCode.setText(bankInfo.bank_code);
+        }
+
         if (getParentFragment() instanceof HomeListener)
             ((HomeListener) getParentFragment()).hideNavigationBar();
-        setColorSpan(txtTitle, 0, 9);
 
-
-//        List<CountryInfo> countryInfoList=new ArrayList<>();
-//        countryInfoList.add(new CountryInfo("1","Germany"));
-//        countryInfoList.add(new CountryInfo("2", "Italy"));
-//
-//        Locale[] locales = Locale.getAvailableLocales();
-//
-//        for (Locale locale : locales) {
-//            String country = locale.getDisplayCountry();
-//            if (country.trim().length()>0 ) {
-//                countryInfoList.add(new CountryInfo(country,country));
-//            }
-//        }
 
         spiCountry.setAdapter(new MySimpleSpinnerAdapter(context, R.layout.simple_spinner_view,
                 listAll()));
@@ -147,25 +126,14 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
 
                         }
                     });
-                    spiCountry.setSelection(((MySimpleSpinnerAdapter) spiCountry.getAdapter()).findPosition(userInfo.country));
+                    if(bankInfo.user_id.equals(UserManager.getInstance().getUserInfo().getUser_id())) {
+                        spiCountry.setSelection(((MySimpleSpinnerAdapter) spiCountry.getAdapter()).findPosition(bankInfo.bank_country));
+                    }
                 }
             }
         }, 1000);
-
-        ediStreet.setText(userInfo.street);
-        ediCity.setText(userInfo.location);
-        ediPostcode.setText(userInfo.post_code);
-        ediHouseNo.setText(userInfo.house_no);
-
-
     }
 
-    private void setColorSpan(TextView textView, int fromPos, int toPos) {
-        SpannableStringBuilder sb = new SpannableStringBuilder(textView.getText());
-        ForegroundColorSpan fcs = new ForegroundColorSpan(Color.RED);
-        sb.setSpan(fcs, fromPos, toPos, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        textView.setText(sb);
-    }
 
     @Override
     public void onDestroyView() {
@@ -182,18 +150,12 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
 
             default:
                 if (validate()) {
-                    userInfo.street = UIHelper.getStringFromEditText(ediStreet);
-                    userInfo.house_no = UIHelper.getStringFromEditText(ediHouseNo);
-                    userInfo.country = ((CountryInfo) spiCountry.getSelectedItem()).value;
-                    userInfo.location = UIHelper.getStringFromEditText(ediCity);
-                    userInfo.post_code = UIHelper.getStringFromEditText(ediPostcode);
-
-                    UserManager.getInstance().setUserInfo(userInfo);
-                    //MyPreference.setObject("userInfo",userInfo);
-                    getFragmentManager().beginTransaction().
-                            setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
-                            replace(R.id.fragment, RegisterDriverPhotoFragment.init(userInfo, wasPassenger,false), RegisterDriverPhotoFragment.class.getName()).
-                            commit();
+                    bankInfo.bank_account = UIHelper.getStringFromEditText(ediBankAcc);
+                    bankInfo.bank_name = UIHelper.getStringFromEditText(ediBankName);
+                    bankInfo.bank_country = ((CountryInfo) spiCountry.getSelectedItem()).value;
+                    bankInfo.bank_code = UIHelper.getStringFromEditText(ediBankCode);
+                    bankInfo.user_id=UserManager.getInstance().getUserInfo().getUser_id();
+                    updateBankInfo(bankInfo);
                 }
                 break;
         }
@@ -212,17 +174,7 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onBackPress() {
-        if (wasPassenger) {
-            getFragmentManager().beginTransaction().
-                    setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
-                    replace(R.id.fragment, HomeFragment.init(), HomeFragment.class.getName()).
-                    commit();
-        } else {
-            getFragmentManager().beginTransaction().
-                    setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
-                    replace(R.id.fragment, RegisterFragment.init(userInfo), RegisterFragment.class.getName()).
-                    commit();
-        }
+        getFragmentManager().popBackStack();
     }
 
 
@@ -243,6 +195,36 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
                 list.add(new CountryInfo(l.getCountry(), l.getCountry()));
         }
         return list;
+    }
+
+    @Override
+    public void onBackClick() {
+        onBackPress();
+    }
+
+    @Override
+    public void onButton1() {
+
+    }
+
+    @Override
+    public void onButton2() {
+
+    }
+
+    @Override
+    public void onButton3() {
+
+    }
+
+    @Override
+    public void onMapClick() {
+
+    }
+
+    @Override
+    public void onNextClick() {
+
     }
 
 
@@ -269,6 +251,43 @@ public class RegisterDriverFragment extends Fragment implements View.OnClickList
             // Default to straight comparison.
             return getCountry().compareTo(it.getCountry());
         }
+    }
+
+
+    private void updateBankInfo(BankInfo bankInfo) {
+        Log.d(this.getClass().getName(),new Gson().toJson(bankInfo));
+        MyRetrofitService taskService = ServiceGenerator.createService(MyRetrofitService.class);
+
+        Call<ResponseInfo> call = taskService.updateBank(bankInfo);
+        final SimpleProgressDialog simpleProgressDialog = new SimpleProgressDialog(context);
+        simpleProgressDialog.showBox();
+        call.enqueue(new Callback<ResponseInfo>() {
+
+            @Override
+            public void onResponse(Call<ResponseInfo> call, Response<ResponseInfo> response) {
+                simpleProgressDialog.dismiss();
+                if (response.isSuccessful()) {
+                    ResponseInfo responseInfo = response.body();
+                    Log.d(BankAccFragment.class.getName(), response.message());
+
+                    if (responseInfo.status.toLowerCase().equals("ok")) {
+                        BankInfo bankInfo1 = new Gson().fromJson(responseInfo.data, BankInfo.class);
+                        UserManager.getInstance().setBankInfo(bankInfo1);
+                    }
+                    else Utility.showMessage(context, responseInfo.message);
+                    onBackPress();
+
+                } else Utility.showMessage(context, response.message());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseInfo> call, Throwable t) {
+                simpleProgressDialog.dismiss();
+                Utility.showMessage(context, t.getMessage());
+                Log.d(Constant.DEBUG_TAG, "error" + t.getMessage());
+            }
+        });
+
     }
 
 }

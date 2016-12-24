@@ -165,7 +165,7 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
         txtFrom.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                TextToSpeedManager.startTTS(CustomerDelivery1Fragment.this, txtFrom, FROM_REQUEST_CODE);
+                TextToSpeedManager.startTTS(CustomerDelivery1Fragment.this, FROM_REQUEST_CODE);
                 return false;
             }
         });

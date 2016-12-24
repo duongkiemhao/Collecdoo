@@ -1,4 +1,4 @@
-package com.collecdoo.fragment.home;
+package com.collecdoo.fragment.home.profile;
 
 import android.app.Activity;
 import android.content.Context;
@@ -74,7 +74,7 @@ public class LanguageFragment extends Fragment implements OnBackListener, HomeNa
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.language_fragment, null);
+        View view = inflater.inflate(R.layout.profile_language_fragment, null);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }

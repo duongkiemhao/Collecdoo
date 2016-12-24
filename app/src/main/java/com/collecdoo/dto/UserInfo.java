@@ -212,4 +212,10 @@ public class UserInfo implements Parcelable {
 //    public String toString() {
 //       return new Gson().fr
 //    }
+
+    public boolean isOnlyPassenger(){
+        if(driver_type.contains("1") || prof_driver_type.contains("1"))
+            return false;
+        else return true;
+    }
 }

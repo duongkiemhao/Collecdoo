@@ -232,8 +232,8 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
     @Override
     public void onButton2() {
 
-        if (isPickup)
-            return;
+//        if (isPickup)
+//            return;
         if (getFragmentManager().findFragmentByTag(DriverSignatureFragment.class.getName()) == null) {
             getFragmentManager().beginTransaction()
                     .replace(R.id.fragment, DriverSignatureFragment.init(pathOfRouteInfoList.get(viewIndex)), DriverSignatureFragment.class.getName()).

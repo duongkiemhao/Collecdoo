@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.collecdoo.MyPreference;
 import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
@@ -28,6 +27,7 @@ import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.MyJsonObject;
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.ServiceGenerator;
+import com.collecdoo.fragment.UserManager;
 import com.collecdoo.helper.UIHelper;
 import com.collecdoo.helper.UserHelper;
 import com.collecdoo.interfaces.OnBackListener;
@@ -197,8 +197,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnB
                     if (responseInfo.status.toLowerCase().equals("ok")) {
 
                         UserInfo userInfo = (UserInfo) responseInfo.data;
+                        UserManager.getInstance().setUserInfo(userInfo);
 
-                        MyPreference.setObject("userInfo", userInfo);
 
                         startActivity(new Intent(context, HomeActivity.class));
                         getActivity().finish();

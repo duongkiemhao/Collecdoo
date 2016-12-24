@@ -199,14 +199,14 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
         txtFrom.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                TextToSpeedManager.startTTS(CustomerSingleDriveFragment.this, txtFrom, FROM_REQUEST_CODE);
+                TextToSpeedManager.startTTS(CustomerSingleDriveFragment.this, FROM_REQUEST_CODE);
                 return false;
             }
         });
         txtTo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                TextToSpeedManager.startTTS(CustomerSingleDriveFragment.this, txtTo, TO_REQUEST_CODE);
+                TextToSpeedManager.startTTS(CustomerSingleDriveFragment.this, TO_REQUEST_CODE);
                 return false;
             }
         });
@@ -216,13 +216,20 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case FROM_REQUEST_CODE | TO_REQUEST_CODE:
-                if (resultCode == Activity.RESULT_OK && null != data) {
-                    ArrayList<String> text = data
-                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    (requestCode == FROM_REQUEST_CODE ? txtFrom : txtTo).setText(text.get(0));
-                }
+            case FROM_REQUEST_CODE :
+                processTTSResult(requestCode,resultCode,data);
                 break;
+            case TO_REQUEST_CODE:
+                processTTSResult(requestCode,resultCode,data);
+                break;
+        }
+    }
+
+    private void processTTSResult(int requestCode, int resultCode, Intent data){
+        if (resultCode == Activity.RESULT_OK && null != data) {
+            ArrayList<String> text = data
+                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            (requestCode == FROM_REQUEST_CODE ? txtFrom : txtTo).setText(text.get(0));
         }
     }
 

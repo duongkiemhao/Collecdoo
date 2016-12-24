@@ -144,7 +144,7 @@ public class CustomerDelivery2Fragment extends BaseFragment implements View.OnCl
         txtTo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                TextToSpeedManager.startTTS(CustomerDelivery2Fragment.this, txtTo, TO_REQUEST_CODE);
+                TextToSpeedManager.startTTS(CustomerDelivery2Fragment.this, TO_REQUEST_CODE);
                 return false;
             }
         });
@@ -155,7 +155,7 @@ public class CustomerDelivery2Fragment extends BaseFragment implements View.OnCl
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case FROM_REQUEST_CODE:
+            case TO_REQUEST_CODE:
                 if (resultCode == Activity.RESULT_OK && null != data) {
                     ArrayList<String> text = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);

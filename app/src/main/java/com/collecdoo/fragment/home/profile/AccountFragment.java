@@ -1,4 +1,4 @@
-package com.collecdoo.fragment.home;
+package com.collecdoo.fragment.home.profile;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,8 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.collecdoo.MyPreference;
 import com.collecdoo.R;
-import com.collecdoo.Utility;
+import com.collecdoo.dto.UserInfo;
+import com.collecdoo.fragment.UserManager;
+import com.collecdoo.fragment.home.HomeWrapperFragment;
+import com.collecdoo.fragment.main.RegisterDriverFragment;
 import com.collecdoo.interfaces.HomeListener;
 import com.collecdoo.interfaces.HomeNavigationListener;
 import com.collecdoo.interfaces.OnBackListener;
@@ -91,10 +95,26 @@ public class AccountFragment extends Fragment implements View.OnClickListener, O
         switch (v.getId()) {
 
             case R.id.btnProfil:
-                Utility.showMessage(context, "profil clicked");
+                getFragmentManager().beginTransaction().add(R.id.fragment, ProfileFragment.instantiate(context, ProfileFragment.class.getName()),
+                        ProfileFragment.class.getName()).addToBackStack(ProfileFragment.class.getName()).commit();
+                break;
+            case R.id.btnAddress:
+                getFragmentManager().beginTransaction().add(R.id.fragment, AddressFragment.instantiate(context, AddressFragment.class.getName()),
+                        AddressFragment.class.getName()).addToBackStack(AddressFragment.class.getName()).commit();
+                break;
+            case R.id.btnBankAcc:
+                getFragmentManager().beginTransaction().add(R.id.fragment, BankAccFragment.instantiate(context, BankAccFragment.class.getName()),
+                        BankAccFragment.class.getName()).addToBackStack(BankAccFragment.class.getName()).commit();
+                break;
+            case R.id.btnUpgrade:
+                UserInfo userInfo= UserManager.getInstance().getUserInfo();
+                if (userInfo.isOnlyPassenger())
+                getFragmentManager().beginTransaction().
+                        setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
+                        replace(R.id.fragment, RegisterDriverFragment.init(true, (UserInfo) MyPreference.getObject("userInfo", UserInfo.class)), RegisterDriverFragment.class.getName()).
+                        commit();
                 break;
             case R.id.btnLogout:
-
                 ((HomeListener) getParentFragment().getFragmentManager().findFragmentByTag(HomeWrapperFragment.class.getName())).logOut();
                 break;
             case R.id.btnLanguage:

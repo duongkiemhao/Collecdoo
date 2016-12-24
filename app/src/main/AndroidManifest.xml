@@ -88,7 +88,10 @@
         </service>
         <service android:name=".service.gcm.RegistrationIntentService"></service>
 
-
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e7f520b666b08b48f164a5f881ec31ef05c94f1a"
+            />
     </application>
 
 </manifest>

@@ -151,4 +151,15 @@
     <string name="pickup_drop_stop_clear">Clear</string>
     <string name="pickup_drop_stop_cancel">Cancel</string>
     <string name="pickup_drop_stop_confirm">Confirm</string>
+
+    <!--profile-->
+    <string name="pro_bank_title">Your paypal account</string>
+    <string name="pro_bank_acc">Bank account</string>
+    <string name="pro_bank_name">Bank name</string>
+    <string name="pro_bank_code">Bank code</string>
+    <string name="pro_bank_country">Country</string>
+    <string name="pro_bank_tnc">I agree to general business terms of smartway</string>
+
+
+    <string name="save">Save</string>
 </resources>

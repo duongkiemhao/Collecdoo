@@ -1,8 +1,7 @@
-package com.collecdoo.fragment.main;
+package com.collecdoo.fragment.home.profile;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -22,11 +21,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.collecdoo.MyPreference;
 import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
-import com.collecdoo.activity.HomeActivity;
 import com.collecdoo.config.Constant;
 import com.collecdoo.control.AsteriskPassword;
 import com.collecdoo.control.SimpleProgressDialog;
@@ -34,17 +31,17 @@ import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.ServiceGenerator;
 import com.collecdoo.fragment.UserManager;
+import com.collecdoo.fragment.main.RegisterDriverPhotoFragment;
 import com.collecdoo.helper.DateHelper;
 import com.collecdoo.helper.UIHelper;
+import com.collecdoo.interfaces.HomeNavigationListener;
 import com.collecdoo.interfaces.OnBackListener;
-import com.collecdoo.service.gcm.QuickstartPreferences;
 import com.google.gson.Gson;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,8 +53,8 @@ import retrofit2.Response;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class RegisterFragment extends Fragment implements View.OnClickListener, OnBackListener,
-        DatePickerDialog.OnDateSetListener {
+public class ProfileFragment extends Fragment implements View.OnClickListener, OnBackListener,
+        DatePickerDialog.OnDateSetListener,HomeNavigationListener {
     private final String TAG = "--register--";
     @BindView(R.id.txtTitle)
     TextView txtTitle;
@@ -87,26 +84,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private Unbinder unbinder;
     private Context context;
 
-    public RegisterFragment() {
+    public ProfileFragment() {
     }
 
-    public static RegisterFragment init() {
-        RegisterFragment registerFragment = new RegisterFragment();
-        Bundle bundle = new Bundle();
 
-        registerFragment.setArguments(bundle);
-        return registerFragment;
-    }
 
-    public static RegisterFragment init(UserInfo userInfo) {
-        RegisterFragment registerFragment = new RegisterFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("userInfo", userInfo);
-        registerFragment.setArguments(bundle);
-        return registerFragment;
-    }
-
-    @Override
+        @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
@@ -140,7 +123,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 .setTransformationMethod(new AsteriskPassword());
         txtYearOfBirth.setOnClickListener(this);
 
-        UserInfo userInfo = getArguments().getParcelable("userInfo");
+        UserInfo userInfo = UserManager.getInstance().getUserInfo();
         if (userInfo != null) {
             ediEmail.setText(userInfo.getEmail());
             ediFirstName.setText(userInfo.getFirst_name());
@@ -191,14 +174,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 break;
             default:
                 if (validate()) {
-                    List<Integer> userTypeList = MyPreference.getListObject(MainFragment.LIST_USER_TYPE, Integer.class);
 
-                    if (userTypeList.contains(2))
-                        isProDriver = true;
-                    if (userTypeList.contains(1))
-                        isDriver = true;
-                    if (userTypeList.contains(0))
-                        isPassenger = true;
                     String dob = "";
                     SimpleDateFormat fromFormat = new SimpleDateFormat("MM/dd/yyyy");
                     SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");
@@ -209,20 +185,18 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                    UserInfo userInfo = new UserInfo(UIHelper.getStringFromEditText(ediFirstName),
-                            UIHelper.getStringFromEditText(ediName),
-                            UIHelper.getStringFromEditText(ediEmail),
-                            UIHelper.getStringFromEditText(ediPassword),
-                            UIHelper.getStringFromEditText(ediPhone),
-                            dob,
-                            (rdgGender.getCheckedRadioButtonId() == R.id.rdbMan) ? "1" : "0",
-                            isPassenger ? "1" : "0",
-                            isDriver ? "1" : "0",
-                            isProDriver ? "1" : "0", "", "", "", "", "", "", "",
-                            MyPreference.getString(QuickstartPreferences.TOKEN_STRING));
-                    //MyPreference.setObject("userInfo",userInfo);
+                    UserInfo userInfo=UserManager.getInstance().getUserInfo();
+                    userInfo.first_name=UIHelper.getStringFromEditText(ediFirstName);
+                    userInfo.last_name=UIHelper.getStringFromEditText(ediName);
+                    userInfo.email=UIHelper.getStringFromEditText(ediEmail);
+                    userInfo.password=UIHelper.getStringFromEditText(ediPassword);
+                    userInfo.phoneNo=UIHelper.getStringFromEditText(ediPhone);
+                    userInfo.birthday=dob;
+                    userInfo.gent=(rdgGender.getCheckedRadioButtonId() == R.id.rdbMan) ? "1" : "0";
 
-                    register(userInfo);
+                    userInfo.user_id=UserManager.getInstance().getUserInfo().getUser_id();
+
+                    updateProfile(userInfo);
 
 
                 }
@@ -288,10 +262,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onBackPress() {
-        getFragmentManager().beginTransaction().
-                setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left).
-                replace(R.id.fragment, LoginFragment.init(), LoginFragment.class.getName()).
-                commit();
+        getFragmentManager().popBackStack();
     }
 
     @Override
@@ -305,12 +276,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         else return value + "";
     }
 
-    private void register(UserInfo userInfo) {
+    private void updateProfile(UserInfo userInfo) {
         Log.d(TAG, new Gson().toJson(userInfo).toString());
         MyRetrofitService taskService = ServiceGenerator.createService(MyRetrofitService.class);
 
 
-        Call<ResponseInfo> call = taskService.register(userInfo);
+        Call<ResponseInfo> call = taskService.updateProfile(userInfo);
         final SimpleProgressDialog simpleProgressDialog = new SimpleProgressDialog(context);
         simpleProgressDialog.showBox();
         call.enqueue(new Callback<ResponseInfo>() {
@@ -324,18 +295,24 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
                     if (responseInfo.status.toLowerCase().equals("ok")) {
                         UserInfo userInfo = new Gson().fromJson(responseInfo.data, UserInfo.class);
+                        UserManager.getInstance().setUserInfo(userInfo);
 
-                        if (isDriver || isProDriver) {
-                            getFragmentManager().beginTransaction().
-                                    setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
-                                    replace(R.id.fragment, RegisterDriverFragment.init(false, userInfo), RegisterDriverFragment.class.getName()).commit();
+                        Utility.showMessage(context,responseInfo.message);
 
-                        } else {
+                        if (userInfo.driver_type.contains("1") || userInfo.prof_driver_type.contains("1")) {
+//                            getFragmentManager().beginTransaction().
+//                                    setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
+//                                    replace(R.id.fragment, RegisterDriverFragment.init(false, userInfo), RegisterDriverFragment.class.getName()).commit();
 
-                            UserManager.getInstance().setUserInfo(userInfo);
-                            startActivity(new Intent(context, HomeActivity.class));
-                            getActivity().finish();
+                            getFragmentManager().beginTransaction().add(R.id.fragment, RegisterDriverPhotoFragment.init(userInfo, true,true),RegisterDriverPhotoFragment.class.getName())
+                                    .addToBackStack(RegisterDriverPhotoFragment.class.getName()).commit();
+
+
                         }
+
+
+
+
                     } else Utility.showMessage(context, responseInfo.message);
 
                 } else Utility.showMessage(context, response.message());
@@ -351,4 +328,33 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
     }
 
+    @Override
+    public void onBackClick() {
+        onBackPress();
+    }
+
+    @Override
+    public void onButton1() {
+
+    }
+
+    @Override
+    public void onButton2() {
+
+    }
+
+    @Override
+    public void onButton3() {
+
+    }
+
+    @Override
+    public void onMapClick() {
+
+    }
+
+    @Override
+    public void onNextClick() {
+
+    }
 }

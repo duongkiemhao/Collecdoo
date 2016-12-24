@@ -31,7 +31,6 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.collecdoo.MyApplicationContext;
-import com.collecdoo.MyPreference;
 import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
@@ -41,6 +40,7 @@ import com.collecdoo.control.SimpleProgressDialog;
 import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.ServiceGenerator;
+import com.collecdoo.fragment.UserManager;
 import com.collecdoo.fragment.home.HomeFragment;
 import com.collecdoo.helper.ImageHelper;
 import com.collecdoo.helper.UIHelper;
@@ -93,15 +93,17 @@ public class RegisterDriverPhotoFragment extends Fragment implements View.OnClic
     private Unbinder unbinder;
     private Uri cameraOutputFileUri;
     private Context context;
+    private boolean isUpdateProfile;
 
     public RegisterDriverPhotoFragment() {
     }
 
-    public static RegisterDriverPhotoFragment init(UserInfo userInfo, boolean wasPassenger) {
+    public static RegisterDriverPhotoFragment init(UserInfo userInfo, boolean wasPassenger,boolean isUpdateProfile) {
         RegisterDriverPhotoFragment registerDriverFragment = new RegisterDriverPhotoFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable("userInfo", userInfo);
         bundle.putBoolean("wasPassenger", wasPassenger);
+        bundle.putBoolean("isUpdateProfile", isUpdateProfile);
         registerDriverFragment.setArguments(bundle);
         return registerDriverFragment;
     }
@@ -117,6 +119,7 @@ public class RegisterDriverPhotoFragment extends Fragment implements View.OnClic
         super.onCreate(savedInstanceState);
         userInfo = getArguments().getParcelable("userInfo");
         wasPassenger = getArguments().getBoolean("wasPassenger");
+        isUpdateProfile=getArguments().getBoolean("isUpdateProfile");
 
     }
 
@@ -140,6 +143,10 @@ public class RegisterDriverPhotoFragment extends Fragment implements View.OnClic
         setColorSpan(txtDesc, txtDesc.getText().toString().length() - 10, txtDesc.getText().toString().length());
         if (getParentFragment() instanceof HomeListener)
             ((HomeListener) getParentFragment()).hideNavigationBar();
+
+        if(isUpdateProfile){
+            btnOk.setText(getResources().getString(R.string.save));
+        }
 
 
     }
@@ -192,9 +199,9 @@ public class RegisterDriverPhotoFragment extends Fragment implements View.OnClic
 
 
     private void upgradeDriver(UserInfo userInfo) {
-        Log.d(TAG, new Gson().toJson(userInfo));
+
         MyRetrofitService taskService = ServiceGenerator.createService(MyRetrofitService.class);
-        Call<ResponseInfo> call = taskService.updateDriver(userInfo);
+        Call<ResponseInfo> call = isUpdateProfile?taskService.updateProfileImage(userInfo): taskService.updateDriver(userInfo);
         final SimpleProgressDialog simpleProgressDialog = new SimpleProgressDialog(context);
         simpleProgressDialog.showBox();
         call.enqueue(new Callback<ResponseInfo>() {
@@ -204,7 +211,8 @@ public class RegisterDriverPhotoFragment extends Fragment implements View.OnClic
                 simpleProgressDialog.dismiss();
                 if (response.isSuccessful()) {
                     UserInfo userInfo = new Gson().fromJson(response.body().data, UserInfo.class);
-                    MyPreference.setObject("userInfo", userInfo);
+
+                    UserManager.getInstance().setUserInfo(userInfo);
                     if (wasPassenger)
                         getFragmentManager().beginTransaction().
                                 setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).

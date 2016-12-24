@@ -14,12 +14,14 @@ import com.collecdoo.Utility;
 import com.collecdoo.config.Constant;
 import com.collecdoo.fragment.home.HomeFragment;
 import com.collecdoo.fragment.home.HomeWrapperFragment;
-import com.collecdoo.fragment.home.LanguageFragment;
+import com.collecdoo.fragment.home.profile.LanguageFragment;
 import com.collecdoo.interfaces.HomeListener;
 import com.collecdoo.interfaces.OnBackListener;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
+import io.fabric.sdk.android.Fabric;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -29,6 +31,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.main_activity);
 
         LanguageFragment.setLanguageToActitity(this);
@@ -42,6 +45,7 @@ public class HomeActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("route_id") != null) {
             processPush(getIntent().getStringExtra("route_id"));
         }
+
 
 
     }

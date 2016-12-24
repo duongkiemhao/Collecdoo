@@ -1,6 +1,7 @@
 package com.collecdoo;
 
 
+import com.collecdoo.dto.BankInfo;
 import com.collecdoo.dto.BookingHistoryPostInfo;
 import com.collecdoo.dto.DeliveryInfo;
 import com.collecdoo.dto.DrivePostInfo;
@@ -25,8 +26,20 @@ public interface MyRetrofitService {
     @POST("user")
     Call<ResponseInfo> register(@Body UserInfo userInfo);
 
+    @POST("profile-info")
+    Call<ResponseInfo> updateProfile(@Body UserInfo userInfo);
+
     @POST("upgrade-driver")
     Call<ResponseInfo> updateDriver(@Body UserInfo userInfo);
+
+    @POST("profile-images")
+    Call<ResponseInfo> updateProfileImage(@Body UserInfo userInfo);
+
+    @POST("profile-address")
+    Call<ResponseInfo> updateProfileAddress(@Body UserInfo userInfo);
+
+    @POST("user-bank")
+    Call<ResponseInfo> updateBank(@Body BankInfo userInfo);
 
     @POST("update-push-id")
     Call<ResponseInfo> updatePushId(@Body PushInfo pushInfo);
