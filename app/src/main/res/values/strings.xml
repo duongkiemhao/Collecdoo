@@ -22,4 +22,9 @@
 
     <!--<string name="gcm_defaultSenderId">867946166157</string>-->
 
+    <string-array name="gender">
+        <item>Female</item>
+        <item>Male</item>
+    </string-array>
+
 </resources>

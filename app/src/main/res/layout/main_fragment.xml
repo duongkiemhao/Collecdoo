@@ -2,34 +2,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_road"
-    android:padding="5dp"
+    android:background="@color/bg_dark"
     tools:context=".fragment.main.MainFragment">
 
-    <include layout="@layout/logo" />
+
+    <RelativeLayout
+        android:id="@+id/rlLogo" android:background="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp" android:background="@color/header_bg"></FrameLayout>
+        <ImageView
+            android:id="@+id/imaLogo" android:layout_marginTop="15dp"
+            android:layout_width="50dp" android:layout_centerHorizontal="true"
+            android:layout_height="50dp"
+            android:src="@drawable/ico_logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imaLogo"
+            android:layout_centerHorizontal="true"
+            android:text="smart mobility"
+            android:textColor="@color/red"
+            android:textSize="9sp" />
+    </RelativeLayout>
+
+    <ImageView android:layout_below="@+id/rlLogo" android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="30dp" android:background="@mipmap/line1"/>
 
     <TextView
         android:id="@+id/txtTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="60dp"
-        android:gravity="center"
+
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_right"
+        android:layout_marginTop="5dp" android:textAllCaps="true"
+        android:gravity="left"  android:layout_below="@+id/view1"
         android:text="@string/main_title"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textColor="@color/dark_bold"
+        android:textSize="18sp" />
+
+    <ImageView android:id="@+id/view2" android:layout_marginTop="5dp"
+        android:layout_width="match_parent" android:layout_below="@+id/txtTitle"
+        android:layout_height="30dp" android:background="@mipmap/line2"/>
 
     <TextView
         android:id="@+id/txtDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtTitle"
-        android:layout_margin="10dp"
+        android:layout_below="@+id/view2"
+
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_right"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:text="@string/main_desc"
-        android:textColor="@color/black"
+        android:textColor="@color/dark_light"
         android:textSize="18sp" />
 
     <TextView
@@ -37,29 +69,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtDesc"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_right" android:textAllCaps="true"
         android:text="@string/main_do_you_like"
-        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/dark_bold"
         android:textSize="18sp" />
-    <!--<RadioGroup android:layout_below="@+id/txtChoice" android:layout_margin="5dp"-->
-    <!--android:layout_width="wrap_content" android:orientation="vertical" android:id="@+id/radioGroup"-->
-    <!--android:layout_height="wrap_content">-->
-    <!--<RadioButton android:textColor="@color/black"-->
-    <!--android:layout_width="wrap_content" android:id="@+id/rdoPassenger"-->
-    <!--android:layout_height="wrap_content" android:text="as passenger ?"/>-->
-    <!--<RadioButton android:textColor="@color/black"-->
-    <!--android:layout_width="wrap_content" android:id="@+id/rdoDriver"-->
-    <!--android:layout_height="wrap_content" android:text="as driver ?"/>-->
-    <!--<RadioButton android:textColor="@color/black"-->
-    <!--android:layout_width="wrap_content" android:id="@+id/rdoProDriver"-->
-    <!--android:layout_height="wrap_content" android:text="as professional driver ?"/>-->
-    <!--</RadioGroup>-->
+
     <ListView
         android:id="@+id/listView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtChoice"
-        android:layout_margin="5dp"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_right"
+        android:layout_below="@+id/txtChoice" android:layout_above="@+id/btnOk"
+        android:layout_marginBottom="10dp"
+
         android:orientation="vertical" />
 
     <include layout="@layout/ok" />

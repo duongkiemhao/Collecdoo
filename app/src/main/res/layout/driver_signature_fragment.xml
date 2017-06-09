@@ -155,7 +155,7 @@
                 android:gravity="left|center_vertical"
                 android:hint="@string/pickup_drop_stop_neighbor_hint"
                 android:padding="5dp"
-                android:textColor="@color/black" />
+                android:textColor="@color/edittext" />
         </LinearLayout>
 
         <RelativeLayout

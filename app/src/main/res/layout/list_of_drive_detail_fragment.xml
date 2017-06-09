@@ -18,7 +18,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:text="@string/lod_detail_detail"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
 
             <TextView
                 android:id="@+id/txtDetail"
@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="21.3.2016"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
         </LinearLayout>
 
         <LinearLayout
@@ -39,7 +39,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:text="@string/lod_detail_from"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
 
             <TextView
                 android:id="@+id/txtFrom"
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="A"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
         </LinearLayout>
 
         <LinearLayout
@@ -60,7 +60,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:text="@string/lod_detail_to"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
 
             <TextView
                 android:id="@+id/txtTo"
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="B"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
         </LinearLayout>
 
         <LinearLayout
@@ -88,7 +88,7 @@
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="@string/lod_detail_pickup"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/text" />
 
                 <TextView
                     android:id="@+id/txtPickup"
@@ -96,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="12:35"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/text" />
 
 
             </LinearLayout>
@@ -112,7 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/lod_detail_drop"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/text" />
 
                 <TextView
                     android:id="@+id/txtDrop"
@@ -120,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="18:35"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/text" />
 
 
             </LinearLayout>
@@ -136,7 +136,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:text="@string/lod_detail_cost"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
 
             <TextView
                 android:id="@+id/txtCost"
@@ -144,7 +144,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
 
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
         </LinearLayout>
 
         <LinearLayout
@@ -157,7 +157,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:text="@string/lod_detail_rating"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
 
             <RatingBar
                 android:id="@+id/ratingBar"
@@ -178,7 +178,7 @@
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:text="@string/lod_detail_note"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
 
             <TextView
                 android:id="@+id/txtNote"
@@ -186,7 +186,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
 
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
         </LinearLayout>
 
         <Button
@@ -194,9 +194,9 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/box_shape"
+            android:background="@color/button_bg"
             android:text="@string/lod_detail_close"
-            android:textColor="@color/black" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 </RelativeLayout>

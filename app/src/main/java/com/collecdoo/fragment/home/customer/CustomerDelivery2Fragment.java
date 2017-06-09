@@ -238,7 +238,7 @@ public class CustomerDelivery2Fragment extends BaseFragment implements View.OnCl
             case R.id.imaQuestionTo:
 
                 break;
-            case R.id.btnDatePicker:
+            case R.id.txtDatePicker:
 
                 break;
             case R.id.btnOk:

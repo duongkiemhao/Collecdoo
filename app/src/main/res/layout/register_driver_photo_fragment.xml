@@ -1,139 +1,166 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_road"
-    android:padding="5dp">
+    android:background="@color/white">
 
     <include layout="@layout/logo" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
+    <RelativeLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/rlLogo"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/box_shape"
-        android:orientation="vertical"
-        android:padding="5dp">
+        android:layout_marginTop="10dp">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/txtTitle"
+            android:background="@color/bg_dark" />
 
         <TextView
-            android:id="@+id/txtTitle"
+            android:id="@+id/txtTitle" android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:text="@string/register_driver_title"
-            android:textColor="@color/black" />
-    </LinearLayout>
+            android:textAllCaps="true"
+            android:textColor="@color/dark_bold" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/txtTitle"
+            android:background="@color/bg_dark" />
+    </RelativeLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btnOk"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="wrap_content" android:layout_margin="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" android:layout_above="@+id/btnOk"
+        android:layout_below="@+id/linearLayout">
 
-        <TextView
-            android:id="@+id/txtDesc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/register_driver_photo_title"
-            android:textColor="@color/black" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="180dp"
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent" android:layout_marginTop="10dp"
                 android:layout_height="wrap_content"
-                android:text="@string/register_driver_photo_picture"
-                android:textColor="@color/black" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/txtPicture"
-                style="@style/register_edittext"
-                android:layout_width="match_parent"
-                android:hint="upload"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black_light" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/txtDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/register_driver_photo_title"
+                    android:textColor="@color/dark_bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/register_margin_top"
-            android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:text="@string/register_driver_photo_driver"
-                android:textColor="@color/black" />
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/register_driver_photo_picture"
+                        android:textColor="@color/label" />
 
-            <TextView
-                android:id="@+id/txtDriveLicense"
-                style="@style/register_edittext"
-                android:layout_width="match_parent"
-                android:hint="upload"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black_light" />
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/txtPicture"
+                        style="@style/register_edittext" android:paddingLeft="20dp"
+                        android:layout_width="match_parent" android:drawableLeft="@mipmap/ico_upload"
+                        android:hint="upload" android:background="@drawable/button_upload_shape"
+                        android:textColor="@color/black"
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/register_margin_top"
-            android:orientation="horizontal">
+                        android:textColorHint="@color/black_light" />
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:text="@string/register_driver_photo_business"
-                android:textColor="@color/black" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/txtBusinessRegis"
-                style="@style/register_edittext"
-                android:layout_width="match_parent"
-                android:hint="upload"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black_light" />
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/register_driver_photo_driver"
+                        android:textColor="@color/label" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/register_margin_top"
-            android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/txtDriveLicense"
+                        style="@style/register_edittext"
+                        android:hint="upload" android:paddingLeft="20dp"
+                        android:layout_width="match_parent" android:drawableLeft="@mipmap/ico_upload"
+                        android:textColor="@color/black" android:background="@drawable/button_upload_shape"
+                        android:textColorHint="@color/black_light" />
+                </LinearLayout>
 
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
-                android:layout_marginTop="3dp"
-                android:background="@drawable/main_lv_checkbox_selector"
-                android:button="@null" />
+                    <TextView
+                        android:layout_width="180dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/register_driver_photo_business"
+                        android:textColor="@color/label" />
 
-            <TextView
-                android:id="@+id/txtPolicy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:gravity="top"
-                android:padding="10dp"
-                android:text="@string/register_driver_photo_agree"
-                android:textColor="@color/black" />
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/txtBusinessRegis"
+                        style="@style/register_edittext"
+                        android:paddingLeft="20dp" android:background="@drawable/button_upload_shape"
+                        android:layout_width="match_parent" android:drawableLeft="@mipmap/ico_upload"
+                        android:hint="upload"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black_light" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatCheckBox
+                        android:id="@+id/checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+
+                        android:layout_marginTop="3dp"
+                        android:background="@drawable/main_lv_checkbox_selector"
+                        android:button="@null" />
+
+                    <TextView
+                        android:id="@+id/txtPolicy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:gravity="top"
+                        android:padding="10dp"
+                        android:text="@string/register_driver_photo_agree"
+                        android:textColor="@color/dark_bold" />
+                </LinearLayout>
 
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <include layout="@layout/ok" />
+
+    </ScrollView>
+    <include layout="@layout/ok"/>
 </RelativeLayout>
+

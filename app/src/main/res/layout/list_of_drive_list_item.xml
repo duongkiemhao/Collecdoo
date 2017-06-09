@@ -13,7 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:text="21.3"
-        android:textColor="@color/black" />
+        android:textColor="@color/text" />
 
     <TextView
         android:id="@+id/txtFrom"
@@ -24,7 +24,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text="A"
-        android:textColor="@color/black" />
+        android:textColor="@color/text" />
 
     <TextView
         android:id="@+id/lblTo"
@@ -35,7 +35,7 @@
         android:layout_toRightOf="@+id/txtFrom"
         android:layout_weight="2"
         android:text="to"
-        android:textColor="@color/black" />
+        android:textColor="@color/text" />
 
     <TextView
         android:id="@+id/txtTo"
@@ -48,7 +48,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text="B"
-        android:textColor="@color/black" />
+        android:textColor="@color/text" />
 
     <TextView
         android:id="@+id/txtPrice"
@@ -59,14 +59,14 @@
         android:layout_toLeftOf="@+id/btnDetail"
         android:layout_toRightOf="@+id/txtTo"
         android:layout_weight="4"
-        android:gravity="right"
+        android:gravity="right" android:layout_marginRight="5dp"
         android:text="5.80 Eur"
-        android:textColor="@color/black" />
+        android:textColor="@color/text" />
 
     <ImageView
         android:id="@+id/btnDetail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="15dp"
+        android:layout_height="15dp" android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ico_next_bold" />
+        android:src="@mipmap/muiten" />
 </RelativeLayout>

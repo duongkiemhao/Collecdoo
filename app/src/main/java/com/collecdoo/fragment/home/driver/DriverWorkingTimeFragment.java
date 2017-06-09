@@ -51,10 +51,7 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
     TextView txtDatePickerFrom;
     @BindView(R.id.txtDatePickerTo)
     TextView txtDatePickerTo;
-    @BindView(R.id.btnDateTimePickerFrom)
-    TextView btnDateTimePickerFrom;
-    @BindView(R.id.btnDateTimePickerTo)
-    TextView btnDateTimePickerTo;
+
     @BindView(R.id.ediFreeSeat)
     EditText ediFreeSeat;
     @BindView(R.id.btnOk)
@@ -117,8 +114,8 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
         View view = inflater.inflate(R.layout.driver_working_time_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        btnDateTimePickerFrom.setOnClickListener(this);
-        btnDateTimePickerTo.setOnClickListener(this);
+        txtDatePickerFrom.setOnClickListener(this);
+        txtDatePickerTo.setOnClickListener(this);
         btnOk.setOnClickListener(this);
         return view;
     }
@@ -139,10 +136,10 @@ public class DriverWorkingTimeFragment extends Fragment implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.btnDateTimePickerFrom:
+            case R.id.txtDatePickerFrom:
                 showDatePicker(true);
                 break;
-            case R.id.btnDateTimePickerTo:
+            case R.id.txtDatePickerTo:
                 showDatePicker(false);
                 break;
             case R.id.btnOk:

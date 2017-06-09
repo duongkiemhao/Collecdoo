@@ -1,21 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:padding="5dp">
+    android:background="@color/white">
 
     <include layout="@layout/logo" />
 
+
+
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/linearLayout2" android:layout_below="@+id/rlLogo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="80dp"
-        android:background="@drawable/box_shape"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_margin="20dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/btnProfil"
@@ -24,6 +21,9 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
+            <ImageView android:layout_gravity="center_vertical" android:layout_marginRight="10dp"
+                android:layout_width="20dp" android:src="@mipmap/profile"
+                android:layout_height="20dp" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -32,12 +32,12 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/account_profile"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ico_next_bold" />
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@mipmap/muiten" />
         </LinearLayout>
 
         <View
@@ -52,7 +52,9 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-
+            <ImageView android:layout_gravity="center_vertical" android:layout_marginRight="10dp"
+                android:layout_width="20dp" android:src="@mipmap/add"
+                android:layout_height="20dp" />
             <TextView
                 android:id="@+id/txtAddress"
                 android:layout_width="0dp"
@@ -62,12 +64,12 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/account_address"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ico_next_bold" />
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@mipmap/muiten" />
         </LinearLayout>
 
         <View
@@ -81,7 +83,9 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-
+            <ImageView android:layout_gravity="center_vertical" android:layout_marginRight="10dp"
+                android:layout_width="20dp" android:src="@mipmap/bank"
+                android:layout_height="20dp" />
             <TextView
                 android:id="@+id/txtBankAcc"
                 android:layout_width="0dp"
@@ -91,12 +95,12 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/account_bank_acc"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ico_next_bold" />
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@mipmap/muiten" />
         </LinearLayout>
 
         <View
@@ -110,7 +114,9 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-
+            <ImageView android:layout_gravity="center_vertical" android:layout_marginRight="10dp"
+                android:layout_width="20dp" android:src="@mipmap/up"
+                android:layout_height="20dp" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -119,12 +125,12 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/account_update"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ico_next_bold" />
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@mipmap/muiten" />
         </LinearLayout>
 
         <View
@@ -138,7 +144,9 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-
+            <ImageView android:layout_gravity="center_vertical" android:layout_marginRight="10dp"
+                android:layout_width="20dp" android:src="@mipmap/profile"
+                android:layout_height="20dp" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -147,23 +155,23 @@
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="@string/account_language"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ico_next_bold" />
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@mipmap/muiten" />
         </LinearLayout>
     </LinearLayout>
 
     <Button
 
         android:id="@+id/btnLogout"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp"
-        android:background="@drawable/box_shape"
+        android:layout_margin="20dp" android:textColor="@color/white"
+        android:background="@color/button_bg"
         android:text="@string/account_logout" />
 </RelativeLayout>

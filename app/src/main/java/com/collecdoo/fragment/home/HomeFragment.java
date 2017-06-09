@@ -12,6 +12,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.collecdoo.MyPreference;
@@ -34,10 +35,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
 
     @BindView(R.id.txtTitle)
     TextView txtTitle;
-    @BindView(R.id.btnRequireRide)
-    TextView btnRequireRide;
-    @BindView(R.id.btnShareTrip)
-    TextView btnShareTrip;
+    @BindView(R.id.ll_ride)
+    LinearLayout btnRequireRide;
+    @BindView(R.id.ll_share)
+    LinearLayout btnShareTrip;
 
 
     private Unbinder unbinder;
@@ -104,7 +105,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnRequireRide:
+            case R.id.ll_ride:
                 getFragmentManager().beginTransaction().
                         setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right).
                         replace(R.id.fragment, CustomerHomeFragment.init(),
@@ -112,7 +113,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, Home
                         commit();
 
                 break;
-            case R.id.btnShareTrip:
+            case R.id.ll_share:
                 UserInfo userInfo = (UserInfo) MyPreference.getObject("userInfo", UserInfo.class);
                 if (userInfo.driver_type.equals("0"))
                     showDriverDialog();

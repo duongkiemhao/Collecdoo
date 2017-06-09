@@ -115,8 +115,7 @@ public class DriverSingleDriveFragment extends BaseFragment implements View.OnCl
     ImageView imaQuestionTo;
     @BindView(R.id.ediFreeSeat)
     EditText ediFreeSeat;
-    @BindView(R.id.btnDatePicker)
-    View btnDatePicker;
+
     @BindView(R.id.txtDatePicker)
     TextView txtDatePicker;
     @BindView(R.id.btnOk)
@@ -174,7 +173,7 @@ public class DriverSingleDriveFragment extends BaseFragment implements View.OnCl
         imaSearchFrom.setOnClickListener(this);
         imaSearchTo.setOnClickListener(this);
 
-        btnDatePicker.setOnClickListener(this);
+        txtDatePicker.setOnClickListener(this);
         btnOk.setOnClickListener(this);
         return view;
     }
@@ -304,8 +303,7 @@ public class DriverSingleDriveFragment extends BaseFragment implements View.OnCl
             case R.id.imaSearchTo:
                 drawMap();
                 break;
-
-            case R.id.btnDatePicker:
+            case R.id.txtDatePicker:
                 showDatePicker();
                 break;
             case R.id.btnOk:

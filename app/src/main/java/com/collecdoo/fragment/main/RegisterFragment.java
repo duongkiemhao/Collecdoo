@@ -18,8 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.collecdoo.MyPreference;
@@ -77,8 +76,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     TextView txtYearOfBirth;
     @BindView(R.id.btnOk)
     Button btnOk;
-    @BindView(R.id.rdgGender)
-    RadioGroup rdgGender;
+    @BindView(R.id.spiGender)
+    Spinner spiGender;
+
     boolean isPassenger = false;
     boolean isDriver = false;
     boolean isProDriver = false;
@@ -162,8 +162,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
             }
 
             if (TextUtils.isEmpty(userInfo.getGent()) || userInfo.getGent().equals("0"))
-                ((RadioButton) rdgGender.getChildAt(1)).setChecked(true);
-            else ((RadioButton) rdgGender.getChildAt(1)).setChecked(false);
+                spiGender.setSelection(0);
+            else spiGender.setSelection(1);
 
 
         }
@@ -215,7 +215,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                             UIHelper.getStringFromEditText(ediPassword),
                             UIHelper.getStringFromEditText(ediPhone),
                             dob,
-                            (rdgGender.getCheckedRadioButtonId() == R.id.rdbMan) ? "1" : "0",
+                            (spiGender.getSelectedItemPosition() == 1) ? "1" : "0",
                             isPassenger ? "1" : "0",
                             isDriver ? "1" : "0",
                             isProDriver ? "1" : "0", "", "", "", "", "", "", "",

@@ -17,8 +17,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.collecdoo.MyRetrofitService;
@@ -74,8 +72,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, O
     TextView txtYearOfBirth;
     @BindView(R.id.btnOk)
     Button btnOk;
-    @BindView(R.id.rdgGender)
-    RadioGroup rdgGender;
+//    @BindView(R.id.rdgGender)
+//    RadioGroup rdgGender;
     boolean isPassenger = false;
     boolean isDriver = false;
     boolean isProDriver = false;
@@ -144,9 +142,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, O
 
             }
 
-            if (TextUtils.isEmpty(userInfo.getGent()) || userInfo.getGent().equals("0"))
-                ((RadioButton) rdgGender.getChildAt(1)).setChecked(true);
-            else ((RadioButton) rdgGender.getChildAt(1)).setChecked(false);
+//            if (TextUtils.isEmpty(userInfo.getGent()) || userInfo.getGent().equals("0"))
+//                ((RadioButton) rdgGender.getChildAt(1)).setChecked(true);
+//            else ((RadioButton) rdgGender.getChildAt(1)).setChecked(false);
 
 
         }
@@ -192,7 +190,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, O
                     userInfo.password=UIHelper.getStringFromEditText(ediPassword);
                     userInfo.phoneNo=UIHelper.getStringFromEditText(ediPhone);
                     userInfo.birthday=dob;
-                    userInfo.gent=(rdgGender.getCheckedRadioButtonId() == R.id.rdbMan) ? "1" : "0";
+                    //userInfo.gent=(rdgGender.getCheckedRadioButtonId() == R.id.rdbMan) ? "1" : "0";
 
                     userInfo.user_id=UserManager.getInstance().getUserInfo().getUser_id();
 

@@ -1,121 +1,146 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    android:orientation="vertical">
-
+    android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/linearLayout0"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp">
+        android:layout_height="match_parent">
+
 
         <include layout="@layout/logo" />
 
+
         <LinearLayout
             android:id="@+id/linearLayout1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:padding="5dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rlLogo"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-            <ImageView
-                android:id="@+id/imaPin"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ico_pin_to" />
 
             <TextView
-                android:id="@+id/txtTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:background="@drawable/box_shape"
-                android:gravity="center"
-                android:paddingBottom="10dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp"
-                android:paddingTop="10dp"
-                android:text="@string/customer_delivery_receiver_title"
-                android:textColor="@color/black" />
-
-            <ImageView
-                android:id="@+id/imaQuestion"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ico_question" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/btnOk"
-            android:layout_below="@+id/linearLayout1"
-            android:orientation="vertical"
-            android:padding="10dp">
-
+                android:text="@string/customer_delivery_sender_name"
+                android:textColor="@color/label" />
 
             <EditText
                 android:id="@+id/ediFirstName"
                 style="@style/register_edittext"
                 android:layout_width="match_parent"
-                android:hint="@string/customer_delivery_receiver_name"
-                android:textColor="@color/black" />
+                android:layout_marginTop="5dp"
+                android:textColor="@color/edittext" />
 
-            <com.collecdoo.control.InstantAutoComplete
-                android:id="@+id/txtTo"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_centerVertical="true"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/box_shape"
-                android:ellipsize="start"
-                android:hint="@string/customer_delivery_receiver_to"
-                android:imeOptions="actionNext"
-                android:maxLines="1"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:textColor="@color/black"
-                android:textCursorDrawable="@null"
-                android:textSize="16sp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/customer_delivery_receiver_address"
+                    android:textColor="@color/label" />
+
+                <ImageView
+                    android:id="@+id/imaQuestion"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ico_question" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/edit_bg">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/add_to" />
+
+                <com.collecdoo.control.InstantAutoComplete
+                    android:id="@+id/txtTo"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@null"
+                    android:ellipsize="start"
+                    android:hint="@string/customer_delivery_sender_from"
+                    android:imeOptions="actionNext"
+                    android:maxLines="1"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@null"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/search" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/customer_delivery_sender_phone"
+                android:textColor="@color/label" />
 
             <EditText
                 android:id="@+id/ediTel"
                 style="@style/register_edittext"
                 android:layout_width="match_parent"
-                android:layout_marginTop="10dp"
-                android:hint="@string/customer_delivery_receiver_phone"
+                android:layout_marginTop="5dp"
                 android:inputType="number"
-                android:textColor="@color/black" />
+                android:textColor="@color/edittext" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/customer_delivery_sender_address"
+                android:textColor="@color/label" />
 
             <EditText
                 android:id="@+id/ediAddress"
                 style="@style/register_edittext"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="5dp"
                 android:gravity="top"
-                android:hint="@string/customer_delivery_receiver_address"
-                android:inputType="number"
                 android:textColor="@color/black" />
+
+
         </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_below="@+id/linearLayout1">
+
+            <FrameLayout
+                android:id="@+id/fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black">
+
+            </FrameLayout>
+
+            <include layout="@layout/ok" />
+        </RelativeLayout>
     </RelativeLayout>
-
-    <FrameLayout
-        android:id="@+id/fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/linearLayout0">
-
-    </FrameLayout>
-
-    <include layout="@layout/ok" />
-</RelativeLayout>
+</ScrollView>
 

@@ -12,10 +12,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.collecdoo.MyPreference;
 import com.collecdoo.MyRetrofitService;
@@ -31,9 +36,9 @@ import com.collecdoo.dto.ResponseInfo;
 import com.collecdoo.dto.UserInfo;
 import com.collecdoo.fragment.LocationManger;
 import com.collecdoo.fragment.ServiceGenerator;
+import com.collecdoo.fragment.home.profile.AccountFragment;
 import com.collecdoo.fragment.pickup.DriverPickupDropFragment;
 import com.collecdoo.fragment.pickup.DriverPickupHomeFragment;
-import com.collecdoo.fragment.home.profile.AccountFragment;
 import com.collecdoo.helper.UserHelper;
 import com.collecdoo.interfaces.HomeListener;
 import com.collecdoo.interfaces.HomeNavigationListener;
@@ -55,6 +60,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonObject;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -68,7 +74,7 @@ import retrofit2.Response;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class HomeWrapperFragment extends Fragment implements View.OnClickListener, HomeListener,
+public class HomeWrapperFragment extends Fragment implements HomeListener,
         ParentFragmentListener, LocationListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         ResultCallback<LocationSettingsResult> {
@@ -78,20 +84,23 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
     private static final long FASTEST_INTERVAL = 1000 * 1;
     private final String TAG = "--home--";
     protected LocationSettingsRequest mLocationSettingsRequest;
-    @BindView(R.id.btnBack)
-    View btnBack;
-    @BindView(R.id.btnListDrive)
-    View btnListDrive;
-    @BindView(R.id.btnAccount)
-    View btnAccount;
-    @BindView(R.id.btnDriveRating)
-    View btnDriveRating;
-    @BindView(R.id.navigationBar)
-    View navigationBar;
-    @BindView(R.id.btnMap)
-    View btnMap;
-    @BindView(R.id.btnNext)
-    View btnNext;
+//    @BindView(R.id.btnBack)
+//    View btnBack;
+//    @BindView(R.id.btnListDrive)
+//    View btnListDrive;
+//    @BindView(R.id.btnAccount)
+//    View btnAccount;
+//    @BindView(R.id.btnDriveRating)
+//    View btnDriveRating;
+//    @BindView(R.id.navigationBar)
+//    View navigationBar;
+//    @BindView(R.id.btnMap)
+//    View btnMap;
+//    @BindView(R.id.btnNext)
+//    View btnNext;
+    @BindView(R.id.rcvNavigateBar)
+    RecyclerView rcvNavigateBar;
+
     private Unbinder unbinder;
     private String currentFragmentTag;
     private LocationRequest mLocationRequest;
@@ -128,12 +137,12 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_wrapper_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
-        btnBack.setOnClickListener(this);
-        btnListDrive.setOnClickListener(this);
-        btnAccount.setOnClickListener(this);
-        btnDriveRating.setOnClickListener(this);
-        btnMap.setOnClickListener(this);
-        btnNext.setOnClickListener(this);
+//        btnBack.setOnClickListener(this);
+//        btnListDrive.setOnClickListener(this);
+//        btnAccount.setOnClickListener(this);
+//        btnDriveRating.setOnClickListener(this);
+//        btnMap.setOnClickListener(this);
+//        btnNext.setOnClickListener(this);
         return view;
     }
 
@@ -145,6 +154,17 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
                 commit();
 
         updatePushId(MyPreference.getString(QuickstartPreferences.TOKEN_STRING));
+
+        List<BottomBarItem> list=new ArrayList<>();
+        list.add(new BottomBarItem(R.mipmap.back,"Back"));
+        list.add(new BottomBarItem(R.mipmap.list_of_next,"List of drives"));
+        list.add(new BottomBarItem(R.mipmap.account,"Account"));
+        list.add(new BottomBarItem(R.mipmap.rating,"Drive rating"));
+        list.add(new BottomBarItem(R.mipmap.map,"Map"));
+        list.add(new BottomBarItem(R.mipmap.next,"Next"));
+        MyAdapter myAdapter=new MyAdapter(list);
+        rcvNavigateBar.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+        rcvNavigateBar.setAdapter(myAdapter);
     }
 
 
@@ -168,17 +188,17 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
         driverActivityTask(activityInfo);
     }
 
-    @Override
-    public void onClick(View v) {
 
-        switch (v.getId()) {
+    private void onBottomItemClick(int position) {
 
-            case R.id.btnBack:
+        switch (position) {
+
+            case 0:
                 HomeNavigationListener navigationListener = (HomeNavigationListener) getChildFragmentManager().findFragmentById(R.id.fragment);
                 navigationListener.onBackClick();
 
                 break;
-            case R.id.btnListDrive:
+            case 1:
 
                 FragmentManager fm = getChildFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
@@ -196,7 +216,7 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
                 ft.commit();
 
                 break;
-            case R.id.btnAccount:
+            case 2:
 
                 fm = getChildFragmentManager();
                 ft = fm.beginTransaction();
@@ -215,15 +235,15 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
 
 
                 break;
-            case R.id.btnDriveRating:
+            case 3:
 
 
                 break;
-            case R.id.btnMap:
+            case 4:
                 navigationListener = (HomeNavigationListener) getChildFragmentManager().findFragmentById(R.id.fragment);
                 navigationListener.onMapClick();
                 break;
-            case R.id.btnNext:
+            case 5:
                 navigationListener = (HomeNavigationListener) getChildFragmentManager().findFragmentById(R.id.fragment);
                 navigationListener.onNextClick();
                 break;
@@ -231,30 +251,32 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
         }
 
     }
-
-    @Override
-    public void changeIcon(int index, int resId) {
-        switch (index) {
-            case 1:
-                btnListDrive.setBackgroundResource(resId);
-                break;
-            case 2:
-                btnAccount.setBackgroundResource(resId);
-                break;
-            case 3:
-                btnDriveRating.setBackgroundResource(resId);
-                break;
-        }
-    }
+//
+//    @Override
+//    public void changeIcon(int index, int resId) {
+////        switch (index) {
+////            case 1:
+////                btnListDrive.setBackgroundResource(resId);
+////                break;
+////            case 2:
+////                btnAccount.setBackgroundResource(resId);
+////                break;
+////            case 3:
+////                btnDriveRating.setBackgroundResource(resId);
+////                break;
+////        }
+//    }
 
     @Override
     public void hideNavigationBar() {
-        navigationBar.setVisibility(View.GONE);
+
+        //navigationBar.setVisibility(View.GONE);
     }
 
     @Override
-    public void showNavigationBar() {
-        navigationBar.setVisibility(View.VISIBLE);
+    public void showNavigationBar()
+    {
+        //navigationBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -599,4 +621,76 @@ public class HomeWrapperFragment extends Fragment implements View.OnClickListene
         startActivity(new Intent(context, MainActivity.class));
         getActivity().finish();
     }
+
+    class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+        private List<BottomBarItem> list;
+
+        public MyAdapter(List<BottomBarItem> list) {
+
+            this.list = list;
+
+        }
+
+        // other methods
+        @Override
+        public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup viewGroup, int itemType) {
+            return new MyAdapter.MyViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.bottom_bar_item, viewGroup, false));
+        }
+
+
+        @Override
+        public void onBindViewHolder(MyAdapter.MyViewHolder myViewHolder, final int pos) {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            ((Activity)myViewHolder.itemView.getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+            int width = displayMetrics.widthPixels;
+
+            myViewHolder.itemView.getLayoutParams().width=width/6;
+            BottomBarItem bottomBarItem=list.get(pos);
+            myViewHolder.imageView.setImageResource(bottomBarItem.resId);
+            myViewHolder.txtText.setText(bottomBarItem.text);
+            myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onBottomItemClick(pos);
+                }
+            });
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return list.size();
+        }
+
+        class MyViewHolder extends RecyclerView.ViewHolder {
+
+            public
+            @BindView(R.id.imageView)
+            ImageView imageView;
+            public
+            @BindView(R.id.txtText)
+            TextView txtText;
+
+
+            public MyViewHolder(View itemView) {
+
+                super(itemView);
+                ButterKnife.bind(this, itemView);
+
+            }
+
+        }
+    }
+
+    class BottomBarItem {
+        public  int resId;
+        public  String text;
+
+        public BottomBarItem(int resId, String text) {
+            this.resId = resId;
+            this.text = text;
+        }
+    }
+
 }

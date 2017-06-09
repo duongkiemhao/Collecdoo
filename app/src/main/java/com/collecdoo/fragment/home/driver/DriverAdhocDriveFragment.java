@@ -103,8 +103,7 @@ public class DriverAdhocDriveFragment extends BaseFragment implements View.OnCli
     AutoCompleteTextView txtTo;
     @BindView(R.id.ediFreeSeat)
     EditText ediFreeSeat;
-    @BindView(R.id.btnTimePicker)
-    View btnTimePicker;
+
     @BindView(R.id.txtDatePicker)
     TextView txtDatePicker;
     @BindView(R.id.btnSendPassenger)
@@ -159,7 +158,7 @@ public class DriverAdhocDriveFragment extends BaseFragment implements View.OnCli
         View view = inflater.inflate(R.layout.driver_adhoc_drive_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        btnTimePicker.setOnClickListener(this);
+        txtDatePicker.setOnClickListener(this);
         btnSendPassenger.setOnClickListener(this);
         btnOk.setOnClickListener(this);
 
@@ -298,7 +297,7 @@ public class DriverAdhocDriveFragment extends BaseFragment implements View.OnCli
             case R.id.imaQuestionTo:
 
                 break;
-            case R.id.btnTimePicker:
+            case R.id.txtDatePicker:
                 showTimePicker();
                 break;
             case R.id.btnOk:

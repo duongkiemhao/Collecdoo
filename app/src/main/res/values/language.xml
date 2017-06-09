@@ -3,13 +3,13 @@
     <string name="ok_next">Ok &amp; Next</string>
 
     <!--main page-->
-    <string name="main_title">Collecdoo enables easly\n ad hoc door2door transfer in your city</string>
-    <string name="main_desc">Collecdoo reduces pollution and traffic jams in your city by sharing a ride.Sometime you can take someone with you on your ride or some time you can just ride as a passenger.</string>
+    <string name="main_title">Collecdoo enables easly ad hoc\ndoor2door transfer in your city</string>
+    <string name="main_desc">Collecdoo reduces pollution and traffic jams in your city by sharing a ride.\n\nSometime you can take someone with you on your ride or some time you can just ride as a passenger.</string>
     <string name="main_do_you_like">Do you like to use Collecdoo app</string>
     <array name="main_login_type">
-        <item>as passenger?</item>
-        <item>as driver?</item>
-        <item>as professional driver?</item>
+        <item>As passenger?</item>
+        <item>As driver?</item>
+        <item>As professional driver?</item>
     </array>
 
     <!--login-->
@@ -54,28 +54,33 @@
     <string name="home_bottom">Any way our mother earth is happy!</string>
 
     <!--customer-->
-    <string name="customer_home_title">You can require a drive</string>
-    <string name="customer_home_single">as single drive in advanve</string>
-    <string name="customer_home_adhoc">as ad hoc drive for now</string>
-    <string name="customer_home_periodic">as periodic drives in next 7 days</string>
+    <string name="customer_home_title_line1">PLAN</string>
+    <string name="customer_home_title_line2">require a drive</string>
+    <string name="customer_home_single">As single drive in advanve</string>
+    <string name="customer_home_adhoc">As ad hoc drive for now</string>
+    <string name="customer_home_periodic">As periodic drives in next 7 days</string>
     <string name="customer_home_desc">If you or your parent have to deliver  parcel from A to B for less in every city where Collecdoo operates , you can order delivery here</string>
     <string name="customer_home_delivery">Require delivery</string>
 
     <string name="customer_single_from">From: Street, house no, city</string>
     <string name="customer_single_to">To: Street, house no, city</string>
-    <string name="customer_single_nop">number of person</string>
-    <string name="customer_single_select_pickup">select pickup date &amp; time</string>
+    <string name="customer_single_nop">Number of Persons</string>
+    <string name="customer_single_select_pickup">Select pickup date &amp; time</string>
 
     <string name="customer_delivery_sender_title">Sender address:</string>
     <string name="customer_delivery_sender_name">First name &amp; name</string>
+    <string name="customer_delivery_sender_add">Sender address</string>
     <string name="customer_delivery_sender_from">From: Street, house no, city</string>
     <string name="customer_delivery_sender_phone">Telephone of sender</string>
     <string name="customer_delivery_sender_address">Address option</string>
-    <string name="customer_delivery_sender_select_pickup">select pickup date &amp; time</string>
+    <string name="customer_delivery_sender_select_pickup">Select pickup date &amp; time</string>
     <string name="customer_delivery_sender_package">Package size:</string>
-    <string name="customer_delivery_sender_small">small (&lt;60cm)</string>
-    <string name="customer_delivery_sender_medium">medium (&lt;110cm)</string>
-    <string name="customer_delivery_sender_big">big (&lt;130cm)</string>
+    <string name="customer_delivery_sender_small">Small</string>
+    <string name="customer_delivery_sender_small_desc">(&lt;60cm)</string>
+    <string name="customer_delivery_sender_medium">Medium</string>
+    <string name="customer_delivery_sender_medium_desc">(&lt;110cm)</string>
+    <string name="customer_delivery_sender_big">Big</string>
+    <string name="customer_delivery_sender_big_desc">(&lt;130cm)</string>
 
     <string name="customer_delivery_receiver_title">Receiver address:</string>
     <string name="customer_delivery_receiver_to">From: Street, house no, city</string>
@@ -85,10 +90,11 @@
 
 
     <!--driver-->
-    <string name="driver_home_title">plan your drive here:</string>
-    <string name="driver_home_single">plan single drive in advanve</string>
-    <string name="driver_home_adhoc">plan ad hoc drive for now</string>
-    <string name="driver_home_periodic">plan periodic drives in next 7 days</string>
+    <string name="driver_home_title_line1">PLAN</string>
+    <string name="driver_home_title_line2">YOUR DRIVE\nHERE</string>
+    <string name="driver_home_single">Plan single drive in advanve</string>
+    <string name="driver_home_adhoc">Plan ad hoc drive for now</string>
+    <string name="driver_home_periodic">Plan periodic drives in next 7 days</string>
     <string name="driver_home_desc">If you want to work from cetain time of the day,  you can plan your working time of this day here</string>
     <string name="driver_home_plan">Plan working time</string>
 

@@ -1,175 +1,191 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_bg">
+    android:background="@color/white">
 
+    <include layout="@layout/logo" />
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout1"
+    <LinearLayout android:layout_below="@+id/rlLogo"
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
+            android:layout_width="match_parent" android:background="#effcef"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp" android:paddingRight="20dp">
+
+            <ImageView
+                android:id="@+id/imaPin"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/add_from" />
+
+            <com.collecdoo.control.InstantAutoComplete
+                android:id="@+id/txtFrom"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/imaSearch"
+                android:layout_toRightOf="@+id/imaPin"
+                android:background="@null"
+                android:ellipsize="start"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/customer_single_from"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/dark_bold"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/imaSearch"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_toLeftOf="@+id/imaQuestion"
+                android:src="@mipmap/search" />
+
+            <ImageView
+                android:id="@+id/imaQuestion"
+                android:layout_width="30dp" android:visibility="gone"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:src="@drawable/ico_question" />
+        </RelativeLayout>
+        <View android:layout_marginLeft="60dp"
+            android:layout_width="match_parent" android:layout_marginRight="20dp"
+            android:layout_height="0.5dp" android:background="@color/dark_bold"/>
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="5dp">
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" android:background="#effcef"
+            >
 
-            <include layout="@layout/logo" />
+            <ImageView
+                android:id="@+id/imaPinTo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/add_to" />
+
+            <com.collecdoo.control.InstantAutoComplete
+                android:id="@+id/txtTo"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/imaSearchTo"
+                android:layout_toRightOf="@+id/imaPinTo"
+                android:background="@null"
+                android:ellipsize="start"
+                android:hint="@string/customer_single_to"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/dark_bold"
+                android:textCursorDrawable="@null"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/imaSearchTo"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_alignWithParentIfMissing="true"
+                android:layout_toLeftOf="@+id/imaQuestionTo"
+                android:src="@mipmap/search" />
+
+            <ImageView
+                android:id="@+id/imaQuestionTo" android:visibility="gone"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ico_question" />
+        </RelativeLayout>
+
+        <LinearLayout android:background="#f3f3f3"
+            android:layout_width="match_parent" android:layout_marginTop="20dp"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/ediFreeSeat"
+                style="@style/register_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:gravity="left|center_vertical"
+                android:hint="@string/free_seat"
+                android:inputType="number"
+                android:textColor="@color/edittext"
+                android:textColorHint="@color/edittext"
+                android:textCursorDrawable="@null" />
+
         </LinearLayout>
 
-
         <LinearLayout
-            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout1"
-            android:layout_marginTop="70dp"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
-
-                <ImageView
-                    android:id="@+id/imaPin"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ico_pin_from" />
-
-                <AutoCompleteTextView
-                    android:id="@+id/txtFrom"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_toRightOf="@+id/imaPin"
-                    android:background="@drawable/box_shape"
-                    android:ellipsize="start"
-                    android:gravity="left|center_vertical"
-                    android:hint="@string/driver_adhoc_from"
-                    android:maxLines="1"
-                    android:padding="5dp"
-                    android:singleLine="true"
-                    android:text="From here"
-                    android:textColor="@color/black"
-                    android:textCursorDrawable="@null"
-                    android:textSize="16sp" />
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
-
-                <ImageView
-                    android:id="@+id/imaPinTo"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ico_pin_to" />
-
-                <AutoCompleteTextView
-                    android:id="@+id/txtTo"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_toRightOf="@+id/imaPinTo"
-                    android:background="@drawable/box_shape"
-                    android:ellipsize="start"
-                    android:hint="@string/driver_adhoc_to"
-                    android:imeOptions="actionNext"
-                    android:maxLines="1"
-                    android:padding="5dp"
-                    android:singleLine="true"
-                    android:textColor="@color/black"
-                    android:textCursorDrawable="@null"
-                    android:textSize="16sp" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/ediFreeSeat"
-                    style="@style/register_edittext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"
-                    android:gravity="center"
-                    android:hint="@string/free_seat"
-                    android:inputType="number"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black_light" />
-
-                <TextView
-                    android:id="@+id/btnTimePicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/box_shape"
-                    android:gravity="center"
-                    android:lines="1"
-                    android:padding="5dp"
-                    android:text="@string/driver_adhoc_start_time"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/txtDatePicker"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/box_shape"
-                    android:gravity="center"
-                    android:lines="2"
-                    android:padding="10dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black_light" />
-
-            </LinearLayout>
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/btnSendPassenger"
-                android:layout_width="200dp"
+
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/box_radious_shape"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/driver_adhoc_send_me"
-                android:textColor="@color/black" />
+                android:layout_marginLeft="20dp"
+                android:gravity="left|center_vertical"
+                android:text="@string/driver_adhoc_start_time"
+                android:textColor="@color/label" />
 
-
+            <TextView
+                android:id="@+id/txtDatePicker"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" android:background="#f3f3f3"
+                android:paddingLeft="20dp" android:layout_marginTop="5dp"
+                android:gravity="left|center_vertical"
+                android:textColor="@color/edittext"
+                android:textColorHint="@color/edittext" />
         </LinearLayout>
-    </RelativeLayout>
+
+        <Button
+            android:id="@+id/btnSendPassenger"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" android:layout_marginTop="10dp"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:layout_marginRight="@dimen/margin_right"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:background="@color/button_bg"
+            android:text="@string/driver_adhoc_send_me"
+            android:textAllCaps="true"
+            android:textSize="16sp"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/fragment"
+        android:id="@+id/fragment" android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/relativeLayout1">
-
-    </FrameLayout>
+        android:layout_below="@+id/linearLayout1" />
 
     <include layout="@layout/ok" />
+
 </RelativeLayout>
 

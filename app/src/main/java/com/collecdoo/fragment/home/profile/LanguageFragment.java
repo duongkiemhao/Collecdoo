@@ -105,7 +105,7 @@ public class LanguageFragment extends Fragment implements OnBackListener, HomeNa
 
     }
 
-    @OnClick(R.id.btnSave)
+    @OnClick(R.id.btnOk)
     void save() {
         switch (radioGroup.getCheckedRadioButtonId()) {
             case R.id.rb_de:

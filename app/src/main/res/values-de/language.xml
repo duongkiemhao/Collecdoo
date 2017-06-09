@@ -54,7 +54,8 @@
     <string name="home_bottom">Wie auch immer, unsere Mutter Erde freut sich !</string>
 
     <!--customer-->
-    <string name="customer_home_title">Fahrten anfordern:</string>
+    <string name="customer_home_title_line1">Fahrten</string>
+    <string name="customer_home_title_line2">anfordern:</string>
     <string name="customer_home_single">als eine einfache Fahrt in Voraus</string>
     <string name="customer_home_adhoc">als ad hoc Fahrt für jetzt</string>
     <string name="customer_home_periodic">als regelmäßige Fahrten in nächsten 7 Tagen</string>
@@ -85,7 +86,8 @@
 
 
     <!--driver-->
-    <string name="driver_home_title">Deine eigenen Fahrten planen:</string>
+    <string name="driver_home_title_line1">Deine</string>
+    <string name="driver_home_title_line2">eigenen Fahrten planen:</string>
     <string name="driver_home_single">als einfache fahrt in Voraus</string>
     <string name="driver_home_adhoc">als ad hoc Fahrt für jetzt</string>
     <string name="driver_home_periodic">als regelmäßige Fahrten in den nächsten 7 Tagen</string>

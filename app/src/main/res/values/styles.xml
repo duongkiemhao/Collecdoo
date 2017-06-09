@@ -10,7 +10,7 @@
         <item name="android:headerBackground">@android:color/transparent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme" >
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -21,15 +21,29 @@
 
 
     <style name="register_edittext">
+        <item name="android:gravity">center_horizontal|center_vertical</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:textColor">@color/dark_bold</item>
+        <item name="android:background">@drawable/box_shape</item>
+    </style>
+    <style name="edittext_login">
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:maxLines">1</item>
         <item name="android:textCursorDrawable">@null</item>
         <item name="android:singleLine">true</item>
         <item name="android:padding">5dp</item>
+        <item name="android:background">@null</item>
         <item name="android:textSize">14sp</item>
         <item name="android:layout_height">35dp</item>
-        <item name="android:background">@drawable/box_shape</item>
+        <item name="android:textColor">@color/dark_bold</item>
     </style>
+
 
     <style name="Theme.MyTheme" parent="Theme.AppCompat.Light">
 

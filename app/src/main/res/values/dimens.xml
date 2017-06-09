@@ -7,4 +7,6 @@
     <dimen name="register_label_width">120dp</dimen>
     <dimen name="register_margin_top">5dp</dimen>
 
+    <dimen name="margin_left">20dp</dimen>
+    <dimen name="margin_right">20dp</dimen>
 </resources>

@@ -97,8 +97,7 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
     SeekBar seekBar;
     @BindView(R.id.btnOk)
     Button btnOk;
-    @BindView(R.id.btnDatePicker)
-    TextView btnDatePicker;
+
     private GoogleMap googleMap;
     private LatLng startLat;
     private ArrayList<LatLng> markerPoints;
@@ -146,7 +145,7 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
         View view = inflater.inflate(R.layout.customer_delivery_step1_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
         btnOk.setOnClickListener(this);
-        btnDatePicker.setOnClickListener(this);
+        txtDatePicker.setOnClickListener(this);
 
         return view;
     }
@@ -207,7 +206,7 @@ public class CustomerDelivery1Fragment extends BaseFragment implements View.OnCl
             case R.id.imaQuestionTo:
 
                 break;
-            case R.id.btnDatePicker:
+            case R.id.txtDatePicker:
                 showDatePicker();
                 break;
             case R.id.btnOk:

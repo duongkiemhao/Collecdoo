@@ -1,103 +1,119 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_road"
-    android:padding="5dp">
+    android:background="@color/white"
+    >
 
     <include layout="@layout/logo" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
+    <TextView android:layout_marginTop="20dp"
+        android:id="@+id/txtTitle_youcan" android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/box_shape"
-        android:orientation="vertical"
-        android:padding="5dp">
-
-        <TextView
-            android:id="@+id/txtTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/customer_home_title"
-            android:textColor="@color/black" />
-    </LinearLayout>
-
+        android:layout_height="wrap_content" android:textSize="26sp"
+        android:layout_gravity="center" android:layout_below="@+id/rlLogo"
+        android:text="@string/customer_home_title_line1" android:textAllCaps="true"
+        android:textColor="@color/dark_bold" />
+    <TextView
+        android:id="@+id/txtTitle_require" android:layout_marginTop="10dp"
+        android:layout_width="wrap_content" android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content" android:textSize="18sp" android:textAllCaps="true"
+        android:layout_gravity="center" android:layout_below="@+id/txtTitle_youcan"
+        android:text="@string/customer_home_title_line2"
+        android:textColor="@color/black" />
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnOk"
-        android:layout_below="@+id/linearLayout1"
+        android:layout_below="@+id/txtTitle_require"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
 
-        <Button
-            android:id="@+id/btnSingle"
+        <RelativeLayout android:id="@+id/btnSingle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/box_shape"
             android:gravity="left|center_vertical"
-            android:padding="10dp"
+            android:padding="10dp" android:layout_centerVertical="true"
             android:text="@string/customer_home_single"
-            android:textAllCaps="false"
-            android:textColor="@color/black" />
+            android:textColor="@color/text" />
+            <ImageView android:layout_centerVertical="true" android:layout_alignParentRight="true"
+                android:layout_width="15dp" android:src="@mipmap/muiten" android:layout_marginRight="5dp"
+                android:layout_height="15dp" />
+        </RelativeLayout>
+        <View android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp" android:background="@color/dark_bold"/>
+        <RelativeLayout android:id="@+id/btnAdHoc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
 
-        <Button
-            android:id="@+id/btnAdHoc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:padding="10dp" android:layout_centerVertical="true"
+                android:text="@string/customer_home_adhoc"
+                android:textColor="@color/text" />
+            <ImageView android:layout_centerVertical="true" android:layout_alignParentRight="true"
+                android:layout_width="15dp" android:src="@mipmap/muiten" android:layout_marginRight="5dp"
+                android:layout_height="15dp" />
+        </RelativeLayout>
+        <View android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp" android:background="@color/dark_bold"/>
+        <RelativeLayout android:id="@+id/btnPreriodic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:padding="10dp" android:layout_centerVertical="true"
+                android:text="@string/customer_home_periodic"
+                android:textColor="@color/text" />
+            <ImageView android:layout_centerVertical="true" android:layout_alignParentRight="true"
+                android:layout_width="15dp" android:src="@mipmap/muiten" android:layout_marginRight="5dp"
+                android:layout_height="15dp" />
+        </RelativeLayout>
+        <View android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp" android:background="@color/dark_bold"/>
+        <LinearLayout android:layout_marginTop="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/box_shape"
-            android:gravity="left|center_vertical"
-            android:padding="10dp"
-            android:text="@string/customer_home_adhoc"
-            android:textAllCaps="false"
-            android:textColor="@color/black" />
-
-        <Button
-            android:id="@+id/btnPreriodic"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/box_shape"
-            android:gravity="left|center_vertical"
-            android:padding="10dp"
-            android:text="@string/customer_home_periodic"
-            android:textAllCaps="false"
-            android:textColor="@color/black" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/box_shape"
             android:orientation="vertical"
-            android:padding="5dp">
+            >
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left|center_vertical"
-                android:padding="5dp"
+                android:layout_margin="10dp"
                 android:text="@string/customer_home_desc"
                 android:textAllCaps="false"
-                android:textColor="@color/black" />
+                android:textColor="@color/text" />
 
             <Button
                 android:id="@+id/btnRequireDelivery"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/box_shape"
+                android:background="@color/button_bg"
                 android:gravity="center"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+
                 android:text="@string/customer_home_delivery"
-                android:textAllCaps="false"
-                android:textColor="@color/black" />
+                android:textAllCaps="true"
+                android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>
 

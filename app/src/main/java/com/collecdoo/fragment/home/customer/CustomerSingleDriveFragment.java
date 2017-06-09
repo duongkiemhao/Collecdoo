@@ -117,8 +117,7 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
     ImageView imaQuestionTo;
     @BindView(R.id.ediNoOfPerson)
     EditText ediNoOfPerson;
-    @BindView(R.id.btnDatePicker)
-    View btnDatePicker;
+
     @BindView(R.id.txtDatePicker)
     TextView txtDatePicker;
     @BindView(R.id.btnOk)
@@ -178,7 +177,7 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
         imaSearchFrom.setOnClickListener(this);
         imaSearchTo.setOnClickListener(this);
 
-        btnDatePicker.setOnClickListener(this);
+        txtDatePicker.setOnClickListener(this);
         btnOk.setOnClickListener(this);
         return view;
     }
@@ -318,7 +317,7 @@ public class CustomerSingleDriveFragment extends BaseFragment implements View.On
                 drawMap();
                 break;
 
-            case R.id.btnDatePicker:
+            case R.id.txtDatePicker:
                 showDatePicker();
                 break;
             case R.id.btnOk:

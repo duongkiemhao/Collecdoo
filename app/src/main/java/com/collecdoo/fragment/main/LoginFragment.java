@@ -61,6 +61,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnB
     @BindView(R.id.btnRegister)
     TextView btnRegister;
 
+
     private Unbinder unbinder;
     private Context context;
 

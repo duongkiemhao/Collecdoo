@@ -131,7 +131,7 @@
                 android:layout_marginTop="10dp"
                 android:hint="Free seat"
                 android:inputType="number"
-                android:textColor="@color/black"
+                android:textColor="@color/edittext"
                 android:textColorHint="@color/black_light" />
         </LinearLayout>
 

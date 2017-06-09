@@ -14,19 +14,23 @@
     <color name="intro_round_circle">#969696</color>
     <color name="intro_round_circle_select">#2fa2cd</color>
 
-    <color name="myusage_compare_blue">#3ca2f6</color>
-    <color name="nv_primary_color">#2196F3</color>
-    <color name="nv_primary_dark_color">#1976D2</color>
+    <color name="header_bg">#007a2d</color>
+    <color name="bg_dark">#eeeeef</color>
 
-    <drawable name="white">@color/white</drawable>
-    <drawable name="light_color">@color/light_color</drawable>
+    <color name="edit_bg">#f3f3f3</color>
+    <color name="button_bg">#007a2d</color>
+    <color name="label">#238743</color>
+    <color name="text">#8f9590</color>
+    <color name="edittext">#8f9590</color>
 
-    <!--fast scroll alphabet list -->
-    <color name="primary_color">#3F51B5</color>
-    <color name="primary_color_dark">#303F9F</color>
-    <color name="accent_color">#FF4081</color>
+    <color name="dark_light">#a1a1a2</color>
+    <color name="dark_bold">#6c6c6d</color>
+    <color name="red_light">#e9747b</color>
 
-    <color name="dark_color">#9E9E9E</color>
-    <color name="light_color">#F5F5F5</color>
+
+
+
+
+
 
 </resources>

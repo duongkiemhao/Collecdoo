@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
-
-
-    <CheckedTextView
-        android:id="@+id/checkTextView"
-        android:layout_width="50dp"
-        android:layout_height="?android:attr/listPreferredItemHeightSmall"
-        android:layout_gravity="center_vertical"
-        android:checkMark="@drawable/main_lv_checkbox_selector"
-        android:gravity="center_vertical"
-        android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
-        android:paddingRight="?android:attr/listPreferredItemPaddingRight"
-        android:textAppearance="?android:attr/textAppearanceListItemSmall" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textColor="@android:color/black"
+        android:textColor="@color/red_light" android:layout_toLeftOf="@+id/checkTextView"
+        android:layout_centerVertical="true" android:text="test"
         android:textSize="18sp" />
-</LinearLayout>
+
+    <CheckedTextView
+        android:id="@+id/checkTextView"
+        android:layout_width="50dp"
+        android:layout_height="?android:attr/listPreferredItemHeightSmall"
+        android:layout_alignParentRight="true"
+        android:checkMark="@drawable/main_lv_checkbox_selector"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
+        android:paddingRight="?android:attr/listPreferredItemPaddingRight"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+</RelativeLayout>

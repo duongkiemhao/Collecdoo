@@ -18,11 +18,8 @@ import com.collecdoo.fragment.home.profile.LanguageFragment;
 import com.collecdoo.fragment.main.MainFragment;
 import com.collecdoo.interfaces.OnBackListener;
 import com.collecdoo.service.gcm.RegistrationIntentService;
-import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-
-import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity {
     private boolean doubleBackToExitPressedOnce;
@@ -31,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.main_activity);
 
         if (MyPreference.getString(LanguageFragment.LANGUAGE) == null)

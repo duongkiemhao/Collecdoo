@@ -1,39 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:padding="5dp">
+    android:background="@color/white">
 
     <include layout="@layout/logo" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/box_shape"
-        android:orientation="vertical"
-        android:padding="5dp">
-
-        <TextView
-            android:id="@+id/txtTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/lod_select_time"
-            android:textColor="@color/black" />
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btnOk"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_marginTop="20dp"
+        android:layout_below="@+id/rlLogo"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+android:layout_marginTop="10dp"
         android:orientation="vertical"
-        android:padding="10dp">
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -44,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/from"
-                android:textColor="@color/black" />
+                android:textColor="@color/label" />
 
             <TextView
                 android:id="@+id/lblTo"
@@ -53,22 +36,22 @@
                 android:layout_centerHorizontal="true"
 
                 android:text="@string/to"
-                android:textColor="@color/black" />
+                android:textColor="@color/label" />
 
             <TextView
                 android:id="@+id/txtDatePickerFrom"
-                android:layout_width="150dp"
+                android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/lblFrom"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/box_shape"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
-                android:textColor="@color/black" />
+                android:textColor="@color/edittext" />
 
             <TextView
                 android:id="@+id/txtDatePickerTo"
-                android:layout_width="150dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/lblTo"
                 android:layout_below="@+id/lblTo"
@@ -76,7 +59,7 @@
                 android:background="@drawable/box_shape"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp"
-                android:textColor="@color/black" />
+                android:textColor="@color/edittext" />
 
         </RelativeLayout>
 
@@ -94,14 +77,12 @@
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/box_shape"
+            android:background="@color/button_bg"
             android:gravity="center"
             android:text="@string/lod_search"
             android:textAllCaps="false"
-            android:textColor="@color/black" />
+            android:textColor="@color/white" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
