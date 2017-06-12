@@ -1,128 +1,54 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp">
 
     <RelativeLayout
-        android:id="@+id/relativeLayout1"
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp">
+        >
 
         <include layout="@layout/logo" />
 
-        <TextView
-            android:id="@+id/txtTitle"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="25dp"
-            android:layout_toLeftOf="@+id/imaProfile"
-            android:layout_toRightOf="@+id/rlLogo"
-            android:background="@drawable/box_shape"
+        <TextView android:layout_below="@+id/rlLogo"
+            android:id="@+id/txtTitle" android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+
             android:gravity="left|center_vertical"
             android:padding="5dp"
-            android:text="@string/pickup_drop_stop_title"
-            android:textColor="@color/black" />
+            android:text="@string/pickup_drop_title_pickup"
+            android:textColor="@color/label" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rlLogo"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-
-            android:layout_toLeftOf="@+id/imaProfile"
-            android:background="@drawable/box_shape"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-            <TextView
-                android:id="@+id/txtMobile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/imaPinFrom"
-                android:ellipsize="end"
-                android:gravity="left|center_vertical"
-                android:maxLines="1"
-                android:text="mobil: 017 175 220 12"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/txtName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/txtMobile"
-                android:layout_marginTop="5dp"
-                android:layout_toLeftOf="@+id/imaPinFrom"
-                android:ellipsize="end"
-                android:gravity="left|center_vertical"
-                android:maxLines="1"
-                android:text="Mr. John &amp;1 person"
-                android:textColor="@color/black" />
-
-            <ImageView
-                android:id="@+id/imaPinFrom"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/imaPinTo"
-                android:src="@drawable/ico_pin_from" />
-
-            <ImageView
-                android:id="@+id/imaPinTo"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ico_pin_to" />
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/imaProfile"
-            android:layout_width="85dp"
-            android:layout_height="85dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="20dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/user" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/relativeLayout1"
-        android:layout_marginTop="0dp"
-        android:orientation="vertical">
-
-        <TextView
+        <TextView android:layout_below="@+id/txtTitle"
             android:id="@+id/txtAddress"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/box_shape"
+            android:layout_height="35dp"
+            android:background="@color/bg_light_yellow"
             android:gravity="left|center_vertical"
-            android:padding="5dp"
+            android:padding="5dp"  android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:text="at Bachstr. 13, Bonn ca. 2,3km"
-            android:textColor="@color/black" />
+            android:textColor="@color/text" />
+
+
+    </RelativeLayout>
+    <LinearLayout android:layout_below="@+id/linearLayout1" android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent" android:orientation="vertical"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -139,50 +65,43 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/box_shape"
                 android:gravity="left|center_vertical"
-                android:padding="5dp"
+                android:padding="5dp" android:textAllCaps="true"
                 android:text="@string/pickup_drop_stop_neighbor"
                 android:textColor="@color/black" />
 
-            <EditText
-                android:id="@+id/txtNeighborName"
-                style="@style/register_edittext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/box_shape"
-                android:gravity="left|center_vertical"
-                android:hint="@string/pickup_drop_stop_neighbor_hint"
-                android:padding="5dp"
-                android:textColor="@color/edittext" />
-        </LinearLayout>
 
+        </LinearLayout>
+        <EditText
+            android:id="@+id/txtNeighborName"
+            style="@style/register_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/edit_bg"
+            android:gravity="left|center_vertical"
+            android:hint="@string/pickup_drop_stop_neighbor_hint"
+            android:padding="5dp"
+            android:textColor="@color/edittext" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:background="@drawable/box_shape"
                 android:gravity="left|center_vertical"
                 android:padding="5dp"
                 android:text="@string/pickup_drop_stop_signature"
                 android:textColor="@color/black" />
 
-            <Button
+            <ImageView android:src="@mipmap/delete"
                 android:id="@+id/btnClear"
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/box_shape"
-                android:text="@string/pickup_drop_stop_clear"
-                android:textColor="@color/black" />
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
 
         <com.github.gcacace.signaturepad.views.SignaturePad
@@ -190,8 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+
             android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@drawable/box_shape"
@@ -202,31 +120,28 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="55dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
-                android:background="@drawable/box_shape"
+                android:background="@color/button_bg"
                 android:text="@string/pickup_drop_stop_cancel"
-                android:textColor="@color/black" />
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btnConfirm"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/box_shape"
+                android:background="@color/button_bg"
                 android:text="@string/pickup_drop_stop_confirm"
-                android:textColor="@color/black" />
+                android:textColor="@color/white" />
 
         </RelativeLayout>
-
     </LinearLayout>
 
 
 </RelativeLayout>
+

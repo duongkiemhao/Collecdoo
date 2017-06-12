@@ -66,8 +66,10 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
     TextView txtName;
     @BindView(R.id.txtAddress)
     TextView txtAddress;
-    @BindView(R.id.btnRing)
-    ImageView btnRing;
+    @BindView(R.id.btnRing1)
+    ImageView btnRing1;
+    @BindView(R.id.btnRing2)
+    ImageView btnRing2;
     @BindView(R.id.btnSos)
     TextView btnSos;
     @BindView(R.id.txtPickupTitle)
@@ -110,7 +112,9 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
         View view = inflater.inflate(R.layout.driver_pickup_drop_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
         btnSos.setOnClickListener(this);
-        btnRing.setOnClickListener(this);
+        btnRing1.setOnClickListener(this);
+        btnRing2.setOnClickListener(this);
+
         txtPickupTitle.setOnClickListener(this);
 
         return view;
@@ -171,10 +175,10 @@ public class DriverPickupDropFragment extends Fragment implements View.OnClickLi
             case R.id.txtPickupTitle:
                 updateRouteDetail(pathOfRouteInfoList.get(viewIndex).routeDetailId);
                 break;
-            case R.id.btnRing:
+            case R.id.btnRing1:
+            case R.id.btnRing2:
                 updateRouteDetail(pathOfRouteInfoList.get(viewIndex).routeDetailId);
                 break;
-
         }
 
     }

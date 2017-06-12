@@ -26,6 +26,7 @@ import com.collecdoo.MyPreference;
 import com.collecdoo.MyRetrofitService;
 import com.collecdoo.R;
 import com.collecdoo.Utility;
+import com.collecdoo.activity.HomeActivity;
 import com.collecdoo.activity.MainActivity;
 import com.collecdoo.config.Config;
 import com.collecdoo.config.Constant;
@@ -84,7 +85,9 @@ public class HomeWrapperFragment extends Fragment implements HomeListener,
     private static final long FASTEST_INTERVAL = 1000 * 1;
     private final String TAG = "--home--";
     protected LocationSettingsRequest mLocationSettingsRequest;
-//    @BindView(R.id.btnBack)
+    public static final int PERMISSIONS_MULTIPLE_REQUEST = 123;
+
+    //    @BindView(R.id.btnBack)
 //    View btnBack;
 //    @BindView(R.id.btnListDrive)
 //    View btnListDrive;
@@ -155,15 +158,15 @@ public class HomeWrapperFragment extends Fragment implements HomeListener,
 
         updatePushId(MyPreference.getString(QuickstartPreferences.TOKEN_STRING));
 
-        List<BottomBarItem> list=new ArrayList<>();
-        list.add(new BottomBarItem(R.mipmap.back,"Back"));
-        list.add(new BottomBarItem(R.mipmap.list_of_next,"List of drives"));
-        list.add(new BottomBarItem(R.mipmap.account,"Account"));
-        list.add(new BottomBarItem(R.mipmap.rating,"Drive rating"));
-        list.add(new BottomBarItem(R.mipmap.map,"Map"));
-        list.add(new BottomBarItem(R.mipmap.next,"Next"));
-        MyAdapter myAdapter=new MyAdapter(list);
-        rcvNavigateBar.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false));
+        List<BottomBarItem> list = new ArrayList<>();
+        list.add(new BottomBarItem(R.mipmap.back, "Back"));
+        list.add(new BottomBarItem(R.mipmap.list_of_next, "List of drives"));
+        list.add(new BottomBarItem(R.mipmap.account, "Account"));
+        list.add(new BottomBarItem(R.mipmap.rating, "Drive rating"));
+        list.add(new BottomBarItem(R.mipmap.map, "Map"));
+        list.add(new BottomBarItem(R.mipmap.next, "Next"));
+        MyAdapter myAdapter = new MyAdapter(list);
+        rcvNavigateBar.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         rcvNavigateBar.setAdapter(myAdapter);
     }
 
@@ -274,8 +277,7 @@ public class HomeWrapperFragment extends Fragment implements HomeListener,
     }
 
     @Override
-    public void showNavigationBar()
-    {
+    public void showNavigationBar() {
         //navigationBar.setVisibility(View.VISIBLE);
     }
 
@@ -335,15 +337,40 @@ public class HomeWrapperFragment extends Fragment implements HomeListener,
 
     protected void startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
+            ActivityCompat.requestPermissions((HomeActivity) context,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PERMISSIONS_MULTIPLE_REQUEST);
             return;
         }
         PendingResult<Status> pendingResult = LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient, mLocationRequest, this);
+                mGoogleApiClient, mLocationRequest, HomeWrapperFragment.this);
         Log.d(Constant.DEBUG_TAG, "Location update started ..............: ");
+
     }
 
-    @Override
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode,
+//                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+//
+//        switch (requestCode) {
+//            case PERMISSIONS_MULTIPLE_REQUEST:
+//                if (grantResults.length > 0) {
+//                    boolean finePermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+//                    boolean COARSEPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+//
+//                    if (finePermission && COARSEPermission) {
+//
+//
+//                    } else {
+//
+//                    }
+//                }
+//                break;
+//        }
+//
+//    }
+
+        @Override
     public void onConnectionSuspended(int i) {
 
     }

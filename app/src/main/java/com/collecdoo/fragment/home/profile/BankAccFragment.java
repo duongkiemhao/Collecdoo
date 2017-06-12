@@ -94,6 +94,8 @@ public class BankAccFragment extends Fragment implements View.OnClickListener, O
 
 
         bankInfo=UserManager.getInstance().getBankInfo();
+        if(bankInfo==null)
+            bankInfo=new BankInfo();
         if(bankInfo.user_id.equals(UserManager.getInstance().getUserInfo().getUser_id())) {
             ediBankAcc.setText(bankInfo.bank_account);
             ediBankName.setText(bankInfo.bank_name);

@@ -16,5 +16,6 @@ public class BankInfo {
         this.bank_name = "";
         this.bank_code = "";
         this.bank_country = "";
+        this.user_id="";
     }
 }
